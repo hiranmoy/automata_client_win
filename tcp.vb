@@ -81,7 +81,7 @@ Module tcp
         gFetching(aStreamIdx) = False
 
         If aStreamIdx = 1 Then
-            homeCtrl.DisableAllWidgets()
+            homeCtrl.EnableAllWidgets()
 
             'change connect button
             homeCtrl.Connect.BackColor = Color.FromArgb(255, 128, 128)
@@ -115,17 +115,58 @@ Module tcp
         Return False
     End Function
 
-    'fetches all data from RPI
-    Public Sub FetchData()
-        gLoading = True
+    'connect to a module
+    Public Sub ConnectModule(idx As Integer)
 
-        If gFetching(0) = True Then
-            GetWeatherInfo()
+        If gFetching(idx) = False Then
+            Dim connected As Boolean = False
+
+            Dim host As String = "-1"
+
+            Select Case idx
+                Case 0
+                    'read rpi2 ip
+                    host = GetIPFromFile("\\RPI2\backups\ip.txt")
+                Case 1
+                    'read rpi3 ip
+                    host = GetIPFromFile("\\RPI3\backups\ip.txt")
+                Case Else
+                    Debug.Assert(False)
+            End Select
+            'MsgBox(host)
+
+            If host <> "-1" Then
+                If ConnectIP(host, idx) = True Then
+                    connected = True
+                End If
+
+                If connected = True Then
+                    'connected to rpi
+                    gFetching(idx) = True
+
+                    homeCtrl.EnableAllWidgets()
+                    FetchData(idx)
+                End If
+            End If
         End If
 
-        If gFetching(1) = True Then
-            GetRPISettings()
-            GetMonitorStatus()
+    End Sub
+
+    'fetches all data from RPI
+    Public Sub FetchData(idx As Integer)
+        gLoading = True
+
+        If idx = 0 Then
+            If gFetching(0) = True Then
+                'GetWeatherInfo()
+            End If
+        End If
+
+        If idx = 1 Then
+            If gFetching(1) = True Then
+                GetRPISettings()
+                GetMonitorStatus()
+            End If
         End If
 
         gLoading = False

@@ -23,9 +23,9 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -93,6 +93,34 @@ Partial Class homeCtrl
         Me.monthList = New System.Windows.Forms.ComboBox()
         Me.yrList = New System.Windows.Forms.ComboBox()
         Me.Surveillance = New System.Windows.Forms.Button()
+        Me.rgb_led = New System.Windows.Forms.TabPage()
+        Me.DisableLED = New System.Windows.Forms.Button()
+        Me.LEDButtons = New System.Windows.Forms.GroupBox()
+        Me.LEDButton24 = New System.Windows.Forms.Button()
+        Me.LEDButton20 = New System.Windows.Forms.Button()
+        Me.LEDButton23 = New System.Windows.Forms.Button()
+        Me.LEDButton19 = New System.Windows.Forms.Button()
+        Me.LEDButton22 = New System.Windows.Forms.Button()
+        Me.LEDButton18 = New System.Windows.Forms.Button()
+        Me.LEDButton21 = New System.Windows.Forms.Button()
+        Me.LEDButton17 = New System.Windows.Forms.Button()
+        Me.LEDButton16 = New System.Windows.Forms.Button()
+        Me.LEDButton15 = New System.Windows.Forms.Button()
+        Me.LEDButton14 = New System.Windows.Forms.Button()
+        Me.LEDButton13 = New System.Windows.Forms.Button()
+        Me.LEDButton12 = New System.Windows.Forms.Button()
+        Me.LEDButton11 = New System.Windows.Forms.Button()
+        Me.LEDButton10 = New System.Windows.Forms.Button()
+        Me.LEDButton09 = New System.Windows.Forms.Button()
+        Me.LEDButton08 = New System.Windows.Forms.Button()
+        Me.LEDButton07 = New System.Windows.Forms.Button()
+        Me.LEDButton06 = New System.Windows.Forms.Button()
+        Me.LEDButton05 = New System.Windows.Forms.Button()
+        Me.LEDButton04 = New System.Windows.Forms.Button()
+        Me.LEDButton03 = New System.Windows.Forms.Button()
+        Me.LEDButton02 = New System.Windows.Forms.Button()
+        Me.LEDButton01 = New System.Windows.Forms.Button()
+        Me.EnableLED = New System.Windows.Forms.Button()
         Me.MotionDetectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.LightingsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -100,34 +128,10 @@ Partial Class homeCtrl
         Me.SpeechTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ReconnectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.TcpTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.StreamDebugIdx = New System.Windows.Forms.NumericUpDown()
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
-        Me.rgb_led = New System.Windows.Forms.TabPage()
-        Me.enableLED = New System.Windows.Forms.Button()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
-        Me.Button8 = New System.Windows.Forms.Button()
-        Me.Button9 = New System.Windows.Forms.Button()
-        Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button11 = New System.Windows.Forms.Button()
-        Me.Button12 = New System.Windows.Forms.Button()
-        Me.Button13 = New System.Windows.Forms.Button()
-        Me.Button14 = New System.Windows.Forms.Button()
-        Me.Button15 = New System.Windows.Forms.Button()
-        Me.Button16 = New System.Windows.Forms.Button()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Button18 = New System.Windows.Forms.Button()
-        Me.Button19 = New System.Windows.Forms.Button()
-        Me.Button20 = New System.Windows.Forms.Button()
-        Me.Button21 = New System.Windows.Forms.Button()
-        Me.Button22 = New System.Windows.Forms.Button()
-        Me.Button23 = New System.Windows.Forms.Button()
-        Me.Button24 = New System.Windows.Forms.Button()
+        Me.ConnectCheck = New System.Windows.Forms.CheckBox()
+        Me.LEDTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,9 +152,10 @@ Partial Class homeCtrl
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.surveilance.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
-        CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgb_led.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
+        Me.LEDButtons.SuspendLayout()
+        CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Fetch
@@ -158,7 +163,7 @@ Partial Class homeCtrl
         Me.Fetch.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Fetch.Enabled = False
         Me.Fetch.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Fetch.Location = New System.Drawing.Point(280, 653)
+        Me.Fetch.Location = New System.Drawing.Point(360, 653)
         Me.Fetch.Name = "Fetch"
         Me.Fetch.Size = New System.Drawing.Size(80, 46)
         Me.Fetch.TabIndex = 25
@@ -178,7 +183,7 @@ Partial Class homeCtrl
         '
         'Packet
         '
-        Me.Packet.Location = New System.Drawing.Point(630, 667)
+        Me.Packet.Location = New System.Drawing.Point(825, 667)
         Me.Packet.Name = "Packet"
         Me.Packet.Size = New System.Drawing.Size(143, 20)
         Me.Packet.TabIndex = 18
@@ -187,7 +192,7 @@ Partial Class homeCtrl
         '
         Me.debugButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.debugButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.debugButton.Location = New System.Drawing.Point(449, 653)
+        Me.debugButton.Location = New System.Drawing.Point(644, 653)
         Me.debugButton.Name = "debugButton"
         Me.debugButton.Size = New System.Drawing.Size(80, 46)
         Me.debugButton.TabIndex = 17
@@ -198,9 +203,9 @@ Partial Class homeCtrl
         '
         Me.Connect.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Connect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Connect.Location = New System.Drawing.Point(12, 653)
+        Me.Connect.Location = New System.Drawing.Point(12, 646)
         Me.Connect.Name = "Connect"
-        Me.Connect.Size = New System.Drawing.Size(80, 46)
+        Me.Connect.Size = New System.Drawing.Size(127, 53)
         Me.Connect.TabIndex = 16
         Me.Connect.Text = "connect"
         Me.Connect.UseVisualStyleBackColor = False
@@ -249,7 +254,6 @@ Partial Class homeCtrl
         Me.Tabs.Controls.Add(Me.room)
         Me.Tabs.Controls.Add(Me.surveilance)
         Me.Tabs.Controls.Add(Me.rgb_led)
-        Me.Tabs.Enabled = False
         Me.Tabs.Location = New System.Drawing.Point(12, 94)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
@@ -409,17 +413,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea3.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea3)
-        Legend3.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend3)
+        ChartArea2.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend2)
         Me.pwHist.Location = New System.Drawing.Point(745, 18)
         Me.pwHist.Name = "pwHist"
-        Series3.ChartArea = "ChartArea1"
-        Series3.Legend = "Legend1"
-        Series3.Name = "Power on Time"
-        Series3.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series3)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Power on Time"
+        Series2.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series2)
         Me.pwHist.Size = New System.Drawing.Size(871, 446)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -900,6 +904,355 @@ Partial Class homeCtrl
         Me.Surveillance.Text = "Load" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Surveillance cllips"
         Me.Surveillance.UseVisualStyleBackColor = False
         '
+        'rgb_led
+        '
+        Me.rgb_led.Controls.Add(Me.DisableLED)
+        Me.rgb_led.Controls.Add(Me.LEDButtons)
+        Me.rgb_led.Controls.Add(Me.EnableLED)
+        Me.rgb_led.Location = New System.Drawing.Point(4, 22)
+        Me.rgb_led.Name = "rgb_led"
+        Me.rgb_led.Size = New System.Drawing.Size(1622, 494)
+        Me.rgb_led.TabIndex = 3
+        Me.rgb_led.Text = "RGB LED"
+        Me.rgb_led.UseVisualStyleBackColor = True
+        '
+        'DisableLED
+        '
+        Me.DisableLED.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.DisableLED.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.DisableLED.ForeColor = System.Drawing.Color.White
+        Me.DisableLED.Location = New System.Drawing.Point(185, 424)
+        Me.DisableLED.Name = "DisableLED"
+        Me.DisableLED.Size = New System.Drawing.Size(71, 46)
+        Me.DisableLED.TabIndex = 19
+        Me.DisableLED.Text = "Switch off" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "LED"
+        Me.DisableLED.UseVisualStyleBackColor = False
+        '
+        'LEDButtons
+        '
+        Me.LEDButtons.Controls.Add(Me.LEDButton24)
+        Me.LEDButtons.Controls.Add(Me.LEDButton20)
+        Me.LEDButtons.Controls.Add(Me.LEDButton23)
+        Me.LEDButtons.Controls.Add(Me.LEDButton19)
+        Me.LEDButtons.Controls.Add(Me.LEDButton22)
+        Me.LEDButtons.Controls.Add(Me.LEDButton18)
+        Me.LEDButtons.Controls.Add(Me.LEDButton21)
+        Me.LEDButtons.Controls.Add(Me.LEDButton17)
+        Me.LEDButtons.Controls.Add(Me.LEDButton16)
+        Me.LEDButtons.Controls.Add(Me.LEDButton15)
+        Me.LEDButtons.Controls.Add(Me.LEDButton14)
+        Me.LEDButtons.Controls.Add(Me.LEDButton13)
+        Me.LEDButtons.Controls.Add(Me.LEDButton12)
+        Me.LEDButtons.Controls.Add(Me.LEDButton11)
+        Me.LEDButtons.Controls.Add(Me.LEDButton10)
+        Me.LEDButtons.Controls.Add(Me.LEDButton09)
+        Me.LEDButtons.Controls.Add(Me.LEDButton08)
+        Me.LEDButtons.Controls.Add(Me.LEDButton07)
+        Me.LEDButtons.Controls.Add(Me.LEDButton06)
+        Me.LEDButtons.Controls.Add(Me.LEDButton05)
+        Me.LEDButtons.Controls.Add(Me.LEDButton04)
+        Me.LEDButtons.Controls.Add(Me.LEDButton03)
+        Me.LEDButtons.Controls.Add(Me.LEDButton02)
+        Me.LEDButtons.Controls.Add(Me.LEDButton01)
+        Me.LEDButtons.Enabled = False
+        Me.LEDButtons.Location = New System.Drawing.Point(87, 115)
+        Me.LEDButtons.Name = "LEDButtons"
+        Me.LEDButtons.Size = New System.Drawing.Size(257, 281)
+        Me.LEDButtons.TabIndex = 18
+        Me.LEDButtons.TabStop = False
+        '
+        'LEDButton24
+        '
+        Me.LEDButton24.BackColor = System.Drawing.Color.DarkGray
+        Me.LEDButton24.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton24.Location = New System.Drawing.Point(175, 233)
+        Me.LEDButton24.Name = "LEDButton24"
+        Me.LEDButton24.Size = New System.Drawing.Size(70, 38)
+        Me.LEDButton24.TabIndex = 33
+        Me.LEDButton24.Text = "Smooth"
+        Me.LEDButton24.UseVisualStyleBackColor = False
+        '
+        'LEDButton20
+        '
+        Me.LEDButton20.BackColor = System.Drawing.Color.DarkGray
+        Me.LEDButton20.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton20.Location = New System.Drawing.Point(176, 189)
+        Me.LEDButton20.Name = "LEDButton20"
+        Me.LEDButton20.Size = New System.Drawing.Size(70, 38)
+        Me.LEDButton20.TabIndex = 33
+        Me.LEDButton20.Text = "Fade"
+        Me.LEDButton20.UseVisualStyleBackColor = False
+        '
+        'LEDButton23
+        '
+        Me.LEDButton23.BackColor = System.Drawing.Color.Crimson
+        Me.LEDButton23.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton23.ForeColor = System.Drawing.Color.White
+        Me.LEDButton23.Location = New System.Drawing.Point(119, 233)
+        Me.LEDButton23.Name = "LEDButton23"
+        Me.LEDButton23.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton23.TabIndex = 35
+        Me.LEDButton23.Text = "P"
+        Me.LEDButton23.UseVisualStyleBackColor = False
+        '
+        'LEDButton19
+        '
+        Me.LEDButton19.BackColor = System.Drawing.Color.BlueViolet
+        Me.LEDButton19.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton19.ForeColor = System.Drawing.Color.White
+        Me.LEDButton19.Location = New System.Drawing.Point(120, 189)
+        Me.LEDButton19.Name = "LEDButton19"
+        Me.LEDButton19.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton19.TabIndex = 35
+        Me.LEDButton19.Text = "V"
+        Me.LEDButton19.UseVisualStyleBackColor = False
+        '
+        'LEDButton22
+        '
+        Me.LEDButton22.BackColor = System.Drawing.Color.DeepSkyBlue
+        Me.LEDButton22.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton22.ForeColor = System.Drawing.Color.Black
+        Me.LEDButton22.Location = New System.Drawing.Point(64, 233)
+        Me.LEDButton22.Name = "LEDButton22"
+        Me.LEDButton22.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton22.TabIndex = 36
+        Me.LEDButton22.Text = "DS"
+        Me.LEDButton22.UseVisualStyleBackColor = False
+        '
+        'LEDButton18
+        '
+        Me.LEDButton18.BackColor = System.Drawing.Color.SkyBlue
+        Me.LEDButton18.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton18.ForeColor = System.Drawing.Color.Black
+        Me.LEDButton18.Location = New System.Drawing.Point(64, 189)
+        Me.LEDButton18.Name = "LEDButton18"
+        Me.LEDButton18.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton18.TabIndex = 36
+        Me.LEDButton18.Text = "S"
+        Me.LEDButton18.UseVisualStyleBackColor = False
+        '
+        'LEDButton21
+        '
+        Me.LEDButton21.BackColor = System.Drawing.Color.Yellow
+        Me.LEDButton21.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton21.ForeColor = System.Drawing.Color.Black
+        Me.LEDButton21.Location = New System.Drawing.Point(8, 233)
+        Me.LEDButton21.Name = "LEDButton21"
+        Me.LEDButton21.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton21.TabIndex = 34
+        Me.LEDButton21.Text = "Y"
+        Me.LEDButton21.UseVisualStyleBackColor = False
+        '
+        'LEDButton17
+        '
+        Me.LEDButton17.BackColor = System.Drawing.Color.Orange
+        Me.LEDButton17.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton17.ForeColor = System.Drawing.Color.White
+        Me.LEDButton17.Location = New System.Drawing.Point(8, 189)
+        Me.LEDButton17.Name = "LEDButton17"
+        Me.LEDButton17.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton17.TabIndex = 34
+        Me.LEDButton17.Text = "DY"
+        Me.LEDButton17.UseVisualStyleBackColor = False
+        '
+        'LEDButton16
+        '
+        Me.LEDButton16.BackColor = System.Drawing.Color.DarkGray
+        Me.LEDButton16.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton16.Location = New System.Drawing.Point(176, 145)
+        Me.LEDButton16.Name = "LEDButton16"
+        Me.LEDButton16.Size = New System.Drawing.Size(70, 38)
+        Me.LEDButton16.TabIndex = 29
+        Me.LEDButton16.Text = "Strobe"
+        Me.LEDButton16.UseVisualStyleBackColor = False
+        '
+        'LEDButton15
+        '
+        Me.LEDButton15.BackColor = System.Drawing.Color.Indigo
+        Me.LEDButton15.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton15.ForeColor = System.Drawing.Color.White
+        Me.LEDButton15.Location = New System.Drawing.Point(120, 145)
+        Me.LEDButton15.Name = "LEDButton15"
+        Me.LEDButton15.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton15.TabIndex = 31
+        Me.LEDButton15.Text = "I"
+        Me.LEDButton15.UseVisualStyleBackColor = False
+        '
+        'LEDButton14
+        '
+        Me.LEDButton14.BackColor = System.Drawing.Color.Aquamarine
+        Me.LEDButton14.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton14.ForeColor = System.Drawing.Color.Black
+        Me.LEDButton14.Location = New System.Drawing.Point(64, 145)
+        Me.LEDButton14.Name = "LEDButton14"
+        Me.LEDButton14.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton14.TabIndex = 32
+        Me.LEDButton14.Text = "C"
+        Me.LEDButton14.UseVisualStyleBackColor = False
+        '
+        'LEDButton13
+        '
+        Me.LEDButton13.BackColor = System.Drawing.Color.Coral
+        Me.LEDButton13.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton13.ForeColor = System.Drawing.Color.White
+        Me.LEDButton13.Location = New System.Drawing.Point(8, 145)
+        Me.LEDButton13.Name = "LEDButton13"
+        Me.LEDButton13.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton13.TabIndex = 30
+        Me.LEDButton13.Text = "O"
+        Me.LEDButton13.UseVisualStyleBackColor = False
+        '
+        'LEDButton12
+        '
+        Me.LEDButton12.BackColor = System.Drawing.Color.DarkGray
+        Me.LEDButton12.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton12.Location = New System.Drawing.Point(176, 101)
+        Me.LEDButton12.Name = "LEDButton12"
+        Me.LEDButton12.Size = New System.Drawing.Size(70, 38)
+        Me.LEDButton12.TabIndex = 25
+        Me.LEDButton12.Text = "Flash"
+        Me.LEDButton12.UseVisualStyleBackColor = False
+        '
+        'LEDButton11
+        '
+        Me.LEDButton11.BackColor = System.Drawing.Color.SteelBlue
+        Me.LEDButton11.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton11.ForeColor = System.Drawing.Color.White
+        Me.LEDButton11.Location = New System.Drawing.Point(120, 101)
+        Me.LEDButton11.Name = "LEDButton11"
+        Me.LEDButton11.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton11.TabIndex = 27
+        Me.LEDButton11.Text = "LB"
+        Me.LEDButton11.UseVisualStyleBackColor = False
+        '
+        'LEDButton10
+        '
+        Me.LEDButton10.BackColor = System.Drawing.Color.LimeGreen
+        Me.LEDButton10.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton10.ForeColor = System.Drawing.Color.White
+        Me.LEDButton10.Location = New System.Drawing.Point(64, 101)
+        Me.LEDButton10.Name = "LEDButton10"
+        Me.LEDButton10.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton10.TabIndex = 28
+        Me.LEDButton10.Text = "LG"
+        Me.LEDButton10.UseVisualStyleBackColor = False
+        '
+        'LEDButton09
+        '
+        Me.LEDButton09.BackColor = System.Drawing.Color.OrangeRed
+        Me.LEDButton09.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton09.ForeColor = System.Drawing.Color.White
+        Me.LEDButton09.Location = New System.Drawing.Point(8, 101)
+        Me.LEDButton09.Name = "LEDButton09"
+        Me.LEDButton09.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton09.TabIndex = 26
+        Me.LEDButton09.Text = "OR"
+        Me.LEDButton09.UseVisualStyleBackColor = False
+        '
+        'LEDButton08
+        '
+        Me.LEDButton08.BackColor = System.Drawing.Color.White
+        Me.LEDButton08.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton08.Location = New System.Drawing.Point(175, 57)
+        Me.LEDButton08.Name = "LEDButton08"
+        Me.LEDButton08.Size = New System.Drawing.Size(70, 38)
+        Me.LEDButton08.TabIndex = 21
+        Me.LEDButton08.Text = "W"
+        Me.LEDButton08.UseVisualStyleBackColor = False
+        '
+        'LEDButton07
+        '
+        Me.LEDButton07.BackColor = System.Drawing.Color.Blue
+        Me.LEDButton07.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton07.ForeColor = System.Drawing.Color.White
+        Me.LEDButton07.Location = New System.Drawing.Point(120, 57)
+        Me.LEDButton07.Name = "LEDButton07"
+        Me.LEDButton07.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton07.TabIndex = 24
+        Me.LEDButton07.Text = "B"
+        Me.LEDButton07.UseVisualStyleBackColor = False
+        '
+        'LEDButton06
+        '
+        Me.LEDButton06.BackColor = System.Drawing.Color.Green
+        Me.LEDButton06.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton06.ForeColor = System.Drawing.Color.White
+        Me.LEDButton06.Location = New System.Drawing.Point(64, 57)
+        Me.LEDButton06.Name = "LEDButton06"
+        Me.LEDButton06.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton06.TabIndex = 24
+        Me.LEDButton06.Text = "G"
+        Me.LEDButton06.UseVisualStyleBackColor = False
+        '
+        'LEDButton05
+        '
+        Me.LEDButton05.BackColor = System.Drawing.Color.Red
+        Me.LEDButton05.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton05.ForeColor = System.Drawing.Color.White
+        Me.LEDButton05.Location = New System.Drawing.Point(8, 57)
+        Me.LEDButton05.Name = "LEDButton05"
+        Me.LEDButton05.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton05.TabIndex = 23
+        Me.LEDButton05.Text = "R"
+        Me.LEDButton05.UseVisualStyleBackColor = False
+        '
+        'LEDButton04
+        '
+        Me.LEDButton04.BackColor = System.Drawing.Color.Brown
+        Me.LEDButton04.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton04.ForeColor = System.Drawing.Color.White
+        Me.LEDButton04.Location = New System.Drawing.Point(176, 13)
+        Me.LEDButton04.Name = "LEDButton04"
+        Me.LEDButton04.Size = New System.Drawing.Size(69, 38)
+        Me.LEDButton04.TabIndex = 22
+        Me.LEDButton04.Text = "On"
+        Me.LEDButton04.UseVisualStyleBackColor = False
+        '
+        'LEDButton03
+        '
+        Me.LEDButton03.BackColor = System.Drawing.Color.Black
+        Me.LEDButton03.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton03.ForeColor = System.Drawing.Color.White
+        Me.LEDButton03.Location = New System.Drawing.Point(120, 13)
+        Me.LEDButton03.Name = "LEDButton03"
+        Me.LEDButton03.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton03.TabIndex = 21
+        Me.LEDButton03.Text = "Off"
+        Me.LEDButton03.UseVisualStyleBackColor = False
+        '
+        'LEDButton02
+        '
+        Me.LEDButton02.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.LEDButton02.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton02.Location = New System.Drawing.Point(64, 13)
+        Me.LEDButton02.Name = "LEDButton02"
+        Me.LEDButton02.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton02.TabIndex = 20
+        Me.LEDButton02.Text = "-"
+        Me.LEDButton02.UseVisualStyleBackColor = False
+        '
+        'LEDButton01
+        '
+        Me.LEDButton01.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.LEDButton01.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LEDButton01.Location = New System.Drawing.Point(6, 13)
+        Me.LEDButton01.Name = "LEDButton01"
+        Me.LEDButton01.Size = New System.Drawing.Size(50, 38)
+        Me.LEDButton01.TabIndex = 19
+        Me.LEDButton01.Text = "+"
+        Me.LEDButton01.UseVisualStyleBackColor = False
+        '
+        'EnableLED
+        '
+        Me.EnableLED.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.EnableLED.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.EnableLED.Location = New System.Drawing.Point(142, 36)
+        Me.EnableLED.Name = "EnableLED"
+        Me.EnableLED.Size = New System.Drawing.Size(157, 46)
+        Me.EnableLED.TabIndex = 17
+        Me.EnableLED.Text = "Enable RGB LED"
+        Me.EnableLED.UseVisualStyleBackColor = False
+        '
         'MotionDetectTimer
         '
         Me.MotionDetectTimer.Interval = 1000
@@ -934,350 +1287,40 @@ Partial Class homeCtrl
         '
         Me.TcpTimer.Interval = 1000
         '
+        'StreamDebugIdx
+        '
+        Me.StreamDebugIdx.Location = New System.Drawing.Point(749, 668)
+        Me.StreamDebugIdx.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.StreamDebugIdx.Name = "StreamDebugIdx"
+        Me.StreamDebugIdx.Size = New System.Drawing.Size(48, 20)
+        Me.StreamDebugIdx.TabIndex = 32
+        Me.StreamDebugIdx.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
         'StreamIdx
         '
-        Me.StreamIdx.Location = New System.Drawing.Point(554, 668)
+        Me.StreamIdx.Location = New System.Drawing.Point(161, 679)
         Me.StreamIdx.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.StreamIdx.Name = "StreamIdx"
         Me.StreamIdx.Size = New System.Drawing.Size(48, 20)
-        Me.StreamIdx.TabIndex = 32
+        Me.StreamIdx.TabIndex = 33
         Me.StreamIdx.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
-        'rgb_led
+        'ConnectCheck
         '
-        Me.rgb_led.Controls.Add(Me.GroupBox1)
-        Me.rgb_led.Controls.Add(Me.enableLED)
-        Me.rgb_led.Location = New System.Drawing.Point(4, 22)
-        Me.rgb_led.Name = "rgb_led"
-        Me.rgb_led.Size = New System.Drawing.Size(1622, 494)
-        Me.rgb_led.TabIndex = 3
-        Me.rgb_led.Text = "RGB LED"
-        Me.rgb_led.UseVisualStyleBackColor = True
+        Me.ConnectCheck.AutoSize = True
+        Me.ConnectCheck.Checked = True
+        Me.ConnectCheck.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ConnectCheck.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.ConnectCheck.Location = New System.Drawing.Point(161, 646)
+        Me.ConnectCheck.Name = "ConnectCheck"
+        Me.ConnectCheck.Size = New System.Drawing.Size(37, 17)
+        Me.ConnectCheck.TabIndex = 22
+        Me.ConnectCheck.Text = "All"
+        Me.ConnectCheck.UseVisualStyleBackColor = True
         '
-        'enableLED
+        'LEDTimer
         '
-        Me.enableLED.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.enableLED.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.enableLED.Location = New System.Drawing.Point(142, 36)
-        Me.enableLED.Name = "enableLED"
-        Me.enableLED.Size = New System.Drawing.Size(157, 46)
-        Me.enableLED.TabIndex = 17
-        Me.enableLED.Text = "Enable RGB LED"
-        Me.enableLED.UseVisualStyleBackColor = False
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.Button1)
-        Me.GroupBox1.Controls.Add(Me.Button2)
-        Me.GroupBox1.Controls.Add(Me.Button3)
-        Me.GroupBox1.Controls.Add(Me.Button4)
-        Me.GroupBox1.Controls.Add(Me.Button5)
-        Me.GroupBox1.Controls.Add(Me.Button6)
-        Me.GroupBox1.Controls.Add(Me.Button7)
-        Me.GroupBox1.Controls.Add(Me.Button8)
-        Me.GroupBox1.Controls.Add(Me.Button9)
-        Me.GroupBox1.Controls.Add(Me.Button10)
-        Me.GroupBox1.Controls.Add(Me.Button11)
-        Me.GroupBox1.Controls.Add(Me.Button12)
-        Me.GroupBox1.Controls.Add(Me.Button13)
-        Me.GroupBox1.Controls.Add(Me.Button14)
-        Me.GroupBox1.Controls.Add(Me.Button15)
-        Me.GroupBox1.Controls.Add(Me.Button16)
-        Me.GroupBox1.Controls.Add(Me.Button17)
-        Me.GroupBox1.Controls.Add(Me.Button18)
-        Me.GroupBox1.Controls.Add(Me.Button19)
-        Me.GroupBox1.Controls.Add(Me.Button20)
-        Me.GroupBox1.Controls.Add(Me.Button21)
-        Me.GroupBox1.Controls.Add(Me.Button22)
-        Me.GroupBox1.Controls.Add(Me.Button23)
-        Me.GroupBox1.Controls.Add(Me.Button24)
-        Me.GroupBox1.Enabled = False
-        Me.GroupBox1.Location = New System.Drawing.Point(87, 115)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(257, 281)
-        Me.GroupBox1.TabIndex = 18
-        Me.GroupBox1.TabStop = False
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.DarkGray
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button1.Location = New System.Drawing.Point(175, 233)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(70, 38)
-        Me.Button1.TabIndex = 33
-        Me.Button1.Text = "Smooth"
-        Me.Button1.UseVisualStyleBackColor = False
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.DarkGray
-        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button2.Location = New System.Drawing.Point(176, 189)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(70, 38)
-        Me.Button2.TabIndex = 33
-        Me.Button2.Text = "Fade"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Button3
-        '
-        Me.Button3.BackColor = System.Drawing.Color.Crimson
-        Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(119, 233)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(50, 38)
-        Me.Button3.TabIndex = 35
-        Me.Button3.Text = "P"
-        Me.Button3.UseVisualStyleBackColor = False
-        '
-        'Button4
-        '
-        Me.Button4.BackColor = System.Drawing.Color.BlueViolet
-        Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(120, 189)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(50, 38)
-        Me.Button4.TabIndex = 35
-        Me.Button4.Text = "V"
-        Me.Button4.UseVisualStyleBackColor = False
-        '
-        'Button5
-        '
-        Me.Button5.BackColor = System.Drawing.Color.DeepSkyBlue
-        Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button5.ForeColor = System.Drawing.Color.Black
-        Me.Button5.Location = New System.Drawing.Point(64, 233)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(50, 38)
-        Me.Button5.TabIndex = 36
-        Me.Button5.Text = "DS"
-        Me.Button5.UseVisualStyleBackColor = False
-        '
-        'Button6
-        '
-        Me.Button6.BackColor = System.Drawing.Color.SkyBlue
-        Me.Button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button6.ForeColor = System.Drawing.Color.Black
-        Me.Button6.Location = New System.Drawing.Point(64, 189)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(50, 38)
-        Me.Button6.TabIndex = 36
-        Me.Button6.Text = "S"
-        Me.Button6.UseVisualStyleBackColor = False
-        '
-        'Button7
-        '
-        Me.Button7.BackColor = System.Drawing.Color.Yellow
-        Me.Button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button7.ForeColor = System.Drawing.Color.Black
-        Me.Button7.Location = New System.Drawing.Point(8, 233)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(50, 38)
-        Me.Button7.TabIndex = 34
-        Me.Button7.Text = "Y"
-        Me.Button7.UseVisualStyleBackColor = False
-        '
-        'Button8
-        '
-        Me.Button8.BackColor = System.Drawing.Color.Orange
-        Me.Button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button8.ForeColor = System.Drawing.Color.White
-        Me.Button8.Location = New System.Drawing.Point(8, 189)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(50, 38)
-        Me.Button8.TabIndex = 34
-        Me.Button8.Text = "DY"
-        Me.Button8.UseVisualStyleBackColor = False
-        '
-        'Button9
-        '
-        Me.Button9.BackColor = System.Drawing.Color.DarkGray
-        Me.Button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button9.Location = New System.Drawing.Point(176, 145)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(70, 38)
-        Me.Button9.TabIndex = 29
-        Me.Button9.Text = "Strobe"
-        Me.Button9.UseVisualStyleBackColor = False
-        '
-        'Button10
-        '
-        Me.Button10.BackColor = System.Drawing.Color.Indigo
-        Me.Button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button10.ForeColor = System.Drawing.Color.White
-        Me.Button10.Location = New System.Drawing.Point(120, 145)
-        Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(50, 38)
-        Me.Button10.TabIndex = 31
-        Me.Button10.Text = "I"
-        Me.Button10.UseVisualStyleBackColor = False
-        '
-        'Button11
-        '
-        Me.Button11.BackColor = System.Drawing.Color.Aquamarine
-        Me.Button11.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button11.ForeColor = System.Drawing.Color.Black
-        Me.Button11.Location = New System.Drawing.Point(64, 145)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(50, 38)
-        Me.Button11.TabIndex = 32
-        Me.Button11.Text = "C"
-        Me.Button11.UseVisualStyleBackColor = False
-        '
-        'Button12
-        '
-        Me.Button12.BackColor = System.Drawing.Color.Coral
-        Me.Button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button12.ForeColor = System.Drawing.Color.White
-        Me.Button12.Location = New System.Drawing.Point(8, 145)
-        Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(50, 38)
-        Me.Button12.TabIndex = 30
-        Me.Button12.Text = "O"
-        Me.Button12.UseVisualStyleBackColor = False
-        '
-        'Button13
-        '
-        Me.Button13.BackColor = System.Drawing.Color.DarkGray
-        Me.Button13.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button13.Location = New System.Drawing.Point(176, 101)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(70, 38)
-        Me.Button13.TabIndex = 25
-        Me.Button13.Text = "Flash"
-        Me.Button13.UseVisualStyleBackColor = False
-        '
-        'Button14
-        '
-        Me.Button14.BackColor = System.Drawing.Color.SteelBlue
-        Me.Button14.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button14.ForeColor = System.Drawing.Color.White
-        Me.Button14.Location = New System.Drawing.Point(120, 101)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(50, 38)
-        Me.Button14.TabIndex = 27
-        Me.Button14.Text = "LB"
-        Me.Button14.UseVisualStyleBackColor = False
-        '
-        'Button15
-        '
-        Me.Button15.BackColor = System.Drawing.Color.LimeGreen
-        Me.Button15.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button15.ForeColor = System.Drawing.Color.White
-        Me.Button15.Location = New System.Drawing.Point(64, 101)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(50, 38)
-        Me.Button15.TabIndex = 28
-        Me.Button15.Text = "LG"
-        Me.Button15.UseVisualStyleBackColor = False
-        '
-        'Button16
-        '
-        Me.Button16.BackColor = System.Drawing.Color.OrangeRed
-        Me.Button16.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button16.ForeColor = System.Drawing.Color.White
-        Me.Button16.Location = New System.Drawing.Point(8, 101)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(50, 38)
-        Me.Button16.TabIndex = 26
-        Me.Button16.Text = "OR"
-        Me.Button16.UseVisualStyleBackColor = False
-        '
-        'Button17
-        '
-        Me.Button17.BackColor = System.Drawing.Color.White
-        Me.Button17.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button17.Location = New System.Drawing.Point(175, 57)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(70, 38)
-        Me.Button17.TabIndex = 21
-        Me.Button17.Text = "W"
-        Me.Button17.UseVisualStyleBackColor = False
-        '
-        'Button18
-        '
-        Me.Button18.BackColor = System.Drawing.Color.Blue
-        Me.Button18.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button18.ForeColor = System.Drawing.Color.White
-        Me.Button18.Location = New System.Drawing.Point(120, 57)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(50, 38)
-        Me.Button18.TabIndex = 24
-        Me.Button18.Text = "B"
-        Me.Button18.UseVisualStyleBackColor = False
-        '
-        'Button19
-        '
-        Me.Button19.BackColor = System.Drawing.Color.Green
-        Me.Button19.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button19.ForeColor = System.Drawing.Color.White
-        Me.Button19.Location = New System.Drawing.Point(64, 57)
-        Me.Button19.Name = "Button19"
-        Me.Button19.Size = New System.Drawing.Size(50, 38)
-        Me.Button19.TabIndex = 24
-        Me.Button19.Text = "G"
-        Me.Button19.UseVisualStyleBackColor = False
-        '
-        'Button20
-        '
-        Me.Button20.BackColor = System.Drawing.Color.Red
-        Me.Button20.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button20.ForeColor = System.Drawing.Color.White
-        Me.Button20.Location = New System.Drawing.Point(8, 57)
-        Me.Button20.Name = "Button20"
-        Me.Button20.Size = New System.Drawing.Size(50, 38)
-        Me.Button20.TabIndex = 23
-        Me.Button20.Text = "R"
-        Me.Button20.UseVisualStyleBackColor = False
-        '
-        'Button21
-        '
-        Me.Button21.BackColor = System.Drawing.Color.Brown
-        Me.Button21.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button21.ForeColor = System.Drawing.Color.White
-        Me.Button21.Location = New System.Drawing.Point(176, 13)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(69, 38)
-        Me.Button21.TabIndex = 22
-        Me.Button21.Text = "On"
-        Me.Button21.UseVisualStyleBackColor = False
-        '
-        'Button22
-        '
-        Me.Button22.BackColor = System.Drawing.Color.Black
-        Me.Button22.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button22.ForeColor = System.Drawing.Color.White
-        Me.Button22.Location = New System.Drawing.Point(120, 13)
-        Me.Button22.Name = "Button22"
-        Me.Button22.Size = New System.Drawing.Size(50, 38)
-        Me.Button22.TabIndex = 21
-        Me.Button22.Text = "Off"
-        Me.Button22.UseVisualStyleBackColor = False
-        '
-        'Button23
-        '
-        Me.Button23.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Button23.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button23.Location = New System.Drawing.Point(64, 13)
-        Me.Button23.Name = "Button23"
-        Me.Button23.Size = New System.Drawing.Size(50, 38)
-        Me.Button23.TabIndex = 20
-        Me.Button23.Text = "-"
-        Me.Button23.UseVisualStyleBackColor = False
-        '
-        'Button24
-        '
-        Me.Button24.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Button24.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button24.Location = New System.Drawing.Point(6, 13)
-        Me.Button24.Name = "Button24"
-        Me.Button24.Size = New System.Drawing.Size(50, 38)
-        Me.Button24.TabIndex = 19
-        Me.Button24.Text = "+"
-        Me.Button24.UseVisualStyleBackColor = False
+        Me.LEDTimer.Interval = 3600000
         '
         'homeCtrl
         '
@@ -1285,7 +1328,9 @@ Partial Class homeCtrl
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Wheat
         Me.ClientSize = New System.Drawing.Size(1654, 711)
+        Me.Controls.Add(Me.ConnectCheck)
         Me.Controls.Add(Me.StreamIdx)
+        Me.Controls.Add(Me.StreamDebugIdx)
         Me.Controls.Add(Me.SpeechCheck)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.Toggleled)
@@ -1321,9 +1366,10 @@ Partial Class homeCtrl
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.surveilance.ResumeLayout(False)
         Me.SurveillanceGrp.ResumeLayout(False)
-        CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgb_led.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
+        Me.LEDButtons.ResumeLayout(False)
+        CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1402,32 +1448,36 @@ Partial Class homeCtrl
     Friend WithEvents LiveFeed As Button
     Friend WithEvents Record As Button
     Friend WithEvents Recordings As Button
-    Friend WithEvents StreamIdx As NumericUpDown
+    Friend WithEvents StreamDebugIdx As NumericUpDown
     Friend WithEvents rgb_led As TabPage
-    Friend WithEvents enableLED As Button
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button5 As Button
-    Friend WithEvents Button6 As Button
-    Friend WithEvents Button7 As Button
-    Friend WithEvents Button8 As Button
-    Friend WithEvents Button9 As Button
-    Friend WithEvents Button10 As Button
-    Friend WithEvents Button11 As Button
-    Friend WithEvents Button12 As Button
-    Friend WithEvents Button13 As Button
-    Friend WithEvents Button14 As Button
-    Friend WithEvents Button15 As Button
-    Friend WithEvents Button16 As Button
-    Friend WithEvents Button17 As Button
-    Friend WithEvents Button18 As Button
-    Friend WithEvents Button19 As Button
-    Friend WithEvents Button20 As Button
-    Friend WithEvents Button21 As Button
-    Friend WithEvents Button22 As Button
-    Friend WithEvents Button23 As Button
-    Friend WithEvents Button24 As Button
+    Friend WithEvents EnableLED As Button
+    Friend WithEvents LEDButtons As GroupBox
+    Friend WithEvents LEDButton24 As Button
+    Friend WithEvents LEDButton20 As Button
+    Friend WithEvents LEDButton23 As Button
+    Friend WithEvents LEDButton19 As Button
+    Friend WithEvents LEDButton22 As Button
+    Friend WithEvents LEDButton18 As Button
+    Friend WithEvents LEDButton21 As Button
+    Friend WithEvents LEDButton17 As Button
+    Friend WithEvents LEDButton16 As Button
+    Friend WithEvents LEDButton15 As Button
+    Friend WithEvents LEDButton14 As Button
+    Friend WithEvents LEDButton13 As Button
+    Friend WithEvents LEDButton12 As Button
+    Friend WithEvents LEDButton11 As Button
+    Friend WithEvents LEDButton10 As Button
+    Friend WithEvents LEDButton09 As Button
+    Friend WithEvents LEDButton08 As Button
+    Friend WithEvents LEDButton07 As Button
+    Friend WithEvents LEDButton06 As Button
+    Friend WithEvents LEDButton05 As Button
+    Friend WithEvents LEDButton04 As Button
+    Friend WithEvents LEDButton03 As Button
+    Friend WithEvents LEDButton02 As Button
+    Friend WithEvents LEDButton01 As Button
+    Friend WithEvents StreamIdx As NumericUpDown
+    Friend WithEvents ConnectCheck As CheckBox
+    Friend WithEvents DisableLED As Button
+    Friend WithEvents LEDTimer As Timer
 End Class

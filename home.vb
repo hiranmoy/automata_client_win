@@ -21,6 +21,11 @@ Public Class homeCtrl
         RestoreSettings()
         gLoading = False
 
+        'disable all tabs
+        For idx = 0 To Tabs.TabCount - 1
+            Tabs.TabPages(idx).Enabled = False
+        Next
+
         'Welcome speech
         Speech("Welcome_Hiranmoy_")
 
@@ -38,58 +43,28 @@ Public Class homeCtrl
 
     'connect to RPI
     Private Sub connect_Click(sender As Object, e As EventArgs) Handles Connect.Click
-        If gFetching(0) = False Then
-            Dim connected As Boolean = False
+        If ConnectCheck.Checked = True Then
+            For idx = 0 To gFetching.Length - 1
+                ConnectModule(idx)
+            Next
 
-            'read rpi2 ip
-            Dim host As String = GetIPFromFile("\\RPI2\backups\ip.txt")
-            'MsgBox(host)
-
-            If host <> "-1" Then
-                If ConnectIP(host, 0) = True Then
-                    connected = True
-                End If
-
-                If connected = True Then
-                    'connected to rpi2
-                    gFetching(0) = True
-                End If
-            End If
+            Return
         End If
 
-        If gFetching(1) = False Then
-            Dim connected As Boolean = False
-
-            'read rpi3 ip
-            Dim host As String = GetIPFromFile("\\RPI3\backups\ip.txt")
-            'MsgBox(host)
-
-            If host <> "-1" Then
-                If ConnectIP(host, 1) = True Then
-                    connected = True
-                End If
-
-                If connected = True Then
-                    'connected to rpi3
-                    gFetching(1) = True
-                End If
-
-                EnableAllWidgets()
-            End If
-        End If
-
-        FetchData()
+        ConnectModule(StreamIdx.Value)
     End Sub
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamIdx.Value)
+        Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
         MsgBox(GetResponse(tcpParam))
     End Sub
 
     'Fatch data
     Private Sub Fetch_Click(sender As Object, e As EventArgs) Handles Fetch.Click
-        FetchData()
+        For idx = 0 To gFetching.Length - 1
+            FetchData(idx)
+        Next
     End Sub
 
     'toggle LED light
@@ -378,6 +353,65 @@ Public Class homeCtrl
         SurveillanceGrp.Enabled = False
     End Sub
 
+    'set up led flood light
+    Private Sub enableLED_Click(sender As Object, e As EventArgs) Handles EnableLED.Click
+        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", 0)
+        Dim powerStatus As String = GetResponse(tcpParam)
+        If (powerStatus = "Disconnected") Or (powerStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert(powerStatus = "on")
+
+        'enable led buttons
+        LEDButtons.Enabled = True
+
+        'start 1 hr disable led buttons timer
+        LEDTimer.Start()
+    End Sub
+
+    'switch off led flood light
+    Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
+        Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", 0)
+        Dim powerStatus As String = GetResponse(tcpParam)
+        Debug.Assert(powerStatus = "off")
+        If (powerStatus = "Disconnected") Or (powerStatus = "") Then
+            Return
+        End If
+
+        'enable led buttons
+        LEDButtons.Enabled = False
+
+        'stop 1 hr disable led buttons timer
+        LEDTimer.Stop()
+    End Sub
+
+    'press led flood light buttons
+    Private Sub LEDButtons_Click(sender As Object, e As EventArgs) Handles LEDButton01.Click, LEDButton02.Click, LEDButton03.Click, LEDButton04.Click,
+                                                                           LEDButton05.Click, LEDButton06.Click, LEDButton07.Click, LEDButton08.Click,
+                                                                           LEDButton09.Click, LEDButton10.Click, LEDButton11.Click, LEDButton12.Click,
+                                                                           LEDButton13.Click, LEDButton14.Click, LEDButton15.Click, LEDButton16.Click,
+                                                                           LEDButton17.Click, LEDButton18.Click, LEDButton19.Click, LEDButton20.Click,
+                                                                           LEDButton21.Click, LEDButton22.Click, LEDButton23.Click, LEDButton24.Click
+        Dim btn As Button = DirectCast(sender, Button)
+
+        'extract button idx
+        Dim buttonidx As String = btn.Name
+        buttonidx = buttonidx.Substring(9, 2)
+
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + CStr(buttonidx), 0)
+        Dim buttonStatus As String = GetResponse(tcpParam)
+        If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert(buttonStatus = "button " + CStr(CInt(buttonidx)) + " pressed")
+
+        'restart 1 hr disable led buttons timer
+        LEDTimer.Stop()
+        LEDTimer.Start()
+    End Sub
+
 
 
     'TrackBar(s)
@@ -574,7 +608,7 @@ Public Class homeCtrl
 
     'fetch weather and motion detection status
     Private Sub Timer10s_Tick(sender As Object, e As EventArgs) Handles Timer10s.Tick
-        GetWeatherInfo()
+        'GetWeatherInfo()
         GetMonitorStatus()
     End Sub
 
@@ -632,12 +666,11 @@ Public Class homeCtrl
 
     'If connection is broken, try to reconnect to rpi at every minute
     Private Sub ReconnectTimer_Tick(sender As Object, e As EventArgs) Handles ReconnectTimer.Tick
-        For idx = 0 To gFetching.Length - 1
-            If gFetching(idx) = False Then
-                Connect.PerformClick()
-                Return
-            End If
-        Next
+        If ConnectCheck.Checked = True Then
+            For idx = 0 To gFetching.Length - 1
+                ConnectModule(idx)
+            Next
+        End If
     End Sub
 
     'If tcp response from the RPI is received within 10 sec, kill the thread waiting for response.
@@ -649,7 +682,10 @@ Public Class homeCtrl
         End If
     End Sub
 
-
+    'disable led buttons after 1 hr
+    Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles LEDTimer.Tick
+        LEDButtons.Enabled = False
+    End Sub
 
     'combo listboxes
     '------------------------------------------------------------------------------------------------------------------------------------------------
@@ -830,40 +866,53 @@ Public Class homeCtrl
     'others
     '--------------------------------------------------------------------------------------------------------------------------
 
-    'enable widgets
-    Private Sub EnableAllWidgets()
-        Fetch.Enabled = True
-        debugButton.Enabled = True
-        Toggleled.Enabled = True
+    'enable/disable widgets
+    Public Sub EnableAllWidgets()
+        'rpi2
+        Tabs.TabPages(3).Enabled = gFetching(0)
 
-        Tabs.Enabled = True
+        'rpi3
+        Fetch.Enabled = gFetching(1)
+        debugButton.Enabled = gFetching(1)
+        Toggleled.Enabled = gFetching(1)
 
-        Timer10s.Start()
-        LightingsTimer.Start()
+        Tabs.TabPages(0).Enabled = gFetching(1)
+        Tabs.TabPages(1).Enabled = gFetching(1)
+        Tabs.TabPages(2).Enabled = gFetching(1)
 
-        'change connect button text to "Connected"
-        Connect.Text = "Connected"
+        If (gFetching(1)) Then
+            Timer10s.Start()
+            LightingsTimer.Start()
+        Else
+            Timer10s.Stop()
+            LightingsTimer.Stop()
+        End If
 
-        'change connect button color sky blue
-        Connect.BackColor = Color.LightSkyBlue
-    End Sub
+        'count the number of connected modules
+        Dim numConnected As String = ""
+        For idx = 0 To 1
+            If gFetching(idx) Then
+                If numConnected <> "" Then
+                    numConnected = numConnected + ", "
+                End If
+                numConnected = numConnected + idx.ToString
+            End If
+        Next
 
-    'disable widgets
-    Public Sub DisableAllWidgets()
-        Fetch.Enabled = False
-        debugButton.Enabled = False
-        Toggleled.Enabled = False
+        If numConnected = "" Then
+            'change connect button text to "Connect"
+            Connect.Text = "Connect"
 
-        Tabs.Enabled = False
+            'change connect button color to reddish
+            Connect.BackColor = Color.FromArgb(255, 128, 128)
+        Else
+            'change connect button text to "Connected"
+            Connect.Text = "Connected (" + CStr(numConnected) + ")"
 
-        Timer10s.Stop()
-        LightingsTimer.Stop()
+            'change connect button color sky blue
+            Connect.BackColor = Color.LightSkyBlue
+        End If
 
-        'change connect button text to "Connect"
-        Connect.Text = "Connect"
-
-        'change connect button color to reddish
-        Connect.BackColor = Color.FromArgb(255, 128, 128)
     End Sub
 
     'enable all radio buttons
