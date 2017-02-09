@@ -46,7 +46,7 @@
         mTcpSetCommand = tcpSetCommand
 
         'get on/off status from the RPI
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, 1)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId)
         Dim data As String = GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return
@@ -319,7 +319,7 @@
     Public Sub SetPowerOn(Optional powerOn As Boolean = True)
         mPowerOn = powerOn
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), 1)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), gLightings1ModuleId)
         Dim data As String = GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return

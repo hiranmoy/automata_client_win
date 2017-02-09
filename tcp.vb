@@ -174,7 +174,7 @@ Module tcp
 
     'gets weather info
     Public Sub GetWeatherInfo()
-        Dim tcpParam As TcpParameter = New TcpParameter("Weather", 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId)
         Dim weather As String = GetResponse(tcpParam)
         If (weather = "Disconnected") Or (weather = "") Then
             Return
@@ -199,7 +199,7 @@ Module tcp
 
     'gets motion detection status
     Public Sub GetMonitorStatus()
-        Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", gMotionSensorModuleId)
         Dim monitorStatus As String = GetResponse(tcpParam)
         If (monitorStatus = "Disconnected") Or (monitorStatus = "") Then
             Return
@@ -233,7 +233,7 @@ Module tcp
     'gets RPI settings data
     Public Sub GetRPISettings()
         'motion detection enabled data
-        Dim tcpParam As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
         Dim data As String = GetResponse(tcpParam)
         If (data = "Disconnected") Or (data = "") Then
             Return
@@ -242,7 +242,7 @@ Module tcp
         homeCtrl.MotionDetectCheck.Checked = gEnableMotionDetect
 
         'enabled video data
-        tcpParam = New TcpParameter("GetIsDisableVideo", 1)
+        tcpParam = New TcpParameter("GetIsDisableVideo", gCameraModuleId)
         data = GetResponse(tcpParam)
         If (data = "Disconnected") Or (data = "") Then
             Return
@@ -251,7 +251,7 @@ Module tcp
         homeCtrl.VideoCheck.Checked = gDisableVideo
 
         'enabled audio data
-        tcpParam = New TcpParameter("GetIsDisableAudio", 1)
+        tcpParam = New TcpParameter("GetIsDisableAudio", gCameraModuleId)
         data = GetResponse(tcpParam)
         If (data = "Disconnected") Or (data = "") Then
             Return
@@ -304,13 +304,13 @@ Module tcp
 
     'toggles LED light
     Public Sub ToggleLEDLight()
-        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", gLightings1ModuleId)
         GetResponse(tcpParam)
     End Sub
 
     'enables/disables motion detection
     Public Function EnableMotionDetect(en As Integer) As Boolean
-        Dim tcpParam As TcpParameter = New TcpParameter("EnableMotionDetect" + Str(en), 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("EnableMotionDetect" + Str(en), gMotionSensorModuleId)
         Dim enableMotionDetectFlag As String = GetResponse(tcpParam)
 
         If (enableMotionDetectFlag = "Disconnected") Or (enableMotionDetectFlag = "") Then
@@ -324,7 +324,7 @@ Module tcp
 
     'enables/disables video recording on motion detection
     Public Function DisableVideo(en As Integer) As Boolean
-        Dim tcpParam As TcpParameter = New TcpParameter("DisableVideo" + Str(en), 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("DisableVideo" + Str(en), gCameraModuleId)
         Dim disableVideoFlag As String = GetResponse(tcpParam)
 
         If (disableVideoFlag = "Disconnected") Or (disableVideoFlag = "") Then
@@ -338,7 +338,7 @@ Module tcp
 
     'enables/disables audio recording on motion detection
     Public Function DisableAudio(en As Integer) As Boolean
-        Dim tcpParam As TcpParameter = New TcpParameter("DisableAudio" + Str(en), 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("DisableAudio" + Str(en), gCameraModuleId)
         Dim disableAudioFlag As String = GetResponse(tcpParam)
 
         If (disableAudioFlag = "Disconnected") Or (disableAudioFlag = "") Then

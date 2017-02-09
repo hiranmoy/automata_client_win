@@ -265,7 +265,7 @@ Public Class homeCtrl
 
             If gDisableVideo = False Then
                 'start live feed through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartLiveFeed", 1)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartLiveFeed", gCameraModuleId)
                 Dim feedStatus As String = GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
 
@@ -284,7 +284,7 @@ Public Class homeCtrl
             VideoCheck.Enabled = True
 
             'stop live feed through RPI
-            Dim tcpParam As TcpParameter = New TcpParameter("StopLiveFeed", 1)
+            Dim tcpParam As TcpParameter = New TcpParameter("StopLiveFeed", gCameraModuleId)
             Dim feedStatus As String = GetResponse(tcpParam)
             Debug.Assert(feedStatus = "off")
         End If
@@ -311,14 +311,14 @@ Public Class homeCtrl
 
             If gDisableVideo = False Then
                 'start video recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartVideoRec", 1)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartVideoRec", gCameraModuleId)
                 Dim feedStatus As String = GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
             End If
 
             If gDisableAudio = False Then
                 'start audio recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartAudioRec", 1)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartAudioRec", gCameraModuleId)
                 Dim audioFeedStatus As String = GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "on")
             End If
@@ -336,14 +336,14 @@ Public Class homeCtrl
 
             If gDisableVideo = False Then
                 'stop video recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StopVideoRec", 1)
+                Dim tcpParam As TcpParameter = New TcpParameter("StopVideoRec", gCameraModuleId)
                 Dim feedStatus As String = GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "off")
             End If
 
             If gDisableAudio = False Then
                 'stop audio recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StopAudioRec", 1)
+                Dim tcpParam As TcpParameter = New TcpParameter("StopAudioRec", gCameraModuleId)
                 Dim audioFeedStatus As String = GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "off")
             End If
@@ -355,7 +355,7 @@ Public Class homeCtrl
 
     'set up led flood light
     Private Sub enableLED_Click(sender As Object, e As EventArgs) Handles EnableLED.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", gLircModuleId)
         Dim powerStatus As String = GetResponse(tcpParam)
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
             Return
@@ -372,7 +372,7 @@ Public Class homeCtrl
 
     'switch off led flood light
     Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId)
         Dim powerStatus As String = GetResponse(tcpParam)
         Debug.Assert(powerStatus = "off")
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
@@ -399,7 +399,7 @@ Public Class homeCtrl
         Dim buttonidx As String = btn.Name
         buttonidx = buttonidx.Substring(9, 2)
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + CStr(buttonidx), 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + CStr(buttonidx), gLircModuleId)
         Dim buttonStatus As String = GetResponse(tcpParam)
         If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
             Return
