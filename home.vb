@@ -868,19 +868,16 @@ Public Class homeCtrl
 
     'enable/disable widgets
     Public Sub EnableAllWidgets()
-        'rpi2
-        Tabs.TabPages(3).Enabled = gFetching(0)
 
-        'rpi3
-        Fetch.Enabled = gFetching(1)
-        debugButton.Enabled = gFetching(1)
-        Toggleled.Enabled = gFetching(1)
+        Fetch.Enabled = gFetching(gLightings1ModuleId)
+        Toggleled.Enabled = gFetching(gLightings1ModuleId)
 
-        Tabs.TabPages(0).Enabled = gFetching(1)
-        Tabs.TabPages(1).Enabled = gFetching(1)
-        Tabs.TabPages(2).Enabled = gFetching(1)
+        Tabs.TabPages(0).Enabled = gFetching(gMotionSensorModuleId) And gFetching(gCameraModuleId)
+        Tabs.TabPages(1).Enabled = gFetching(gLightings1ModuleId)
+        Tabs.TabPages(2).Enabled = gFetching(gCameraModuleId)
+        Tabs.TabPages(3).Enabled = gFetching(gLircModuleId)
 
-        If (gFetching(1)) Then
+        If (gFetching(gLightings1ModuleId)) Then
             Timer10s.Start()
             LightingsTimer.Start()
         Else
