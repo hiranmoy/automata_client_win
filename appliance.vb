@@ -28,7 +28,7 @@
     Private mStopTime As Integer
 
     'last switched on time
-    Private mLastToggledOnTime As Date
+    Private mLastSwitchedOnTime As Date
 
     'stores power on time in hours
     Private mProfile(23) As Double
@@ -163,15 +163,15 @@
         'update power profile data
         If mPowerOn = False Then
             For hrIdx = 0 To 23
-                mProfile(hrIdx) = mProfile(hrIdx) + GetHrsValue(hrIdx, mLastToggledOnTime, DateAndTime.Now)
+                mProfile(hrIdx) = mProfile(hrIdx) + GetHrsValue(hrIdx, mLastSwitchedOnTime, DateAndTime.Now)
             Next
         End If
-        mLastToggledOnTime = DateAndTime.Now
+        mLastSwitchedOnTime = DateAndTime.Now
 
         'dump on time, off time, power on time in settings file
         FileOpen(1, folder + "\powerOn.log", OpenMode.Output)
 
-        Print(1, mLastToggledOnTime.ToString + Environment.NewLine)
+        Print(1, mLastSwitchedOnTime.ToString + Environment.NewLine)
 
         For hrIdx = 0 To 23
             Print(1, mProfile(hrIdx).ToString + Environment.NewLine)
@@ -184,14 +184,14 @@
     Private Sub RestoreSwitchedOnTime()
         Dim file As String = My.Application.Info.DirectoryPath + "\" + mButton.Name + "\powerOn.log"
         If My.Computer.FileSystem.FileExists(file) = False Then
-            mLastToggledOnTime = DateAndTime.Now
+            mLastSwitchedOnTime = DateAndTime.Now
             Return
         End If
 
         FileOpen(1, file, OpenMode.Input)
 
         Dim data As String = LineInput(1)
-        mLastToggledOnTime = CDate(data)
+        mLastSwitchedOnTime = CDate(data)
 
         For hrIdx = 0 To 23
             data = LineInput(1)
@@ -285,7 +285,7 @@
             Dim val As Double = mProfile(hrIdx)
 
             If mPowerOn = True Then
-                val += GetHrsValue(hrIdx, mLastToggledOnTime, DateAndTime.Now)
+                val += GetHrsValue(hrIdx, mLastSwitchedOnTime, DateAndTime.Now)
             End If
 
             'add points in the graph

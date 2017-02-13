@@ -230,6 +230,24 @@ Module tcp
         End Select
     End Sub
 
+    'check whether tcp connection is maintained
+    Public Sub CheckConnectionStatus()
+        For idx = 0 To gFetching.Length - 1
+            If gFetching(idx) = False Then
+                Continue For
+            End If
+
+            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx)
+            Dim connectionStatus As String = GetResponse(tcpParam)
+
+            If (connectionStatus = "Disconnected") Or (connectionStatus = "") Then
+                Return
+            End If
+
+            Debug.Assert(connectionStatus = "connected")
+        Next
+    End Sub
+
     'gets RPI settings data
     Public Sub GetRPISettings()
         'motion detection enabled data

@@ -24,12 +24,15 @@
 
     'toggle appliances
     Public Sub ToggleAppliancesIfNeeded()
-        gFluLight.TimerToggle()
-        gPlug0.TimerToggle()
-        gFan.TimerToggle()
-        gBalconyLight.TimerToggle()
-        gLightBulb.TimerToggle()
-        gPlug1.TimerToggle()
+        Try
+            gFluLight.TimerToggle()
+            gPlug0.TimerToggle()
+            gFan.TimerToggle()
+            gBalconyLight.TimerToggle()
+            gLightBulb.TimerToggle()
+            gPlug1.TimerToggle()
+        Catch
+        End Try
     End Sub
 
     'set appliance scheduler depending on the checked radio button
@@ -56,12 +59,15 @@
 
     'check scheduler of the appliances
     Public Sub ScheduleAppliances()
-        gFluLight.SetSchedule()
-        gPlug0.SetSchedule()
-        gFan.SetSchedule()
-        gBalconyLight.SetSchedule()
-        gLightBulb.SetSchedule()
-        gPlug1.SetSchedule()
+        Try
+            gFluLight.SetSchedule()
+            gPlug0.SetSchedule()
+            gFan.SetSchedule()
+            gBalconyLight.SetSchedule()
+            gLightBulb.SetSchedule()
+            gPlug1.SetSchedule()
+        Catch
+        End Try
     End Sub
 
     'reset scheduler of the appliances depending on the checked radio button
