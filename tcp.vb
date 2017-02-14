@@ -158,14 +158,15 @@ Module tcp
 
         If idx = 0 Then
             If gFetching(0) = True Then
-                'GetWeatherInfo()
+                GetLightingSettings()
             End If
         End If
 
         If idx = 1 Then
             If gFetching(1) = True Then
-                GetRPISettings()
+                MotionAndCameraSettings()
                 GetMonitorStatus()
+                GetWeatherInfo()
             End If
         End If
 
@@ -248,8 +249,8 @@ Module tcp
         Next
     End Sub
 
-    'gets RPI settings data
-    Public Sub GetRPISettings()
+    'gets motion and camera settings
+    Public Sub MotionAndCameraSettings()
         'motion detection enabled data
         Dim tcpParam As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
         Dim data As String = GetResponse(tcpParam)
@@ -276,7 +277,10 @@ Module tcp
         End If
         gDisableAudio = CBool(Int(data))
         homeCtrl.AudioCheck.Checked = gDisableAudio
+    End Sub
 
+    'gets light settings data
+    Public Sub GetLightingSettings()
         'fluorescent light data
         gFluLight = New Appliance(homeCtrl.FluLight,
                                   Color.White,

@@ -609,7 +609,7 @@ Public Class homeCtrl
     'fetch weather and motion detection status
     Private Sub Timer10s_Tick(sender As Object, e As EventArgs) Handles Timer10s.Tick
         CheckConnectionStatus()
-        'GetWeatherInfo()
+        GetWeatherInfo()
         GetMonitorStatus()
     End Sub
 

@@ -1281,7 +1281,7 @@ Partial Class homeCtrl
         '
         'ReconnectTimer
         '
-        Me.ReconnectTimer.Interval = 60000
+        Me.ReconnectTimer.Interval = 30000
         '
         'TcpTimer
         '
