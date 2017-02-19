@@ -23,9 +23,9 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -132,6 +132,8 @@ Partial Class homeCtrl
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
         Me.ConnectCheck = New System.Windows.Forms.CheckBox()
         Me.LEDTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.Alcohol = New System.Windows.Forms.Label()
+        Me.CO = New System.Windows.Forms.Label()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -241,7 +243,7 @@ Partial Class homeCtrl
         Me.Toggleled.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.Toggleled.Enabled = False
         Me.Toggleled.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Toggleled.Location = New System.Drawing.Point(554, 9)
+        Me.Toggleled.Location = New System.Drawing.Point(1345, 15)
         Me.Toggleled.Name = "Toggleled"
         Me.Toggleled.Size = New System.Drawing.Size(125, 66)
         Me.Toggleled.TabIndex = 30
@@ -413,17 +415,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend2)
+        ChartArea1.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend1)
         Me.pwHist.Location = New System.Drawing.Point(745, 18)
         Me.pwHist.Name = "pwHist"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Power on Time"
-        Series2.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series2)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Power on Time"
+        Series1.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series1)
         Me.pwHist.Size = New System.Drawing.Size(871, 446)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1269,7 +1271,7 @@ Partial Class homeCtrl
         '
         Me.SpeechCheck.AutoSize = True
         Me.SpeechCheck.ForeColor = System.Drawing.Color.Green
-        Me.SpeechCheck.Location = New System.Drawing.Point(736, 35)
+        Me.SpeechCheck.Location = New System.Drawing.Point(1527, 41)
         Me.SpeechCheck.Name = "SpeechCheck"
         Me.SpeechCheck.Size = New System.Drawing.Size(97, 17)
         Me.SpeechCheck.TabIndex = 22
@@ -1290,7 +1292,7 @@ Partial Class homeCtrl
         'StreamDebugIdx
         '
         Me.StreamDebugIdx.Location = New System.Drawing.Point(749, 668)
-        Me.StreamDebugIdx.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.StreamDebugIdx.Maximum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.StreamDebugIdx.Name = "StreamDebugIdx"
         Me.StreamDebugIdx.Size = New System.Drawing.Size(48, 20)
         Me.StreamDebugIdx.TabIndex = 32
@@ -1299,7 +1301,7 @@ Partial Class homeCtrl
         'StreamIdx
         '
         Me.StreamIdx.Location = New System.Drawing.Point(161, 679)
-        Me.StreamIdx.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.StreamIdx.Maximum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.StreamIdx.Name = "StreamIdx"
         Me.StreamIdx.Size = New System.Drawing.Size(48, 20)
         Me.StreamIdx.TabIndex = 33
@@ -1322,12 +1324,36 @@ Partial Class homeCtrl
         '
         Me.LEDTimer.Interval = 3600000
         '
+        'Alcohol
+        '
+        Me.Alcohol.AutoSize = True
+        Me.Alcohol.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Alcohol.Location = New System.Drawing.Point(587, 9)
+        Me.Alcohol.Name = "Alcohol"
+        Me.Alcohol.Padding = New System.Windows.Forms.Padding(10)
+        Me.Alcohol.Size = New System.Drawing.Size(68, 33)
+        Me.Alcohol.TabIndex = 34
+        Me.Alcohol.Text = "Alcohol :"
+        '
+        'CO
+        '
+        Me.CO.AutoSize = True
+        Me.CO.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.CO.Location = New System.Drawing.Point(729, 9)
+        Me.CO.Name = "CO"
+        Me.CO.Padding = New System.Windows.Forms.Padding(10)
+        Me.CO.Size = New System.Drawing.Size(48, 33)
+        Me.CO.TabIndex = 35
+        Me.CO.Text = "CO :"
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Wheat
         Me.ClientSize = New System.Drawing.Size(1654, 711)
+        Me.Controls.Add(Me.CO)
+        Me.Controls.Add(Me.Alcohol)
         Me.Controls.Add(Me.ConnectCheck)
         Me.Controls.Add(Me.StreamIdx)
         Me.Controls.Add(Me.StreamDebugIdx)
@@ -1480,4 +1506,6 @@ Partial Class homeCtrl
     Friend WithEvents ConnectCheck As CheckBox
     Friend WithEvents DisableLED As Button
     Friend WithEvents LEDTimer As Timer
+    Friend WithEvents Alcohol As Label
+    Friend WithEvents CO As Label
 End Class

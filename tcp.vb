@@ -130,6 +130,9 @@ Module tcp
                 Case 1
                     'read rpi3 ip
                     host = GetIPFromFile("\\RPI3\backups\ip.txt")
+                Case 2
+                    'read rpi32 ip
+                    host = GetIPFromFile("\\RPI32\backups\ip.txt")
                 Case Else
                     Debug.Assert(False)
             End Select
@@ -170,6 +173,12 @@ Module tcp
             End If
         End If
 
+        If idx = 2 Then
+            If gFetching(2) = True Then
+                GetAirQualityInfo()
+            End If
+        End If
+
         gLoading = False
     End Sub
 
@@ -196,6 +205,28 @@ Module tcp
         UpdateHumidityColor(params(1))
         Debug.Assert(IsNumeric(params(2)))
         UpdatePressureColor(params(2))
+    End Sub
+
+    'gets weather info
+    Public Sub GetAirQualityInfo()
+        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId)
+        Dim airQuality As String = GetResponse(tcpParam)
+        If (airQuality = "Disconnected") Or (airQuality = "") Then
+            Return
+        End If
+
+        ' Split string based on ',' character
+        Dim params As String() = airQuality.Split(New Char() {","c})
+        Debug.Assert(params.Length() = 2)
+
+        homeCtrl.Alcohol.Text = "Alcohol : " + params(0)
+        homeCtrl.CO.Text = "CO : " + params(1)
+
+        'Graphics
+        Debug.Assert(IsNumeric(params(0)))
+        UpdateAlcoholColor(params(0))
+        Debug.Assert(IsNumeric(params(1)))
+        UpdateCOColor(params(1))
     End Sub
 
     'gets motion detection status

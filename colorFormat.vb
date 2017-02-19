@@ -1,21 +1,33 @@
 ﻿Module colorFormat
 
-    'updates temperature text and background label 
+    'updates temperature text and background label
     Public Sub UpdateTemperatureColor(val As Double)
         homeCtrl.Temperature.BackColor = GetBackcolor(val, 10, 25, 40)
         homeCtrl.Temperature.ForeColor = GetForecolor(val, 10, 40)
     End Sub
 
-    'updates humidity text and background label 
+    'updates humidity text and background label
     Public Sub UpdateHumidityColor(val As Double)
         homeCtrl.Humidity.BackColor = GetBackcolor(val, 40, 60, 90)
         homeCtrl.Humidity.ForeColor = GetForecolor(val, 40, 90)
     End Sub
 
-    'updates pressure text and background label 
+    'updates pressure text and background label
     Public Sub UpdatePressureColor(val As Double)
         homeCtrl.Pressure.BackColor = GetBackcolor(val, 970, 1015, 1030)
         homeCtrl.Pressure.ForeColor = GetForecolor(val, 970, 1030)
+    End Sub
+
+    'updates alcohol label
+    Public Sub UpdateAlcoholColor(val As Double)
+        homeCtrl.Alcohol.BackColor = GetBackcolor(val, 140, 170, 200)
+        homeCtrl.Alcohol.ForeColor = GetForecolor(val, 140, 200)
+    End Sub
+
+    'updates CO label
+    Public Sub UpdateCOColor(val As Double)
+        homeCtrl.CO.BackColor = GetBackcolor(val, 110, 130, 200)
+        homeCtrl.CO.ForeColor = GetForecolor(val, 110, 200)
     End Sub
 
     'returns back color

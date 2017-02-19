@@ -609,8 +609,11 @@ Public Class homeCtrl
     'fetch weather and motion detection status
     Private Sub Timer10s_Tick(sender As Object, e As EventArgs) Handles Timer10s.Tick
         CheckConnectionStatus()
+
         GetWeatherInfo()
         GetMonitorStatus()
+
+        GetAirQualityInfo()
     End Sub
 
     'updates time remaining motion detect activation
@@ -888,7 +891,7 @@ Public Class homeCtrl
 
         'count the number of connected modules
         Dim numConnected As String = ""
-        For idx = 0 To 1
+        For idx = 0 To gFetching.Length - 1
             If gFetching(idx) Then
                 If numConnected <> "" Then
                     numConnected = numConnected + ", "

@@ -5,7 +5,7 @@ Module globals
 
     'tcp client
     '------------------------------------------------------------------------------------------------------------------------------------------------
-    Public gClient(1) As TcpClient
+    Public gClient(2) As TcpClient
 
 
 
@@ -30,7 +30,7 @@ Module globals
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
     'tcp connection status 
-    Public gFetching(1) As Boolean
+    Public gFetching(2) As Boolean
 
     'data loading phase
     Public gLoading As Boolean = True
@@ -79,6 +79,8 @@ Module globals
     'ir blaster rpi tcp stream index
     Public gLircModuleId As Integer = 0
 
+    'air quality sensor
+    Public gAirQualityModuleId As Integer = 2
 
 
     'appliances
