@@ -26,7 +26,7 @@
 
     'updates CO label
     Public Sub UpdateCOColor(val As Double)
-        homeCtrl.CO.BackColor = GetBackcolor(val, 110, 130, 200)
+        homeCtrl.CO.BackColor = GetBackcolor(val, 110, 150, 200)
         homeCtrl.CO.ForeColor = GetForecolor(val, 110, 200)
     End Sub
 

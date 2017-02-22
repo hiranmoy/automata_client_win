@@ -1,6 +1,6 @@
 ﻿'Imports System.Net.Sockets
 Imports System.IO
-Imports WMPLib              'Media Player in virtual form
+Imports WMPLib
 
 Public Class homeCtrl
     'global variables
@@ -34,6 +34,18 @@ Public Class homeCtrl
 
         'Start speech timer
         SpeechTimer.Start()
+
+        'start 1ms timer
+        Timer100ms.Start()
+
+        'start 1s timer
+        Timer1s.Start()
+
+        'start 10s timer
+        Timer10s.Start()
+
+        'initialize am pm selector
+        AmPmAlarm.SelectedIndex = 0
     End Sub
 
 
@@ -56,6 +68,19 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
+        Dim speechFile As String = "C:\Users\hiran\OneDrive\Documents\alarm\pitchers.mp3"
+        If speechFile <> "empty" Then
+            Dim Player As WindowsMediaPlayer = New WindowsMediaPlayer
+
+            ' create the playlist
+            Dim urls() As String = {speechFile}
+            For Each u In urls
+                Player.URL = u
+                Player.controls.play()
+            Next
+        End If
+        Return
+
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
         MsgBox(GetResponse(tcpParam))
     End Sub
@@ -412,6 +437,39 @@ Public Class homeCtrl
         LEDTimer.Start()
     End Sub
 
+    'add alarm
+    Private Sub AddAlarm_Click(sender As Object, e As EventArgs) Handles AddAlarm.Click
+        AddAlarmInList(HourAlarm.Value, MinAlarm.Value)
+    End Sub
+
+    'remove alarm
+    Private Sub DeleteAlarm_Click(sender As Object, e As EventArgs) Handles DeleteAlarm.Click
+        DeleteAlarmFromList(AlarmList.SelectedIndex)
+    End Sub
+
+    'browse alarm
+    Private Sub BrowseAlarm_Click(sender As Object, e As EventArgs) Handles BrowseAlarm.Click
+        SelectMusic()
+    End Sub
+
+    'test alarm music
+    Private Sub TestAlarm_Click(sender As Object, e As EventArgs) Handles TestAlarm.Click
+        PlayMusic()
+    End Sub
+
+    'snooze alarm music
+    Private Sub SnoozeAlarm_Click(sender As Object, e As EventArgs) Handles SnoozeAlarm.Click
+        KillMusic()
+    End Sub
+
+    'stop alarm
+    Private Sub StopAlarm_Click(sender As Object, e As EventArgs) Handles StopAlarm.Click
+        KillMusic()
+
+        'stop alarm timer
+        TimerAlarm.Stop()
+    End Sub
+
 
 
     'TrackBar(s)
@@ -601,6 +659,34 @@ Public Class homeCtrl
         End If
     End Sub
 
+    'set snooze timer interval
+    Private Sub SnoozeTimers_CheckedChanged(sender As Object, e As EventArgs) Handles SnoozeTimer0.CheckedChanged, SnoozeTimer1.CheckedChanged, SnoozeTimer2.CheckedChanged
+        Dim rBtn As RadioButton = DirectCast(sender, RadioButton)
+
+        'extract radio button idx
+        Dim rBtnIdx As String = rBtn.Name
+
+        If rBtnIdx = "" Then
+            'form loading
+            Return
+        End If
+
+        rBtnIdx = rBtnIdx.Substring(11, 1)
+
+        TimerAlarm.Stop()
+
+        'update timer value
+        Select Case rBtnIdx
+            Case 0 : TimerAlarm.Interval = 300000
+            Case 1 : TimerAlarm.Interval = 600000
+            Case 2 : TimerAlarm.Interval = 1200000
+            Case Else
+                Debug.Assert(False)
+        End Select
+
+        TimerAlarm.Start()
+    End Sub
+
 
 
     'timers
@@ -657,12 +743,9 @@ Public Class homeCtrl
         If speechFile <> "empty" Then
             Dim Player As WindowsMediaPlayer = New WindowsMediaPlayer
 
-            ' create the playlist
-            Dim urls() As String = {speechFile}
-            For Each u In urls
-                Player.URL = u
-                Player.controls.play()
-            Next
+            'play
+            Player.URL = speechFile
+            'Player.controls.play()
         End If
 
         SpeechTimer.Start()
@@ -690,6 +773,60 @@ Public Class homeCtrl
     Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles LEDTimer.Tick
         LEDButtons.Enabled = False
     End Sub
+
+    'updates current time
+    Private Sub Timer100ms_Tick(sender As Object, e As EventArgs) Handles Timer100ms.Tick
+        Dim curTime As String = "Current Time - "
+        Dim curHr As Integer = Now.TimeOfDay.Hours
+
+        Select Case curHr
+            Case 0 To 9 : curTime = curTime + "0" + curHr.ToString + ":"
+            Case 10 To 12 : curTime += curHr.ToString + ":"
+            Case 13 To 21 : curTime += "0" + CStr(curHr - 12) + ":"
+            Case 22 To 23 : curTime += CStr(curHr - 12) + ":"
+        End Select
+
+        Dim curMin As Integer = Now.TimeOfDay.Minutes
+
+        If curMin < 10 Then
+            curTime += "0" + curMin.ToString + ":"
+        Else : curTime += curMin.ToString + ":"
+        End If
+
+        Dim curSec As Integer = Now.TimeOfDay.Seconds
+
+        If curSec < 10 Then
+            curTime += "0" + curSec.ToString + " "
+        Else : curTime += curSec.ToString + " "
+        End If
+
+        If curHr >= 12 Then
+            curTime = curTime + "pm"
+        Else : curTime = curTime + "am"
+        End If
+
+        'update displayed time
+        If curTime <> RealTime.Text Then
+            RealTime.Text = curTime
+        End If
+
+        'check for alarm
+        CheckAndTriggerAlarm()
+    End Sub
+
+    'alarm timer 
+    Private Sub TimerAlarm_Tick(sender As Object, e As EventArgs) Handles TimerAlarm.Tick
+        PlayMusic()
+    End Sub
+
+    'check for touch sensor status
+    Private Sub Timer1s_Tick(sender As Object, e As EventArgs) Handles Timer1s.Tick
+        If TimerAlarm.Enabled = True Then
+            GetTouchSensorStatus()
+        End If
+    End Sub
+
+
 
     'combo listboxes
     '------------------------------------------------------------------------------------------------------------------------------------------------
@@ -874,18 +1011,17 @@ Public Class homeCtrl
     Public Sub EnableAllWidgets()
 
         Fetch.Enabled = gFetching(gLightings1ModuleId)
-        Toggleled.Enabled = gFetching(gLightings1ModuleId)
+        Toggleled.Enabled = gFetching(gLightings2ModuleId)
 
         Tabs.TabPages(0).Enabled = gFetching(gMotionSensorModuleId) And gFetching(gCameraModuleId)
         Tabs.TabPages(1).Enabled = gFetching(gLightings1ModuleId)
         Tabs.TabPages(2).Enabled = gFetching(gCameraModuleId)
         Tabs.TabPages(3).Enabled = gFetching(gLircModuleId)
+        Tabs.TabPages(4).Enabled = gFetching(gAirQualityModuleId)
 
         If (gFetching(gLightings1ModuleId)) Then
-            Timer10s.Start()
             LightingsTimer.Start()
         Else
-            Timer10s.Stop()
             LightingsTimer.Stop()
         End If
 

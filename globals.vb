@@ -64,23 +64,35 @@ Module globals
     'motion activation delay
     Public gMotionActDelay As Integer = 0
 
+
+
+    'modules
+    '------------------------------------------------------------------------------------------------------------------------------------------------
+
+    'lighting connections 1 rpi tcp stream index
+    Public gLightings1ModuleId As Integer = 0
+
+    'ir blaster rpi tcp stream index
+    Public gLircModuleId As Integer = 0
+
     'motion sensor rpi tcp stream index
     Public gMotionSensorModuleId As Integer = 1
 
     'sense hat rpi tcp stream index
     Public gWeatherModuleId As Integer = 1
 
-    'lighting connections rpi tcp stream index
-    Public gLightings1ModuleId As Integer = 0
-
     'camera and microphone rpi tcp stream index
     Public gCameraModuleId As Integer = 1
 
-    'ir blaster rpi tcp stream index
-    Public gLircModuleId As Integer = 0
+    'lighting connections 2 rpi tcp stream index
+    Public gLightings2ModuleId As Integer = 2
 
-    'air quality sensor
+    'air quality sensor stream index
     Public gAirQualityModuleId As Integer = 2
+
+    'touch sensor rpi tcp stream index
+    Public gTouchSensorModuleId As Integer = 2
+
 
 
     'appliances

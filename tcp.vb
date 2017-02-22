@@ -2,7 +2,13 @@
 Imports System.Threading
 
 Module tcp
+    'global variables
+    '------------------------------------------------------------------------------------------------------------------------------------------------
+
+    'tcp response
     Private gResponse As String = ""
+
+
 
     'retuns RPI response w.r.t a input string
     Public Function GetResponse(aTcpParam As TcpParameter) As String
@@ -80,14 +86,9 @@ Module tcp
     Private Function Disconnect(aStreamIdx As Integer) As String
         gFetching(aStreamIdx) = False
 
-        If aStreamIdx = 1 Then
-            homeCtrl.EnableAllWidgets()
+        homeCtrl.EnableAllWidgets()
 
-            'change connect button
-            homeCtrl.Connect.BackColor = Color.FromArgb(255, 128, 128)
-
-            'MsgBox("Connection broken")
-        End If
+        'MsgBox("Connection broken")
 
         Return "Disconnected"
     End Function
@@ -184,6 +185,10 @@ Module tcp
 
     'gets weather info
     Public Sub GetWeatherInfo()
+        If gFetching(gWeatherModuleId) = False Then
+            Exit Sub
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId)
         Dim weather As String = GetResponse(tcpParam)
         If (weather = "Disconnected") Or (weather = "") Then
@@ -209,6 +214,10 @@ Module tcp
 
     'gets weather info
     Public Sub GetAirQualityInfo()
+        If gFetching(gAirQualityModuleId) = False Then
+            Exit Sub
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId)
         Dim airQuality As String = GetResponse(tcpParam)
         If (airQuality = "Disconnected") Or (airQuality = "") Then
@@ -231,6 +240,10 @@ Module tcp
 
     'gets motion detection status
     Public Sub GetMonitorStatus()
+        If gFetching(gMotionSensorModuleId) = False Then
+            Exit Sub
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", gMotionSensorModuleId)
         Dim monitorStatus As String = GetResponse(tcpParam)
         If (monitorStatus = "Disconnected") Or (monitorStatus = "") Then
@@ -262,6 +275,26 @@ Module tcp
         End Select
     End Sub
 
+    'gets touch sensor status
+    Public Sub GetTouchSensorStatus()
+        If gFetching(gTouchSensorModuleId) = False Then
+            Exit Sub
+        End If
+
+        Dim tcpParam As TcpParameter = New TcpParameter("ExtractTouchSensorStatus", gTouchSensorModuleId)
+        Dim touchSensorStatus As String = GetResponse(tcpParam)
+        If (touchSensorStatus = "Disconnected") Or (touchSensorStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert((touchSensorStatus = "0") Or (touchSensorStatus = "1"))
+
+        If touchSensorStatus = "1" Then
+            'touch button pressed
+            KillMusic()
+        End If
+    End Sub
+
     'check whether tcp connection is maintained
     Public Sub CheckConnectionStatus()
         For idx = 0 To gFetching.Length - 1
@@ -282,6 +315,10 @@ Module tcp
 
     'gets motion and camera settings
     Public Sub MotionAndCameraSettings()
+        If (gFetching(gMotionSensorModuleId) = False) Or (gFetching(gCameraModuleId) = False) Then
+            Exit Sub
+        End If
+
         'motion detection enabled data
         Dim tcpParam As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
         Dim data As String = GetResponse(tcpParam)
@@ -312,6 +349,10 @@ Module tcp
 
     'gets light settings data
     Public Sub GetLightingSettings()
+        If gFetching(gLightings1ModuleId) = False Then
+            Exit Sub
+        End If
+
         'fluorescent light data
         gFluLight = New Appliance(homeCtrl.FluLight,
                                   Color.White,
@@ -357,12 +398,20 @@ Module tcp
 
     'toggles LED light
     Public Sub ToggleLEDLight()
-        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", gLightings1ModuleId)
+        If gFetching(gLightings2ModuleId) = False Then
+            Exit Sub
+        End If
+
+        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", gLightings2ModuleId)
         GetResponse(tcpParam)
     End Sub
 
     'enables/disables motion detection
     Public Function EnableMotionDetect(en As Integer) As Boolean
+        If gFetching(gMotionSensorModuleId) = False Then
+            Return False
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("EnableMotionDetect" + Str(en), gMotionSensorModuleId)
         Dim enableMotionDetectFlag As String = GetResponse(tcpParam)
 
@@ -377,6 +426,10 @@ Module tcp
 
     'enables/disables video recording on motion detection
     Public Function DisableVideo(en As Integer) As Boolean
+        If gFetching(gCameraModuleId) = False Then
+            Return False
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("DisableVideo" + Str(en), gCameraModuleId)
         Dim disableVideoFlag As String = GetResponse(tcpParam)
 
@@ -391,6 +444,10 @@ Module tcp
 
     'enables/disables audio recording on motion detection
     Public Function DisableAudio(en As Integer) As Boolean
+        If gFetching(gCameraModuleId) = False Then
+            Return False
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter("DisableAudio" + Str(en), gCameraModuleId)
         Dim disableAudioFlag As String = GetResponse(tcpParam)
 

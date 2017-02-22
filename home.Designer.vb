@@ -121,6 +121,23 @@ Partial Class homeCtrl
         Me.LEDButton02 = New System.Windows.Forms.Button()
         Me.LEDButton01 = New System.Windows.Forms.Button()
         Me.EnableLED = New System.Windows.Forms.Button()
+        Me.Alarm = New System.Windows.Forms.TabPage()
+        Me.MusicAlarmLabel = New System.Windows.Forms.Label()
+        Me.AlarmList = New System.Windows.Forms.ListBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.SnoozeAlarm = New System.Windows.Forms.Button()
+        Me.BrowseAlarm = New System.Windows.Forms.Button()
+        Me.StopAlarm = New System.Windows.Forms.Button()
+        Me.DeleteAlarm = New System.Windows.Forms.Button()
+        Me.HourAlarm = New System.Windows.Forms.NumericUpDown()
+        Me.MinAlarm = New System.Windows.Forms.NumericUpDown()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.SnoozeTimer0 = New System.Windows.Forms.RadioButton()
+        Me.SnoozeTimer2 = New System.Windows.Forms.RadioButton()
+        Me.SnoozeTimer1 = New System.Windows.Forms.RadioButton()
+        Me.AmPmAlarm = New System.Windows.Forms.ComboBox()
+        Me.AddAlarm = New System.Windows.Forms.Button()
+        Me.TestAlarm = New System.Windows.Forms.Button()
         Me.MotionDetectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.LightingsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -134,6 +151,11 @@ Partial Class homeCtrl
         Me.LEDTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Alcohol = New System.Windows.Forms.Label()
         Me.CO = New System.Windows.Forms.Label()
+        Me.RealTime = New System.Windows.Forms.Label()
+        Me.Timer100ms = New System.Windows.Forms.Timer(Me.components)
+        Me.TimerAlarm = New System.Windows.Forms.Timer(Me.components)
+        Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
+        Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,6 +178,11 @@ Partial Class homeCtrl
         Me.SurveillanceGrp.SuspendLayout()
         Me.rgb_led.SuspendLayout()
         Me.LEDButtons.SuspendLayout()
+        Me.Alarm.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.HourAlarm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MinAlarm, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -256,6 +283,7 @@ Partial Class homeCtrl
         Me.Tabs.Controls.Add(Me.room)
         Me.Tabs.Controls.Add(Me.surveilance)
         Me.Tabs.Controls.Add(Me.rgb_led)
+        Me.Tabs.Controls.Add(Me.Alarm)
         Me.Tabs.Location = New System.Drawing.Point(12, 94)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
@@ -1255,6 +1283,191 @@ Partial Class homeCtrl
         Me.EnableLED.Text = "Enable RGB LED"
         Me.EnableLED.UseVisualStyleBackColor = False
         '
+        'Alarm
+        '
+        Me.Alarm.Controls.Add(Me.MusicAlarmLabel)
+        Me.Alarm.Controls.Add(Me.AlarmList)
+        Me.Alarm.Controls.Add(Me.GroupBox1)
+        Me.Alarm.Location = New System.Drawing.Point(4, 22)
+        Me.Alarm.Name = "Alarm"
+        Me.Alarm.Size = New System.Drawing.Size(1622, 494)
+        Me.Alarm.TabIndex = 4
+        Me.Alarm.Text = "Alarm"
+        Me.Alarm.UseVisualStyleBackColor = True
+        '
+        'MusicAlarmLabel
+        '
+        Me.MusicAlarmLabel.AutoSize = True
+        Me.MusicAlarmLabel.Location = New System.Drawing.Point(341, 118)
+        Me.MusicAlarmLabel.Name = "MusicAlarmLabel"
+        Me.MusicAlarmLabel.Size = New System.Drawing.Size(63, 13)
+        Me.MusicAlarmLabel.TabIndex = 38
+        Me.MusicAlarmLabel.Text = "music1.wav"
+        '
+        'AlarmList
+        '
+        Me.AlarmList.FormattingEnabled = True
+        Me.AlarmList.Items.AddRange(New Object() {"Alarms set : 0"})
+        Me.AlarmList.Location = New System.Drawing.Point(65, 76)
+        Me.AlarmList.Name = "AlarmList"
+        Me.AlarmList.Size = New System.Drawing.Size(197, 95)
+        Me.AlarmList.TabIndex = 32
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.SnoozeAlarm)
+        Me.GroupBox1.Controls.Add(Me.BrowseAlarm)
+        Me.GroupBox1.Controls.Add(Me.StopAlarm)
+        Me.GroupBox1.Controls.Add(Me.DeleteAlarm)
+        Me.GroupBox1.Controls.Add(Me.HourAlarm)
+        Me.GroupBox1.Controls.Add(Me.MinAlarm)
+        Me.GroupBox1.Controls.Add(Me.GroupBox2)
+        Me.GroupBox1.Controls.Add(Me.AmPmAlarm)
+        Me.GroupBox1.Controls.Add(Me.AddAlarm)
+        Me.GroupBox1.Controls.Add(Me.TestAlarm)
+        Me.GroupBox1.Location = New System.Drawing.Point(65, 229)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(432, 123)
+        Me.GroupBox1.TabIndex = 31
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Set Alarm"
+        '
+        'SnoozeAlarm
+        '
+        Me.SnoozeAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.SnoozeAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SnoozeAlarm.Location = New System.Drawing.Point(286, 72)
+        Me.SnoozeAlarm.Name = "SnoozeAlarm"
+        Me.SnoozeAlarm.Size = New System.Drawing.Size(64, 33)
+        Me.SnoozeAlarm.TabIndex = 37
+        Me.SnoozeAlarm.Text = "Snooze"
+        Me.SnoozeAlarm.UseVisualStyleBackColor = False
+        '
+        'BrowseAlarm
+        '
+        Me.BrowseAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.BrowseAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.BrowseAlarm.Location = New System.Drawing.Point(359, 24)
+        Me.BrowseAlarm.Name = "BrowseAlarm"
+        Me.BrowseAlarm.Size = New System.Drawing.Size(60, 33)
+        Me.BrowseAlarm.TabIndex = 36
+        Me.BrowseAlarm.Text = "Browse"
+        Me.BrowseAlarm.UseVisualStyleBackColor = False
+        '
+        'StopAlarm
+        '
+        Me.StopAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.StopAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.StopAlarm.Location = New System.Drawing.Point(359, 72)
+        Me.StopAlarm.Name = "StopAlarm"
+        Me.StopAlarm.Size = New System.Drawing.Size(60, 33)
+        Me.StopAlarm.TabIndex = 27
+        Me.StopAlarm.Text = "Stop"
+        Me.StopAlarm.UseVisualStyleBackColor = False
+        '
+        'DeleteAlarm
+        '
+        Me.DeleteAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.DeleteAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.DeleteAlarm.Location = New System.Drawing.Point(289, 24)
+        Me.DeleteAlarm.Name = "DeleteAlarm"
+        Me.DeleteAlarm.Size = New System.Drawing.Size(60, 33)
+        Me.DeleteAlarm.TabIndex = 26
+        Me.DeleteAlarm.Text = "Remove"
+        Me.DeleteAlarm.UseVisualStyleBackColor = False
+        '
+        'HourAlarm
+        '
+        Me.HourAlarm.Location = New System.Drawing.Point(20, 24)
+        Me.HourAlarm.Maximum = New Decimal(New Integer() {11, 0, 0, 0})
+        Me.HourAlarm.Name = "HourAlarm"
+        Me.HourAlarm.Size = New System.Drawing.Size(50, 20)
+        Me.HourAlarm.TabIndex = 18
+        '
+        'MinAlarm
+        '
+        Me.MinAlarm.Location = New System.Drawing.Point(76, 24)
+        Me.MinAlarm.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
+        Me.MinAlarm.Name = "MinAlarm"
+        Me.MinAlarm.Size = New System.Drawing.Size(50, 20)
+        Me.MinAlarm.TabIndex = 19
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.SnoozeTimer0)
+        Me.GroupBox2.Controls.Add(Me.SnoozeTimer2)
+        Me.GroupBox2.Controls.Add(Me.SnoozeTimer1)
+        Me.GroupBox2.Location = New System.Drawing.Point(20, 56)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(180, 57)
+        Me.GroupBox2.TabIndex = 24
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Snooze time_out"
+        '
+        'SnoozeTimer0
+        '
+        Me.SnoozeTimer0.AutoSize = True
+        Me.SnoozeTimer0.Checked = True
+        Me.SnoozeTimer0.Location = New System.Drawing.Point(8, 22)
+        Me.SnoozeTimer0.Name = "SnoozeTimer0"
+        Me.SnoozeTimer0.Size = New System.Drawing.Size(53, 17)
+        Me.SnoozeTimer0.TabIndex = 6
+        Me.SnoozeTimer0.TabStop = True
+        Me.SnoozeTimer0.Text = "5 min."
+        Me.SnoozeTimer0.UseVisualStyleBackColor = True
+        '
+        'SnoozeTimer2
+        '
+        Me.SnoozeTimer2.AutoSize = True
+        Me.SnoozeTimer2.Location = New System.Drawing.Point(120, 22)
+        Me.SnoozeTimer2.Name = "SnoozeTimer2"
+        Me.SnoozeTimer2.Size = New System.Drawing.Size(59, 17)
+        Me.SnoozeTimer2.TabIndex = 8
+        Me.SnoozeTimer2.TabStop = True
+        Me.SnoozeTimer2.Text = "20 min."
+        Me.SnoozeTimer2.UseVisualStyleBackColor = True
+        '
+        'SnoozeTimer1
+        '
+        Me.SnoozeTimer1.AutoSize = True
+        Me.SnoozeTimer1.Location = New System.Drawing.Point(61, 22)
+        Me.SnoozeTimer1.Name = "SnoozeTimer1"
+        Me.SnoozeTimer1.Size = New System.Drawing.Size(59, 17)
+        Me.SnoozeTimer1.TabIndex = 7
+        Me.SnoozeTimer1.Text = "10 min."
+        Me.SnoozeTimer1.UseVisualStyleBackColor = True
+        '
+        'AmPmAlarm
+        '
+        Me.AmPmAlarm.FormattingEnabled = True
+        Me.AmPmAlarm.Items.AddRange(New Object() {"AM", "PM"})
+        Me.AmPmAlarm.Location = New System.Drawing.Point(132, 23)
+        Me.AmPmAlarm.Name = "AmPmAlarm"
+        Me.AmPmAlarm.Size = New System.Drawing.Size(60, 21)
+        Me.AmPmAlarm.TabIndex = 20
+        '
+        'AddAlarm
+        '
+        Me.AddAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.AddAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.AddAlarm.Location = New System.Drawing.Point(216, 24)
+        Me.AddAlarm.Name = "AddAlarm"
+        Me.AddAlarm.Size = New System.Drawing.Size(60, 33)
+        Me.AddAlarm.TabIndex = 21
+        Me.AddAlarm.Text = "Add"
+        Me.AddAlarm.UseVisualStyleBackColor = False
+        '
+        'TestAlarm
+        '
+        Me.TestAlarm.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.TestAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.TestAlarm.Location = New System.Drawing.Point(216, 72)
+        Me.TestAlarm.Name = "TestAlarm"
+        Me.TestAlarm.Size = New System.Drawing.Size(60, 33)
+        Me.TestAlarm.TabIndex = 23
+        Me.TestAlarm.Text = "Test"
+        Me.TestAlarm.UseVisualStyleBackColor = False
+        '
         'MotionDetectTimer
         '
         Me.MotionDetectTimer.Interval = 1000
@@ -1346,12 +1559,41 @@ Partial Class homeCtrl
         Me.CO.TabIndex = 35
         Me.CO.Text = "CO :"
         '
+        'RealTime
+        '
+        Me.RealTime.AutoSize = True
+        Me.RealTime.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.RealTime.ForeColor = System.Drawing.Color.Red
+        Me.RealTime.Location = New System.Drawing.Point(1148, 29)
+        Me.RealTime.Name = "RealTime"
+        Me.RealTime.Padding = New System.Windows.Forms.Padding(5)
+        Me.RealTime.Size = New System.Drawing.Size(147, 23)
+        Me.RealTime.TabIndex = 39
+        Me.RealTime.Text = "Current Time : hh.mm.ss pm"
+        '
+        'Timer100ms
+        '
+        Me.Timer100ms.Enabled = True
+        '
+        'TimerAlarm
+        '
+        Me.TimerAlarm.Interval = 300000
+        '
+        'MusicFileBrowse
+        '
+        Me.MusicFileBrowse.FileName = "OpenFileDialog1"
+        '
+        'Timer1s
+        '
+        Me.Timer1s.Interval = 1000
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Wheat
-        Me.ClientSize = New System.Drawing.Size(1654, 711)
+        Me.ClientSize = New System.Drawing.Size(1642, 711)
+        Me.Controls.Add(Me.RealTime)
         Me.Controls.Add(Me.CO)
         Me.Controls.Add(Me.Alcohol)
         Me.Controls.Add(Me.ConnectCheck)
@@ -1367,6 +1609,7 @@ Partial Class homeCtrl
         Me.Controls.Add(Me.Packet)
         Me.Controls.Add(Me.debugButton)
         Me.Controls.Add(Me.Connect)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "homeCtrl"
         Me.Text = "Automata"
         Me.Tabs.ResumeLayout(False)
@@ -1394,6 +1637,13 @@ Partial Class homeCtrl
         Me.SurveillanceGrp.ResumeLayout(False)
         Me.rgb_led.ResumeLayout(False)
         Me.LEDButtons.ResumeLayout(False)
+        Me.Alarm.ResumeLayout(False)
+        Me.Alarm.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        CType(Me.HourAlarm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MinAlarm, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1508,4 +1758,26 @@ Partial Class homeCtrl
     Friend WithEvents LEDTimer As Timer
     Friend WithEvents Alcohol As Label
     Friend WithEvents CO As Label
+    Friend WithEvents Alarm As TabPage
+    Friend WithEvents MusicAlarmLabel As Label
+    Friend WithEvents AlarmList As ListBox
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents SnoozeAlarm As Button
+    Friend WithEvents BrowseAlarm As Button
+    Friend WithEvents StopAlarm As Button
+    Friend WithEvents DeleteAlarm As Button
+    Friend WithEvents HourAlarm As NumericUpDown
+    Friend WithEvents MinAlarm As NumericUpDown
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents SnoozeTimer0 As RadioButton
+    Friend WithEvents SnoozeTimer2 As RadioButton
+    Friend WithEvents SnoozeTimer1 As RadioButton
+    Friend WithEvents AmPmAlarm As ComboBox
+    Friend WithEvents AddAlarm As Button
+    Friend WithEvents TestAlarm As Button
+    Friend WithEvents RealTime As Label
+    Friend WithEvents Timer100ms As Timer
+    Friend WithEvents TimerAlarm As Timer
+    Friend WithEvents MusicFileBrowse As OpenFileDialog
+    Friend WithEvents Timer1s As Timer
 End Class
