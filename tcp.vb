@@ -226,16 +226,19 @@ Module tcp
 
         ' Split string based on ',' character
         Dim params As String() = airQuality.Split(New Char() {","c})
-        Debug.Assert(params.Length() = 2)
+        Debug.Assert(params.Length() = 3)
 
         homeCtrl.Alcohol.Text = "Alcohol : " + params(0)
         homeCtrl.CO.Text = "CO : " + params(1)
+        homeCtrl.Smoke.Text = "Smoke : " + params(2)
 
         'Graphics
         Debug.Assert(IsNumeric(params(0)))
         UpdateAlcoholColor(params(0))
         Debug.Assert(IsNumeric(params(1)))
         UpdateCOColor(params(1))
+        Debug.Assert(IsNumeric(params(2)))
+        UpdateSmokeColor(params(2))
     End Sub
 
     'gets motion detection status

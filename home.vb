@@ -673,8 +673,6 @@ Public Class homeCtrl
 
         rBtnIdx = rBtnIdx.Substring(11, 1)
 
-        TimerAlarm.Stop()
-
         'update timer value
         Select Case rBtnIdx
             Case 0 : TimerAlarm.Interval = 300000
@@ -684,7 +682,6 @@ Public Class homeCtrl
                 Debug.Assert(False)
         End Select
 
-        TimerAlarm.Start()
     End Sub
 
 

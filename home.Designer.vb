@@ -156,6 +156,7 @@ Partial Class homeCtrl
         Me.TimerAlarm = New System.Windows.Forms.Timer(Me.components)
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
         Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
+        Me.Smoke = New System.Windows.Forms.Label()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1587,12 +1588,24 @@ Partial Class homeCtrl
         '
         Me.Timer1s.Interval = 1000
         '
+        'Smoke
+        '
+        Me.Smoke.AutoSize = True
+        Me.Smoke.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Smoke.Location = New System.Drawing.Point(846, 9)
+        Me.Smoke.Name = "Smoke"
+        Me.Smoke.Padding = New System.Windows.Forms.Padding(10)
+        Me.Smoke.Size = New System.Drawing.Size(66, 33)
+        Me.Smoke.TabIndex = 40
+        Me.Smoke.Text = "Smoke :"
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Wheat
         Me.ClientSize = New System.Drawing.Size(1642, 711)
+        Me.Controls.Add(Me.Smoke)
         Me.Controls.Add(Me.RealTime)
         Me.Controls.Add(Me.CO)
         Me.Controls.Add(Me.Alcohol)
@@ -1780,4 +1793,5 @@ Partial Class homeCtrl
     Friend WithEvents TimerAlarm As Timer
     Friend WithEvents MusicFileBrowse As OpenFileDialog
     Friend WithEvents Timer1s As Timer
+    Friend WithEvents Smoke As Label
 End Class

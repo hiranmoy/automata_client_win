@@ -20,14 +20,20 @@
 
     'updates alcohol label
     Public Sub UpdateAlcoholColor(val As Double)
-        homeCtrl.Alcohol.BackColor = GetBackcolor(val, 140, 170, 200)
-        homeCtrl.Alcohol.ForeColor = GetForecolor(val, 140, 200)
+        homeCtrl.Alcohol.BackColor = GetBackcolor(val, 150, 180, 200)
+        homeCtrl.Alcohol.ForeColor = GetForecolor(val, 150, 200)
     End Sub
 
     'updates CO label
     Public Sub UpdateCOColor(val As Double)
-        homeCtrl.CO.BackColor = GetBackcolor(val, 110, 150, 200)
-        homeCtrl.CO.ForeColor = GetForecolor(val, 110, 200)
+        homeCtrl.CO.BackColor = GetBackcolor(val, 130, 160, 200)
+        homeCtrl.CO.ForeColor = GetForecolor(val, 130, 200)
+    End Sub
+
+    'updates Smoke label
+    Public Sub UpdateSmokeColor(val As Double)
+        homeCtrl.Smoke.BackColor = GetBackcolor(val, 30, 100, 200)
+        homeCtrl.Smoke.ForeColor = GetForecolor(val, 30, 200)
     End Sub
 
     'returns back color
