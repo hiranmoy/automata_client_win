@@ -19,25 +19,6 @@ Module utils
 
 
 
-    'tcp response argument
-    Public Class TcpParameter
-        Private mDataStr As String
-        Private mStreamIdx As String
-
-        Public Sub New(aDataStr As String, aStreamIdx As Integer)
-            mDataStr = aDataStr
-            mStreamIdx = aStreamIdx
-        End Sub
-
-        Public Function GetDataStr() As String
-            Return mDataStr
-        End Function
-
-        Public Function GetStreamIdx() As String
-            Return mStreamIdx
-        End Function
-    End Class
-
     'adds speech files in the pending list
     Public Sub Speech(speechFile As String)
         If gEnableSpeech = False Then

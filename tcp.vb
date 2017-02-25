@@ -5,64 +5,57 @@ Module tcp
     'global variables
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
-    'tcp response
-    Private gResponse As String = ""
-
 
 
     'retuns RPI response w.r.t a input string
     Public Function GetResponse(aTcpParam As TcpParameter) As String
-        'Debug.Assert(gFetching = True)
+        Dim tcpTrdParam As TcpParameterTrd = New TcpParameterTrd(aTcpParam, "")
 
-        'start the thread monitoring timer
-        homeCtrl.TcpTimer.Start()
+        'thread to get response from RPI
+        Dim tcpResponseTrd As Thread = New Thread(AddressOf GetResponseFromRPI)
+        tcpResponseTrd.Start(tcpTrdParam)
 
-        'create thread
-        gTcpResponseTrd = New Thread(AddressOf GetResponseFromRPI)
-        gTcpResponseTrd.Start(aTcpParam)
+        'wait 30 sec for the thread to finish
+        'disconnect if no response received
+        Dim timeInSec As Integer = 0
+        While tcpTrdParam.GetResponse() = ""
+            timeInSec += 1
+            If timeInSec >= 3000 Then
+                tcpResponseTrd.Abort()
+                Return Disconnect(aTcpParam.GetStreamIdx())
+                Exit While
+            End If
 
-        'wait for the thread to finish
-        While gTcpResponseTrd.IsAlive = True
             Thread.Sleep(1)
         End While
 
-        'stop the thread monitoring timer
-        homeCtrl.TcpTimer.Stop()
-
-        'disconnect if response not received within 10 sec
-        If gResponse = "" Then
-            gResponse = ""
-            Return Disconnect(aTcpParam.GetStreamIdx())
-        End If
-
-        'reinitilize gResponse
-        Dim response As String = gResponse
-        gResponse = ""
-        Return response
+        Return tcpTrdParam.GetResponse()
     End Function
 
     'This function updates the global variable and is run on thread.
-    Private Sub GetResponseFromRPI(aTcpParam As TcpParameter)
+    Private Sub GetResponseFromRPI(aTcpTrdParam As TcpParameterTrd)
         ' String to store the response ASCII representation.
         Dim responseData As String = [String].Empty
+
+        Dim streamIdx As Integer = aTcpTrdParam.GetTcpParam().GetStreamIdx()
 
         Dim stream As NetworkStream
         Try
             ' Get a client stream for reading and writing.
-            stream = gClient(aTcpParam.GetStreamIdx()).GetStream()
+            stream = gClient(streamIdx).GetStream()
         Catch ex As Exception
-            gResponse = Disconnect(aTcpParam.GetStreamIdx())
+            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
         ' Translate the passed message into ASCII and store it as a Byte array.
-        Dim data As [Byte]() = System.Text.Encoding.ASCII.GetBytes(aTcpParam.GetDataStr())
+        Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpTrdParam.GetTcpParam().GetDataStr())
 
         Try
             ' Send the message to the connected TcpServer. 
             stream.Write(data, 0, data.Length)
         Catch ex As Exception
-            gResponse = Disconnect(aTcpParam.GetStreamIdx())
+            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
@@ -73,18 +66,22 @@ Module tcp
         Try
             ' Read the first batch of the TcpServer response bytes.
             Dim bytes As Int32 = stream.Read(data, 0, data.Length)
-            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes)
+            responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
         Catch ex As Exception
-            gResponse = Disconnect(aTcpParam.GetStreamIdx())
+            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
-        gResponse = responseData
+        aTcpTrdParam.SetResponse(responseData)
     End Sub
 
     'sets to disconnected mode
     Private Function Disconnect(aStreamIdx As Integer) As String
         gFetching(aStreamIdx) = False
+        Try
+            gClient(aStreamIdx).Close()
+        Catch
+        End Try
 
         homeCtrl.EnableAllWidgets()
 

@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="scheduling.vb" />
     <Compile Include="tcp.vb" />
+    <Compile Include="utilClasses.vb" />
     <Compile Include="utils.vb" />
   </ItemGroup>
   <ItemGroup>

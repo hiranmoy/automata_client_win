@@ -757,15 +757,6 @@ Public Class homeCtrl
         End If
     End Sub
 
-    'If tcp response from the RPI is received within 10 sec, kill the thread waiting for response.
-    Private Sub TcpTimer_Tick(sender As Object, e As EventArgs) Handles TcpTimer.Tick
-        TcpTimer.Stop()
-
-        If gTcpResponseTrd.IsAlive = True Then
-            gTcpResponseTrd.Abort()
-        End If
-    End Sub
-
     'disable led buttons after 1 hr
     Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles LEDTimer.Tick
         LEDButtons.Enabled = False
