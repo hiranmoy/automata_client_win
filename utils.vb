@@ -176,16 +176,15 @@ Module utils
     End Sub
 
     'check and trigger alarm
-    Public Sub CheckAndTriggerAlarm()
+    Public Sub CheckAndTriggerAlarm(prevTimeInMin As Integer, curTimeInMin As Integer)
         If mAlarmArr.Count = 0 Then
             Exit Sub
         End If
 
         For alarmIdx = 0 To mAlarmArr.Count - 1
-            Dim curMin As Integer = mAlarmArr(alarmIdx) Mod 60
-            Dim curHr As Integer = Int((mAlarmArr(alarmIdx) / 60))
+            Dim alarmTimeInMin As Integer = mAlarmArr(alarmIdx)
 
-            If curHr = Now.TimeOfDay.Hours And curMin = Now.TimeOfDay.Minutes And Now.TimeOfDay.Seconds = 0 Then
+            If alarmTimeInMin >= prevTimeInMin And alarmTimeInMin <= curTimeInMin Then
                 'alarm triggered
 
                 mAlarmArr.RemoveAt(alarmIdx)

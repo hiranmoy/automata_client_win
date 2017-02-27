@@ -20,7 +20,7 @@ Module tcp
         Dim timeInSec As Integer = 0
         While tcpTrdParam.GetResponse() = ""
             timeInSec += 1
-            If timeInSec >= 3000 Then
+            If timeInSec >= 5000 Then
                 tcpResponseTrd.Abort()
                 Return Disconnect(aTcpParam.GetStreamIdx())
                 Exit While

@@ -68,17 +68,11 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        Dim speechFile As String = "C:\Users\hiran\OneDrive\Documents\alarm\pitchers.mp3"
-        If speechFile <> "empty" Then
-            Dim Player As WindowsMediaPlayer = New WindowsMediaPlayer
-
-            ' create the playlist
-            Dim urls() As String = {speechFile}
-            For Each u In urls
-                Player.URL = u
-                Player.controls.play()
-            Next
-        End If
+        Dim prevTime As String = RealTime.Text.Substring(15, 11)
+        Dim isPM As Boolean = prevTime.Substring(prevTime.Length - 3, 2) <> "pm"
+        Dim prevHr As Integer = prevTime.Substring(0, 2)
+        Dim prevMin As Integer = prevTime.Substring(3, 2)
+        Dim prevSec As Integer = prevTime.Substring(6, 2)
         Return
 
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
@@ -793,13 +787,28 @@ Public Class homeCtrl
         Else : curTime = curTime + "am"
         End If
 
+        Dim curTimeInMin As Integer = curHr * 60 + curMin
+        Dim prevTimeInMin As Integer = curTimeInMin
+
+        If RealTime.Text <> "Current Time : hh.mm.ss pm" Then
+            Dim prevTime As String = RealTime.Text.Substring(15, 11)
+            Dim isPM As Boolean = prevTime.Substring(prevTime.Length - 3, 2) <> "pm"
+            Dim prevHr As Integer = prevTime.Substring(0, 2)
+            If isPM = True Then
+                prevHr += 12
+            End If
+            Dim prevMin As Integer = prevTime.Substring(3, 2)
+
+            prevTimeInMin = prevHr * 60 + prevMin
+        End If
+
         'update displayed time
         If curTime <> RealTime.Text Then
             RealTime.Text = curTime
         End If
 
         'check for alarm
-        CheckAndTriggerAlarm()
+        CheckAndTriggerAlarm(prevTimeInMin, curTimeInMin)
     End Sub
 
     'alarm timer 
