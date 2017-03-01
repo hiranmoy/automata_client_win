@@ -20,8 +20,14 @@ Module tcp
         Dim timeInSec As Integer = 0
         While tcpTrdParam.GetResponse() = ""
             timeInSec += 1
-            If timeInSec >= 5000 Then
+            If timeInSec >= 10000 Then
                 tcpResponseTrd.Abort()
+
+                'dump debug info when disconnected
+                FileOpen(1, gDebugFile, OpenMode.Append)
+                Print(1, "Disconnected due to 10s timeout: " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+                FileClose(1)
+
                 Return Disconnect(aTcpParam.GetStreamIdx())
                 Exit While
             End If
@@ -44,6 +50,11 @@ Module tcp
             ' Get a client stream for reading and writing.
             stream = gClient(streamIdx).GetStream()
         Catch ex As Exception
+            'dump debug info when disconnected
+            FileOpen(1, gDebugFile, OpenMode.Append)
+            Print(1, "Disconnected for not getting the stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            FileClose(1)
+
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
@@ -55,6 +66,11 @@ Module tcp
             ' Send the message to the connected TcpServer. 
             stream.Write(data, 0, data.Length)
         Catch ex As Exception
+            'dump debug info when disconnected
+            FileOpen(1, gDebugFile, OpenMode.Append)
+            Print(1, "Disconnected for not able to write in stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            FileClose(1)
+
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
@@ -68,6 +84,11 @@ Module tcp
             Dim bytes As Int32 = stream.Read(data, 0, data.Length)
             responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
         Catch ex As Exception
+            'dump debug info when disconnected
+            FileOpen(1, gDebugFile, OpenMode.Append)
+            Print(1, "Disconnected for not read from stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            FileClose(1)
+
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try

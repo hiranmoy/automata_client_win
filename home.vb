@@ -36,7 +36,7 @@ Public Class homeCtrl
         SpeechTimer.Start()
 
         'start 1ms timer
-        Timer100ms.Start()
+        Timer500ms.Start()
 
         'start 1s timer
         Timer1s.Start()
@@ -757,7 +757,7 @@ Public Class homeCtrl
     End Sub
 
     'updates current time
-    Private Sub Timer100ms_Tick(sender As Object, e As EventArgs) Handles Timer100ms.Tick
+    Private Sub TimerLessThan1s_Tick(sender As Object, e As EventArgs) Handles Timer500ms.Tick
         Dim curTime As String = "Current Time - "
         Dim curHr As Integer = Now.TimeOfDay.Hours
 
@@ -792,9 +792,9 @@ Public Class homeCtrl
 
         If RealTime.Text <> "Current Time : hh.mm.ss pm" Then
             Dim prevTime As String = RealTime.Text.Substring(15, 11)
-            Dim isPM As Boolean = prevTime.Substring(prevTime.Length - 3, 2) <> "pm"
+            Dim isPM As String = prevTime.Substring(prevTime.Length - 2, 2)
             Dim prevHr As Integer = prevTime.Substring(0, 2)
-            If isPM = True Then
+            If isPM = "pm" Then
                 prevHr += 12
             End If
             Dim prevMin As Integer = prevTime.Substring(3, 2)
@@ -809,6 +809,25 @@ Public Class homeCtrl
 
         'check for alarm
         CheckAndTriggerAlarm(prevTimeInMin, curTimeInMin)
+
+        Try
+            'dump time when some module(s) are disconnected
+
+            Dim moduleList As String = ""
+
+            For streamIndex = 0 To gFetching.Length - 1
+                If gFetching(streamIndex) = False Then
+                    moduleList += streamIndex.ToString + " "
+                End If
+            Next
+
+            If moduleList <> "" Then
+                FileOpen(1, gDebugFile, OpenMode.Append)
+                Print(1, RealTime.Text + " : " + moduleList + Environment.NewLine)
+                FileClose(1)
+            End If
+        Catch
+        End Try
     End Sub
 
     'alarm timer 

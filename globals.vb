@@ -18,6 +18,9 @@ Module globals
     'surveillance directory path
     Public gSurveillanceDir As String = "\\RPI3\backups\surveillance"
 
+    'debug file
+    Public gDebugFile As String = My.Application.Info.DirectoryPath + "\Debug.txt"
+
 
 
     'boolean
