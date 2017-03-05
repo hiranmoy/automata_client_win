@@ -2,7 +2,7 @@
 
 '*****************************************************************
 '
-'        Copyright 2016 Hiranmoy Basak
+'              Copyright 2016 Hiranmoy Basak
 '
 '                  All Rights Reserved.
 '
@@ -23,8 +23,6 @@
 ' makes no claims about any material contained in this file.
 ' 
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
-
-
 Module Scheduling
 
     'set appliance toggle timer depending on the checked radio button

@@ -2,7 +2,7 @@
 
 '*****************************************************************
 '
-'        Copyright 2016 Hiranmoy Basak
+'              Copyright 2016 Hiranmoy Basak
 '
 '                  All Rights Reserved.
 '
@@ -406,42 +406,54 @@ Module tcp
                                   Color.White,
                                   Color.DarkGray,
                                   "CheckIfOnFluLight",
-                                  "PowerOnFluLight")
+                                  "PowerOnFluLight",
+                                  "GetFluLightProfile",
+                                  40)
 
         'plug0
         gPlug0 = New Appliance(homeCtrl.Plug0,
                                Color.FromArgb(255, 192, 192),
                                Color.FromArgb(192, 255, 255),
                                "CheckIfOnPlug0",
-                               "PowerOnPlug0")
+                               "PowerOnPlug0",
+                               "GetPlug0Profile",
+                               5)
 
         'fan
         gFan = New Appliance(homeCtrl.Fan,
                              Color.FromArgb(128, 128, 255),
                              Color.White,
                              "CheckIfOnFan",
-                             "PowerOnFan")
+                             "PowerOnFan",
+                             "GetFanProfile",
+                             60)
 
         'balcony light
         gBalconyLight = New Appliance(homeCtrl.BalconyLight,
                                       Color.FromArgb(255, 255, 192),
                                       Color.FromArgb(224, 224, 224),
                                       "CheckIfOnBalconyLight",
-                                      "PowerOnBalconyLight")
+                                      "PowerOnBalconyLight",
+                                      "GetBalconyLightProfile",
+                                      100)
 
         'light bulb
         gLightBulb = New Appliance(homeCtrl.LightBulb,
                                    Color.FromArgb(255, 255, 192),
                                    Color.FromArgb(224, 224, 224),
                                    "CheckIfOnBulb0",
-                                   "PowerOnBulb0")
+                                   "PowerOnBulb0",
+                                   "GetBulb0Profile",
+                                   100)
 
         'plug1
         gPlug1 = New Appliance(homeCtrl.Plug1,
                                Color.FromArgb(192, 255, 192),
                                Color.FromArgb(255, 192, 192),
                                "CheckIfOnPlug1",
-                               "PowerOnPlug1")
+                               "PowerOnPlug1",
+                               "GetPlug1Profile",
+                               100)
     End Sub
 
     'toggles LED light

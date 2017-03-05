@@ -2,7 +2,7 @@
 
 '*****************************************************************
 '
-'        Copyright 2016 Hiranmoy Basak
+'              Copyright 2016 Hiranmoy Basak
 '
 '                  All Rights Reserved.
 '
@@ -94,13 +94,6 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        Dim prevTime As String = RealTime.Text.Substring(15, 11)
-        Dim isPM As Boolean = prevTime.Substring(prevTime.Length - 3, 2) <> "pm"
-        Dim prevHr As Integer = prevTime.Substring(0, 2)
-        Dim prevMin As Integer = prevTime.Substring(3, 2)
-        Dim prevSec As Integer = prevTime.Substring(6, 2)
-        Return
-
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
         MsgBox(GetResponse(tcpParam))
     End Sub

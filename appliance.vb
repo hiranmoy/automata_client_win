@@ -2,7 +2,7 @@
 
 '*****************************************************************
 '
-'        Copyright 2016 Hiranmoy Basak
+'              Copyright 2016 Hiranmoy Basak
 '
 '                  All Rights Reserved.
 '
@@ -45,6 +45,9 @@ Public Class Appliance
     'tcp command for setting the status in RPI
     Private mTcpSetCommand As String
 
+    'tcp command for setting the status in RPI
+    Private mTcpProfileCommand As String
+
     'toggle timer value in sec
     Private mTimerVal As Integer
 
@@ -54,23 +57,25 @@ Public Class Appliance
     'off time value in sec
     Private mStopTime As Integer
 
-    'last switched on time
-    Private mLastSwitchedOnTime As Date
+    'average power requirement in W
+    Private mPowerRequirement As Integer
 
-    'stores power on time in hours
-    Private mProfile(23) As Double
 
     'constructor
     Public Sub New(aButton As Button,
                    onColor As Color,
                    offColor As Color,
                    tcpGetCommand As String,
-                   tcpSetCommand As String)
+                   tcpSetCommand As String,
+                   tcpProfileCommand As String,
+                   power As Integer)
         mButton = aButton
         mOnColor = onColor
         mOffColor = offColor
         mTcpGetCommand = tcpGetCommand
         mTcpSetCommand = tcpSetCommand
+        mTcpProfileCommand = tcpProfileCommand
+        mPowerRequirement = power
 
         'get on/off status from the RPI
         Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId)
@@ -79,9 +84,6 @@ Public Class Appliance
             Return
         End If
         mPowerOn = CBool(Int(data))
-
-        'load power on time at different hours of the day
-        RestoreSwitchedOnTime()
 
         'initialization
         mTimerVal = -1
@@ -102,130 +104,6 @@ Public Class Appliance
         Else
             mButton.BackColor = mOffColor
         End If
-    End Sub
-
-    'returns power on time in hours for a particular time (in hr as well), on time, off time
-    Private Function GetHrsValue(hr As Integer, onTime As Date, offTime As Date) As Double
-        Debug.Assert(onTime < offTime)
-
-        'get date-time difference between off time and on time
-        Dim timeDiff As TimeSpan = offTime - onTime
-
-        'get number of days in the date-time difference
-        Dim days As Integer = timeDiff.Days
-
-        'add 24 x number of days in the returned time 
-        Dim val As Double = days * 24
-
-        'on time in hrs
-        Dim startHrs As Integer = onTime.Hour
-
-        'off time in hrs
-        Dim endHrs As Integer = offTime.Hour
-
-        If startHrs = endHrs Then
-            'on time in hrs = off time in hrs
-            If hr = startHrs Then
-                'add minutes / 60
-
-                If ((onTime.Minute * 60) + onTime.Second + onTime.Millisecond / 1000) <
-                   ((offTime.Minute * 60) + offTime.Second + offTime.Millisecond / 1000) Then
-                    val += timeDiff.Minutes / 60
-                    Return val
-                Else
-                    val += 1 - timeDiff.Minutes / 60
-                    Return val
-                End If
-            End If
-            Return val
-        End If
-
-        'input time in hrs = off time in hrs
-        If hr = endHrs Then
-            'add minutes / 60
-
-            val += offTime.Minute / 60
-            Return val
-        End If
-
-        'input time in hrs = on time in hrs
-        If hr = startHrs Then
-            'add minutes / 60
-
-            val += 1 - (onTime.Minute / 60)
-            Return val
-        End If
-
-        If endHrs > startHrs Then
-            'off time in hrs > on time in hrs
-
-            If (hr > startHrs) And (hr < endHrs) Then
-                'add 1
-
-                val += 1
-                Return val
-            End If
-        ElseIf endHrs < startHrs Then
-            'off time in hrs < on time in hrs
-
-            If (hr > startHrs) Or (hr < endHrs) Then
-                'add 1
-
-                val += 1
-                Return val
-            End If
-        End If
-
-        Return val
-    End Function
-
-    'save switched on and power on profile data
-    Private Sub SaveSwitchedOnTime()
-        'create the folder if doesn't exist
-        Dim folder As String = My.Application.Info.DirectoryPath + "\" + mButton.Name
-        If My.Computer.FileSystem.DirectoryExists(folder) = False Then
-            My.Computer.FileSystem.CreateDirectory(folder)
-        End If
-
-        'update power profile data
-        If mPowerOn = False Then
-            For hrIdx = 0 To 23
-                mProfile(hrIdx) = mProfile(hrIdx) + GetHrsValue(hrIdx, mLastSwitchedOnTime, DateAndTime.Now)
-            Next
-        End If
-        mLastSwitchedOnTime = DateAndTime.Now
-
-        'dump on time, off time, power on time in settings file
-        FileOpen(1, folder + "\powerOn.log", OpenMode.Output)
-
-        Print(1, mLastSwitchedOnTime.ToString + Environment.NewLine)
-
-        For hrIdx = 0 To 23
-            Print(1, mProfile(hrIdx).ToString + Environment.NewLine)
-        Next
-
-        FileClose(1)
-    End Sub
-
-    'restore switched on and power on profile data
-    Private Sub RestoreSwitchedOnTime()
-        Dim file As String = My.Application.Info.DirectoryPath + "\" + mButton.Name + "\powerOn.log"
-        If My.Computer.FileSystem.FileExists(file) = False Then
-            mLastSwitchedOnTime = DateAndTime.Now
-            Return
-        End If
-
-        FileOpen(1, file, OpenMode.Input)
-
-        Dim data As String = LineInput(1)
-        mLastSwitchedOnTime = CDate(data)
-
-        For hrIdx = 0 To 23
-            data = LineInput(1)
-            mProfile(hrIdx) = Convert.ToDouble(data)
-        Next
-
-        FileClose(1)
     End Sub
 
     'restore scheduler data
@@ -298,22 +176,38 @@ Public Class Appliance
         'clear power profile graph
         homeCtrl.pwHist.Series.Clear()
 
-        Dim col As String = "Power on Time" + Environment.NewLine +
-                            "in (hr)" + Environment.NewLine +
+        Dim col As String = "Power consumption" + Environment.NewLine +
+                            "in (kWh)" + Environment.NewLine +
                             "of" + Environment.NewLine +
                             mButton.Text + Environment.NewLine +
                             "at" + Environment.NewLine +
                             DateAndTime.Now.ToString
         homeCtrl.pwHist.Series.Add(col)
 
+        If gFetching(gWeatherModuleId) = False Then
+            Exit Sub
+        End If
+
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, gLightings1ModuleId)
+        Dim profile As String = GetResponse(tcpParam)
+        If (profile = "Disconnected") Or (profile = "") Then
+            Return
+        End If
+
+        ' Split string based on ',' character
+        Dim params As String() = profile.Split(New Char() {","c})
+        Debug.Assert(params.Length() = 24)
+
         Dim minVal As Double = 1000000
         Dim maxVal As Double = -1
         For hrIdx = 0 To 23
-            Dim val As Double = mProfile(hrIdx)
+            Debug.Assert(IsNumeric(params(hrIdx)))
 
-            If mPowerOn = True Then
-                val += GetHrsValue(hrIdx, mLastSwitchedOnTime, DateAndTime.Now)
-            End If
+            Dim val As Double = CDbl(params(hrIdx))
+
+            'convert switched on time to kWh
+            val = (val / 60) * mPowerRequirement / 1000
+            val = Math.Round(val, 3)
 
             'add points in the graph
             homeCtrl.pwHist.Series(col).Points.AddXY(hrIdx, val)
@@ -330,6 +224,9 @@ Public Class Appliance
         Next
 
         Debug.Assert((minVal >= 0) And (maxVal >= minVal))
+        If maxVal = minVal Then
+            maxVal += 1
+        End If
 
         'x-axis: min=0, max=23, interval=1
         homeCtrl.pwHist.ChartAreas.Min.AxisX.Minimum = 0
@@ -337,9 +234,9 @@ Public Class Appliance
         homeCtrl.pwHist.ChartAreas.Min.AxisX.Interval = 1
 
         'y-axis: interval = (max - min)/5
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Minimum = Int(minVal)
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Maximum = Int(maxVal + 0.9999)
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Interval = Int(((Int(maxVal) + 1 - Int(minVal)) / 5) + 0.9999)
+        homeCtrl.pwHist.ChartAreas.Min.AxisY.Minimum = minVal
+        homeCtrl.pwHist.ChartAreas.Min.AxisY.Maximum = maxVal
+        homeCtrl.pwHist.ChartAreas.Min.AxisY.Interval = (maxVal - minVal) / 5
     End Sub
 
     'on/off appliance
@@ -355,7 +252,6 @@ Public Class Appliance
 
         Debug.Assert(CBool(Int(data)) = mPowerOn)
         UpdateColor()
-        SaveSwitchedOnTime()
     End Sub
 
     'set toggle timer value

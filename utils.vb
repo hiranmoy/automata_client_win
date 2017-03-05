@@ -2,7 +2,7 @@
 
 '*****************************************************************
 '
-'        Copyright 2016 Hiranmoy Basak
+'              Copyright 2016 Hiranmoy Basak
 '
 '                  All Rights Reserved.
 '
