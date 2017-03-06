@@ -61,24 +61,24 @@ Module Scheduling
     End Sub
 
     'set appliance scheduler depending on the checked radio button
-    Public Sub SetApplianceSchedule(startTime As Integer, endTime As Integer)
+    Public Sub SetApplianceSchedule(startTime As Integer, endTime As Integer, disabled As Boolean)
         If homeCtrl.SelectFluLight.Checked = True Then
-            gFluLight.SaveSchedule(startTime, endTime)
+            gFluLight.SaveSchedule(startTime, endTime, disabled)
         End If
         If homeCtrl.SelectPlug0.Checked = True Then
-            gPlug0.SaveSchedule(startTime, endTime)
+            gPlug0.SaveSchedule(startTime, endTime, disabled)
         End If
         If homeCtrl.SelectFan.Checked = True Then
-            gFan.SaveSchedule(startTime, endTime)
+            gFan.SaveSchedule(startTime, endTime, disabled)
         End If
         If homeCtrl.SelectBalconyLight.Checked = True Then
-            gBalconyLight.SaveSchedule(startTime, endTime)
+            gBalconyLight.SaveSchedule(startTime, endTime, disabled)
         End If
         If homeCtrl.SelectLightBulb.Checked = True Then
-            gLightBulb.SaveSchedule(startTime, endTime)
+            gLightBulb.SaveSchedule(startTime, endTime, disabled)
         End If
         If homeCtrl.SelectPlug1.Checked = True Then
-            gPlug1.SaveSchedule(startTime, endTime)
+            gPlug1.SaveSchedule(startTime, endTime, disabled)
         End If
     End Sub
 
@@ -99,11 +99,9 @@ Module Scheduling
     Public Sub ResetScheduleAppliances()
         If homeCtrl.SelectFluLight.Checked = True Then
             gFluLight.ResetSchedule()
-
         End If
         If homeCtrl.SelectPlug0.Checked = True Then
             gPlug0.ResetSchedule()
-
         End If
         If homeCtrl.SelectFan.Checked = True Then
             gFan.ResetSchedule()
@@ -121,6 +119,7 @@ Module Scheduling
         'uncheck scheduler and timer checkbox
         homeCtrl.EnableLightSchedule.Checked = False
         homeCtrl.ToggleLightings.Checked = False
+        homeCtrl.DisableLightSchedule.Enabled = False
     End Sub
 
 End Module

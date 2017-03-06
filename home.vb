@@ -40,8 +40,11 @@ Public Class homeCtrl
     'form load
     Private Sub homeCtrl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'position the window in the middle
-        Me.Left = Screen.PrimaryScreen.WorkingArea.Width / 2 - Me.Width / 2
-        Me.Top = Screen.PrimaryScreen.WorkingArea.Height / 2 - Me.Height / 2
+        'Me.Left = Screen.PrimaryScreen.WorkingArea.Width / 2 - Me.Width / 2
+        'Me.Top = Screen.PrimaryScreen.WorkingArea.Height / 2 - Me.Height / 2
+
+        'disable maximize button
+        Me.MaximizeBox = False
 
         'RestoreSettings
         RestoreSettings()
@@ -165,7 +168,8 @@ Public Class homeCtrl
             If EnableLightSchedule.Checked = True Then
                 'set schduling interval
                 SetApplianceSchedule(((hr0.Value * 3600) + (min0.Value * 60) + sec0.Value),
-                                     ((hr1.Value * 3600) + (min1.Value * 60) + sec1.Value))
+                                     ((hr1.Value * 3600) + (min1.Value * 60) + sec1.Value),
+                                     DisableLightSchedule.Checked)
             End If
 
             If ToggleLightings.Checked = True Then
@@ -176,6 +180,7 @@ Public Class homeCtrl
             'uncheck scheduling and timer checks
             EnableLightSchedule.Checked = False
             ToggleLightings.Checked = False
+            DisableLightSchedule.Checked = False
 
             'disable all radio buttons
             DisableAllRadioButtons()
@@ -425,12 +430,7 @@ Public Class homeCtrl
     End Sub
 
     'press led flood light buttons
-    Private Sub LEDButtons_Click(sender As Object, e As EventArgs) Handles LEDButton01.Click, LEDButton02.Click, LEDButton03.Click, LEDButton04.Click,
-                                                                           LEDButton05.Click, LEDButton06.Click, LEDButton07.Click, LEDButton08.Click,
-                                                                           LEDButton09.Click, LEDButton10.Click, LEDButton11.Click, LEDButton12.Click,
-                                                                           LEDButton13.Click, LEDButton14.Click, LEDButton15.Click, LEDButton16.Click,
-                                                                           LEDButton17.Click, LEDButton18.Click, LEDButton19.Click, LEDButton20.Click,
-                                                                           LEDButton21.Click, LEDButton22.Click, LEDButton23.Click, LEDButton24.Click
+    Private Sub LEDButtons_Click(sender As Object, e As EventArgs) Handles LEDButton24.Click, LEDButton23.Click, LEDButton22.Click, LEDButton21.Click, LEDButton20.Click, LEDButton19.Click, LEDButton18.Click, LEDButton17.Click, LEDButton16.Click, LEDButton15.Click, LEDButton14.Click, LEDButton13.Click, LEDButton12.Click, LEDButton11.Click, LEDButton10.Click, LEDButton09.Click, LEDButton08.Click, LEDButton07.Click, LEDButton06.Click, LEDButton05.Click, LEDButton04.Click, LEDButton03.Click, LEDButton02.Click, LEDButton01.Click
         Dim btn As Button = DirectCast(sender, Button)
 
         'extract button idx
@@ -473,6 +473,9 @@ Public Class homeCtrl
     'snooze alarm music
     Private Sub SnoozeAlarm_Click(sender As Object, e As EventArgs) Handles SnoozeAlarm.Click
         KillMusic()
+
+        'show snoozing
+        SnoozeLabel.Visible = True
     End Sub
 
     'stop alarm
@@ -481,6 +484,9 @@ Public Class homeCtrl
 
         'stop alarm timer
         TimerAlarm.Stop()
+
+        'stop showing snoozing
+        SnoozeLabel.Visible = False
     End Sub
 
 
@@ -557,6 +563,7 @@ Public Class homeCtrl
     Private Sub EnableLightSchedule_CheckedChanged(sender As Object, e As EventArgs) Handles EnableLightSchedule.CheckedChanged
         StartTimeGrp.Enabled = EnableLightSchedule.Checked
         EndTimeGrp.Enabled = EnableLightSchedule.Checked
+        DisableLightSchedule.Enabled = EnableLightSchedule.Checked
     End Sub
 
     'enable/disable power on timer
@@ -1050,9 +1057,8 @@ Public Class homeCtrl
 
         Tabs.TabPages(0).Enabled = gFetching(gMotionSensorModuleId) And gFetching(gCameraModuleId)
         Tabs.TabPages(1).Enabled = gFetching(gLightings1ModuleId)
-        Tabs.TabPages(2).Enabled = gFetching(gCameraModuleId)
-        Tabs.TabPages(3).Enabled = gFetching(gLircModuleId)
-        Tabs.TabPages(4).Enabled = gFetching(gAirQualityModuleId)
+        Tabs.TabPages(2).Enabled = gFetching(gLircModuleId)
+        Tabs.TabPages(3).Enabled = gFetching(gAirQualityModuleId)
 
         If (gFetching(gLightings1ModuleId)) Then
             LightingsTimer.Start()

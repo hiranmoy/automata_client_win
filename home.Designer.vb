@@ -23,9 +23,9 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -37,6 +37,20 @@ Partial Class homeCtrl
         Me.Toggleled = New System.Windows.Forms.Button()
         Me.Tabs = New System.Windows.Forms.TabControl()
         Me.settingsPage = New System.Windows.Forms.TabPage()
+        Me.Recordings = New System.Windows.Forms.Button()
+        Me.Record = New System.Windows.Forms.Button()
+        Me.LiveFeed = New System.Windows.Forms.Button()
+        Me.SurveillanceGrp = New System.Windows.Forms.GroupBox()
+        Me.OpenDir = New System.Windows.Forms.Button()
+        Me.AudioOpen = New System.Windows.Forms.Button()
+        Me.VideoOpen = New System.Windows.Forms.Button()
+        Me.secList = New System.Windows.Forms.ComboBox()
+        Me.minList = New System.Windows.Forms.ComboBox()
+        Me.hrList = New System.Windows.Forms.ComboBox()
+        Me.dayList = New System.Windows.Forms.ComboBox()
+        Me.monthList = New System.Windows.Forms.ComboBox()
+        Me.yrList = New System.Windows.Forms.ComboBox()
+        Me.Surveillance = New System.Windows.Forms.Button()
         Me.ClearMonitorStatus = New System.Windows.Forms.Button()
         Me.MotionDetectPowerOn = New System.Windows.Forms.CheckBox()
         Me.AudioCheck = New System.Windows.Forms.CheckBox()
@@ -78,21 +92,6 @@ Partial Class homeCtrl
         Me.BalconyLight = New System.Windows.Forms.Button()
         Me.Plug0 = New System.Windows.Forms.Button()
         Me.FluLight = New System.Windows.Forms.Button()
-        Me.surveilance = New System.Windows.Forms.TabPage()
-        Me.Recordings = New System.Windows.Forms.Button()
-        Me.Record = New System.Windows.Forms.Button()
-        Me.LiveFeed = New System.Windows.Forms.Button()
-        Me.SurveillanceGrp = New System.Windows.Forms.GroupBox()
-        Me.OpenDir = New System.Windows.Forms.Button()
-        Me.AudioOpen = New System.Windows.Forms.Button()
-        Me.VideoOpen = New System.Windows.Forms.Button()
-        Me.secList = New System.Windows.Forms.ComboBox()
-        Me.minList = New System.Windows.Forms.ComboBox()
-        Me.hrList = New System.Windows.Forms.ComboBox()
-        Me.dayList = New System.Windows.Forms.ComboBox()
-        Me.monthList = New System.Windows.Forms.ComboBox()
-        Me.yrList = New System.Windows.Forms.ComboBox()
-        Me.Surveillance = New System.Windows.Forms.Button()
         Me.rgb_led = New System.Windows.Forms.TabPage()
         Me.DisableLED = New System.Windows.Forms.Button()
         Me.LEDButtons = New System.Windows.Forms.GroupBox()
@@ -122,6 +121,7 @@ Partial Class homeCtrl
         Me.LEDButton01 = New System.Windows.Forms.Button()
         Me.EnableLED = New System.Windows.Forms.Button()
         Me.Alarm = New System.Windows.Forms.TabPage()
+        Me.SnoozeLabel = New System.Windows.Forms.Label()
         Me.MusicAlarmLabel = New System.Windows.Forms.Label()
         Me.AlarmList = New System.Windows.Forms.ListBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -157,8 +157,10 @@ Partial Class homeCtrl
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
         Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Smoke = New System.Windows.Forms.Label()
+        Me.DisableLightSchedule = New System.Windows.Forms.CheckBox()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
+        Me.SurveillanceGrp.SuspendLayout()
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.room.SuspendLayout()
         CType(Me.pwHist, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -175,8 +177,6 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.surveilance.SuspendLayout()
-        Me.SurveillanceGrp.SuspendLayout()
         Me.rgb_led.SuspendLayout()
         Me.LEDButtons.SuspendLayout()
         Me.Alarm.SuspendLayout()
@@ -193,7 +193,7 @@ Partial Class homeCtrl
         Me.Fetch.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Fetch.Enabled = False
         Me.Fetch.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Fetch.Location = New System.Drawing.Point(360, 653)
+        Me.Fetch.Location = New System.Drawing.Point(364, 934)
         Me.Fetch.Name = "Fetch"
         Me.Fetch.Size = New System.Drawing.Size(80, 46)
         Me.Fetch.TabIndex = 25
@@ -213,7 +213,7 @@ Partial Class homeCtrl
         '
         'Packet
         '
-        Me.Packet.Location = New System.Drawing.Point(825, 667)
+        Me.Packet.Location = New System.Drawing.Point(829, 948)
         Me.Packet.Name = "Packet"
         Me.Packet.Size = New System.Drawing.Size(143, 20)
         Me.Packet.TabIndex = 18
@@ -222,7 +222,7 @@ Partial Class homeCtrl
         '
         Me.debugButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.debugButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.debugButton.Location = New System.Drawing.Point(644, 653)
+        Me.debugButton.Location = New System.Drawing.Point(648, 934)
         Me.debugButton.Name = "debugButton"
         Me.debugButton.Size = New System.Drawing.Size(80, 46)
         Me.debugButton.TabIndex = 17
@@ -233,7 +233,7 @@ Partial Class homeCtrl
         '
         Me.Connect.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Connect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Connect.Location = New System.Drawing.Point(12, 646)
+        Me.Connect.Location = New System.Drawing.Point(16, 927)
         Me.Connect.Name = "Connect"
         Me.Connect.Size = New System.Drawing.Size(127, 53)
         Me.Connect.TabIndex = 16
@@ -282,17 +282,21 @@ Partial Class homeCtrl
         '
         Me.Tabs.Controls.Add(Me.settingsPage)
         Me.Tabs.Controls.Add(Me.room)
-        Me.Tabs.Controls.Add(Me.surveilance)
         Me.Tabs.Controls.Add(Me.rgb_led)
         Me.Tabs.Controls.Add(Me.Alarm)
-        Me.Tabs.Location = New System.Drawing.Point(12, 94)
+        Me.Tabs.Location = New System.Drawing.Point(12, 87)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(1630, 520)
+        Me.Tabs.Size = New System.Drawing.Size(1880, 803)
         Me.Tabs.TabIndex = 31
         '
         'settingsPage
         '
+        Me.settingsPage.Controls.Add(Me.Recordings)
+        Me.settingsPage.Controls.Add(Me.Record)
+        Me.settingsPage.Controls.Add(Me.LiveFeed)
+        Me.settingsPage.Controls.Add(Me.SurveillanceGrp)
+        Me.settingsPage.Controls.Add(Me.Surveillance)
         Me.settingsPage.Controls.Add(Me.ClearMonitorStatus)
         Me.settingsPage.Controls.Add(Me.MotionDetectPowerOn)
         Me.settingsPage.Controls.Add(Me.AudioCheck)
@@ -304,10 +308,163 @@ Partial Class homeCtrl
         Me.settingsPage.Location = New System.Drawing.Point(4, 22)
         Me.settingsPage.Name = "settingsPage"
         Me.settingsPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.settingsPage.Size = New System.Drawing.Size(1622, 494)
+        Me.settingsPage.Size = New System.Drawing.Size(1872, 777)
         Me.settingsPage.TabIndex = 0
-        Me.settingsPage.Text = "Preferences"
+        Me.settingsPage.Text = "Preferences & Surveillance"
         Me.settingsPage.UseVisualStyleBackColor = True
+        '
+        'Recordings
+        '
+        Me.Recordings.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Recordings.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Recordings.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Recordings.ForeColor = System.Drawing.Color.Blue
+        Me.Recordings.Location = New System.Drawing.Point(1466, 219)
+        Me.Recordings.Name = "Recordings"
+        Me.Recordings.Size = New System.Drawing.Size(135, 46)
+        Me.Recordings.TabIndex = 27
+        Me.Recordings.Text = "Load" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Recordings"
+        Me.Recordings.UseVisualStyleBackColor = False
+        '
+        'Record
+        '
+        Me.Record.BackColor = System.Drawing.Color.PaleGreen
+        Me.Record.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Record.Location = New System.Drawing.Point(1714, 396)
+        Me.Record.Name = "Record"
+        Me.Record.Size = New System.Drawing.Size(86, 47)
+        Me.Record.TabIndex = 26
+        Me.Record.Text = "Record"
+        Me.Record.UseVisualStyleBackColor = False
+        '
+        'LiveFeed
+        '
+        Me.LiveFeed.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.LiveFeed.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LiveFeed.Location = New System.Drawing.Point(1714, 302)
+        Me.LiveFeed.Name = "LiveFeed"
+        Me.LiveFeed.Size = New System.Drawing.Size(86, 47)
+        Me.LiveFeed.TabIndex = 25
+        Me.LiveFeed.Text = "Live" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Feed"
+        Me.LiveFeed.UseVisualStyleBackColor = False
+        '
+        'SurveillanceGrp
+        '
+        Me.SurveillanceGrp.Controls.Add(Me.OpenDir)
+        Me.SurveillanceGrp.Controls.Add(Me.AudioOpen)
+        Me.SurveillanceGrp.Controls.Add(Me.VideoOpen)
+        Me.SurveillanceGrp.Controls.Add(Me.secList)
+        Me.SurveillanceGrp.Controls.Add(Me.minList)
+        Me.SurveillanceGrp.Controls.Add(Me.hrList)
+        Me.SurveillanceGrp.Controls.Add(Me.dayList)
+        Me.SurveillanceGrp.Controls.Add(Me.monthList)
+        Me.SurveillanceGrp.Controls.Add(Me.yrList)
+        Me.SurveillanceGrp.Enabled = False
+        Me.SurveillanceGrp.Location = New System.Drawing.Point(1319, 283)
+        Me.SurveillanceGrp.Name = "SurveillanceGrp"
+        Me.SurveillanceGrp.Size = New System.Drawing.Size(296, 187)
+        Me.SurveillanceGrp.TabIndex = 24
+        Me.SurveillanceGrp.TabStop = False
+        '
+        'OpenDir
+        '
+        Me.OpenDir.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.OpenDir.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.OpenDir.Location = New System.Drawing.Point(196, 122)
+        Me.OpenDir.Name = "OpenDir"
+        Me.OpenDir.Size = New System.Drawing.Size(86, 47)
+        Me.OpenDir.TabIndex = 20
+        Me.OpenDir.Text = "Open" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Directory"
+        Me.OpenDir.UseVisualStyleBackColor = False
+        '
+        'AudioOpen
+        '
+        Me.AudioOpen.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.AudioOpen.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.AudioOpen.Location = New System.Drawing.Point(104, 122)
+        Me.AudioOpen.Name = "AudioOpen"
+        Me.AudioOpen.Size = New System.Drawing.Size(86, 47)
+        Me.AudioOpen.TabIndex = 19
+        Me.AudioOpen.Text = "Play" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Audio"
+        Me.AudioOpen.UseVisualStyleBackColor = False
+        '
+        'VideoOpen
+        '
+        Me.VideoOpen.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.VideoOpen.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.VideoOpen.Location = New System.Drawing.Point(14, 122)
+        Me.VideoOpen.Name = "VideoOpen"
+        Me.VideoOpen.Size = New System.Drawing.Size(86, 47)
+        Me.VideoOpen.TabIndex = 18
+        Me.VideoOpen.Text = "Play" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Video"
+        Me.VideoOpen.UseVisualStyleBackColor = False
+        '
+        'secList
+        '
+        Me.secList.FormattingEnabled = True
+        Me.secList.Location = New System.Drawing.Point(181, 55)
+        Me.secList.Name = "secList"
+        Me.secList.Size = New System.Drawing.Size(53, 21)
+        Me.secList.Sorted = True
+        Me.secList.TabIndex = 15
+        '
+        'minList
+        '
+        Me.minList.FormattingEnabled = True
+        Me.minList.Location = New System.Drawing.Point(122, 55)
+        Me.minList.Name = "minList"
+        Me.minList.Size = New System.Drawing.Size(53, 21)
+        Me.minList.Sorted = True
+        Me.minList.TabIndex = 14
+        '
+        'hrList
+        '
+        Me.hrList.FormattingEnabled = True
+        Me.hrList.Location = New System.Drawing.Point(58, 55)
+        Me.hrList.Name = "hrList"
+        Me.hrList.Size = New System.Drawing.Size(53, 21)
+        Me.hrList.Sorted = True
+        Me.hrList.TabIndex = 13
+        '
+        'dayList
+        '
+        Me.dayList.FormattingEnabled = True
+        Me.dayList.Location = New System.Drawing.Point(52, 19)
+        Me.dayList.Name = "dayList"
+        Me.dayList.Size = New System.Drawing.Size(53, 21)
+        Me.dayList.Sorted = True
+        Me.dayList.TabIndex = 12
+        '
+        'monthList
+        '
+        Me.monthList.FormattingEnabled = True
+        Me.monthList.Location = New System.Drawing.Point(116, 19)
+        Me.monthList.Name = "monthList"
+        Me.monthList.Size = New System.Drawing.Size(53, 21)
+        Me.monthList.Sorted = True
+        Me.monthList.TabIndex = 11
+        '
+        'yrList
+        '
+        Me.yrList.FormattingEnabled = True
+        Me.yrList.Location = New System.Drawing.Point(175, 19)
+        Me.yrList.Name = "yrList"
+        Me.yrList.Size = New System.Drawing.Size(70, 21)
+        Me.yrList.Sorted = True
+        Me.yrList.TabIndex = 9
+        '
+        'Surveillance
+        '
+        Me.Surveillance.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Surveillance.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Surveillance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Surveillance.ForeColor = System.Drawing.Color.Blue
+        Me.Surveillance.Location = New System.Drawing.Point(1319, 219)
+        Me.Surveillance.Name = "Surveillance"
+        Me.Surveillance.Size = New System.Drawing.Size(135, 46)
+        Me.Surveillance.TabIndex = 23
+        Me.Surveillance.Text = "Load" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Surveillance cllips"
+        Me.Surveillance.UseVisualStyleBackColor = False
         '
         'ClearMonitorStatus
         '
@@ -416,7 +573,7 @@ Partial Class homeCtrl
         Me.room.Location = New System.Drawing.Point(4, 22)
         Me.room.Name = "room"
         Me.room.Padding = New System.Windows.Forms.Padding(3)
-        Me.room.Size = New System.Drawing.Size(1622, 494)
+        Me.room.Size = New System.Drawing.Size(1872, 777)
         Me.room.TabIndex = 1
         Me.room.Text = "Lightings"
         '
@@ -424,7 +581,7 @@ Partial Class homeCtrl
         '
         Me.ClearHist.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.ClearHist.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ClearHist.Location = New System.Drawing.Point(1504, 429)
+        Me.ClearHist.Location = New System.Drawing.Point(1793, 720)
         Me.ClearHist.Name = "ClearHist"
         Me.ClearHist.Size = New System.Drawing.Size(57, 26)
         Me.ClearHist.TabIndex = 20
@@ -435,32 +592,33 @@ Partial Class homeCtrl
         '
         Me.ShowPowerHist.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ShowPowerHist.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ShowPowerHist.Location = New System.Drawing.Point(669, 10)
+        Me.ShowPowerHist.Location = New System.Drawing.Point(820, 16)
         Me.ShowPowerHist.Name = "ShowPowerHist"
-        Me.ShowPowerHist.Size = New System.Drawing.Size(70, 454)
+        Me.ShowPowerHist.Size = New System.Drawing.Size(70, 742)
         Me.ShowPowerHist.TabIndex = 34
         Me.ShowPowerHist.Text = "Power " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Profile"
         Me.ShowPowerHist.UseVisualStyleBackColor = False
         '
         'pwHist
         '
-        ChartArea1.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend1)
-        Me.pwHist.Location = New System.Drawing.Point(745, 18)
+        ChartArea2.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend2)
+        Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Power on Time"
-        Series1.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series1)
-        Me.pwHist.Size = New System.Drawing.Size(871, 446)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Power on Time"
+        Series2.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series2)
+        Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
         '
         'SettingsGrp
         '
+        Me.SettingsGrp.Controls.Add(Me.DisableLightSchedule)
         Me.SettingsGrp.Controls.Add(Me.ResetSchedule)
         Me.SettingsGrp.Controls.Add(Me.TimerGrp)
         Me.SettingsGrp.Controls.Add(Me.ToggleLightings)
@@ -470,7 +628,7 @@ Partial Class homeCtrl
         Me.SettingsGrp.Enabled = False
         Me.SettingsGrp.Location = New System.Drawing.Point(4, 329)
         Me.SettingsGrp.Name = "SettingsGrp"
-        Me.SettingsGrp.Size = New System.Drawing.Size(644, 150)
+        Me.SettingsGrp.Size = New System.Drawing.Size(802, 429)
         Me.SettingsGrp.TabIndex = 21
         Me.SettingsGrp.TabStop = False
         '
@@ -478,7 +636,7 @@ Partial Class homeCtrl
         '
         Me.ResetSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.ResetSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ResetSchedule.Location = New System.Drawing.Point(563, 31)
+        Me.ResetSchedule.Location = New System.Drawing.Point(739, 17)
         Me.ResetSchedule.Name = "ResetSchedule"
         Me.ResetSchedule.Size = New System.Drawing.Size(57, 26)
         Me.ResetSchedule.TabIndex = 19
@@ -708,9 +866,9 @@ Partial Class homeCtrl
         Me.LightingSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.LightingSettings.Location = New System.Drawing.Point(4, 299)
         Me.LightingSettings.Name = "LightingSettings"
-        Me.LightingSettings.Size = New System.Drawing.Size(646, 27)
+        Me.LightingSettings.Size = New System.Drawing.Size(802, 27)
         Me.LightingSettings.TabIndex = 5
-        Me.LightingSettings.Text = "Settings"
+        Me.LightingSettings.Text = "Scheduler"
         Me.LightingSettings.UseVisualStyleBackColor = False
         '
         'Fan
@@ -768,173 +926,6 @@ Partial Class homeCtrl
         Me.FluLight.Text = "Fluoroscent Light"
         Me.FluLight.UseVisualStyleBackColor = False
         '
-        'surveilance
-        '
-        Me.surveilance.Controls.Add(Me.Recordings)
-        Me.surveilance.Controls.Add(Me.Record)
-        Me.surveilance.Controls.Add(Me.LiveFeed)
-        Me.surveilance.Controls.Add(Me.SurveillanceGrp)
-        Me.surveilance.Controls.Add(Me.Surveillance)
-        Me.surveilance.Location = New System.Drawing.Point(4, 22)
-        Me.surveilance.Name = "surveilance"
-        Me.surveilance.Size = New System.Drawing.Size(1622, 494)
-        Me.surveilance.TabIndex = 2
-        Me.surveilance.Text = "Surveillance"
-        Me.surveilance.UseVisualStyleBackColor = True
-        '
-        'Recordings
-        '
-        Me.Recordings.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Recordings.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Recordings.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Recordings.ForeColor = System.Drawing.Color.Blue
-        Me.Recordings.Location = New System.Drawing.Point(195, 76)
-        Me.Recordings.Name = "Recordings"
-        Me.Recordings.Size = New System.Drawing.Size(135, 46)
-        Me.Recordings.TabIndex = 22
-        Me.Recordings.Text = "Load" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Recordings"
-        Me.Recordings.UseVisualStyleBackColor = False
-        '
-        'Record
-        '
-        Me.Record.BackColor = System.Drawing.Color.PaleGreen
-        Me.Record.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Record.Location = New System.Drawing.Point(443, 253)
-        Me.Record.Name = "Record"
-        Me.Record.Size = New System.Drawing.Size(86, 47)
-        Me.Record.TabIndex = 21
-        Me.Record.Text = "Record"
-        Me.Record.UseVisualStyleBackColor = False
-        '
-        'LiveFeed
-        '
-        Me.LiveFeed.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.LiveFeed.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.LiveFeed.Location = New System.Drawing.Point(443, 159)
-        Me.LiveFeed.Name = "LiveFeed"
-        Me.LiveFeed.Size = New System.Drawing.Size(86, 47)
-        Me.LiveFeed.TabIndex = 20
-        Me.LiveFeed.Text = "Live" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Feed"
-        Me.LiveFeed.UseVisualStyleBackColor = False
-        '
-        'SurveillanceGrp
-        '
-        Me.SurveillanceGrp.Controls.Add(Me.OpenDir)
-        Me.SurveillanceGrp.Controls.Add(Me.AudioOpen)
-        Me.SurveillanceGrp.Controls.Add(Me.VideoOpen)
-        Me.SurveillanceGrp.Controls.Add(Me.secList)
-        Me.SurveillanceGrp.Controls.Add(Me.minList)
-        Me.SurveillanceGrp.Controls.Add(Me.hrList)
-        Me.SurveillanceGrp.Controls.Add(Me.dayList)
-        Me.SurveillanceGrp.Controls.Add(Me.monthList)
-        Me.SurveillanceGrp.Controls.Add(Me.yrList)
-        Me.SurveillanceGrp.Enabled = False
-        Me.SurveillanceGrp.Location = New System.Drawing.Point(48, 140)
-        Me.SurveillanceGrp.Name = "SurveillanceGrp"
-        Me.SurveillanceGrp.Size = New System.Drawing.Size(296, 187)
-        Me.SurveillanceGrp.TabIndex = 12
-        Me.SurveillanceGrp.TabStop = False
-        '
-        'OpenDir
-        '
-        Me.OpenDir.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.OpenDir.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.OpenDir.Location = New System.Drawing.Point(196, 122)
-        Me.OpenDir.Name = "OpenDir"
-        Me.OpenDir.Size = New System.Drawing.Size(86, 47)
-        Me.OpenDir.TabIndex = 20
-        Me.OpenDir.Text = "Open" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Directory"
-        Me.OpenDir.UseVisualStyleBackColor = False
-        '
-        'AudioOpen
-        '
-        Me.AudioOpen.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.AudioOpen.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.AudioOpen.Location = New System.Drawing.Point(104, 122)
-        Me.AudioOpen.Name = "AudioOpen"
-        Me.AudioOpen.Size = New System.Drawing.Size(86, 47)
-        Me.AudioOpen.TabIndex = 19
-        Me.AudioOpen.Text = "Play" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Audio"
-        Me.AudioOpen.UseVisualStyleBackColor = False
-        '
-        'VideoOpen
-        '
-        Me.VideoOpen.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.VideoOpen.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.VideoOpen.Location = New System.Drawing.Point(14, 122)
-        Me.VideoOpen.Name = "VideoOpen"
-        Me.VideoOpen.Size = New System.Drawing.Size(86, 47)
-        Me.VideoOpen.TabIndex = 18
-        Me.VideoOpen.Text = "Play" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Video"
-        Me.VideoOpen.UseVisualStyleBackColor = False
-        '
-        'secList
-        '
-        Me.secList.FormattingEnabled = True
-        Me.secList.Location = New System.Drawing.Point(181, 55)
-        Me.secList.Name = "secList"
-        Me.secList.Size = New System.Drawing.Size(53, 21)
-        Me.secList.Sorted = True
-        Me.secList.TabIndex = 15
-        '
-        'minList
-        '
-        Me.minList.FormattingEnabled = True
-        Me.minList.Location = New System.Drawing.Point(122, 55)
-        Me.minList.Name = "minList"
-        Me.minList.Size = New System.Drawing.Size(53, 21)
-        Me.minList.Sorted = True
-        Me.minList.TabIndex = 14
-        '
-        'hrList
-        '
-        Me.hrList.FormattingEnabled = True
-        Me.hrList.Location = New System.Drawing.Point(58, 55)
-        Me.hrList.Name = "hrList"
-        Me.hrList.Size = New System.Drawing.Size(53, 21)
-        Me.hrList.Sorted = True
-        Me.hrList.TabIndex = 13
-        '
-        'dayList
-        '
-        Me.dayList.FormattingEnabled = True
-        Me.dayList.Location = New System.Drawing.Point(52, 19)
-        Me.dayList.Name = "dayList"
-        Me.dayList.Size = New System.Drawing.Size(53, 21)
-        Me.dayList.Sorted = True
-        Me.dayList.TabIndex = 12
-        '
-        'monthList
-        '
-        Me.monthList.FormattingEnabled = True
-        Me.monthList.Location = New System.Drawing.Point(116, 19)
-        Me.monthList.Name = "monthList"
-        Me.monthList.Size = New System.Drawing.Size(53, 21)
-        Me.monthList.Sorted = True
-        Me.monthList.TabIndex = 11
-        '
-        'yrList
-        '
-        Me.yrList.FormattingEnabled = True
-        Me.yrList.Location = New System.Drawing.Point(175, 19)
-        Me.yrList.Name = "yrList"
-        Me.yrList.Size = New System.Drawing.Size(70, 21)
-        Me.yrList.Sorted = True
-        Me.yrList.TabIndex = 9
-        '
-        'Surveillance
-        '
-        Me.Surveillance.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Surveillance.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Surveillance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Surveillance.ForeColor = System.Drawing.Color.Blue
-        Me.Surveillance.Location = New System.Drawing.Point(48, 76)
-        Me.Surveillance.Name = "Surveillance"
-        Me.Surveillance.Size = New System.Drawing.Size(135, 46)
-        Me.Surveillance.TabIndex = 11
-        Me.Surveillance.Text = "Load" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Surveillance cllips"
-        Me.Surveillance.UseVisualStyleBackColor = False
-        '
         'rgb_led
         '
         Me.rgb_led.Controls.Add(Me.DisableLED)
@@ -942,7 +933,7 @@ Partial Class homeCtrl
         Me.rgb_led.Controls.Add(Me.EnableLED)
         Me.rgb_led.Location = New System.Drawing.Point(4, 22)
         Me.rgb_led.Name = "rgb_led"
-        Me.rgb_led.Size = New System.Drawing.Size(1622, 494)
+        Me.rgb_led.Size = New System.Drawing.Size(1872, 777)
         Me.rgb_led.TabIndex = 3
         Me.rgb_led.Text = "RGB LED"
         Me.rgb_led.UseVisualStyleBackColor = True
@@ -1286,15 +1277,29 @@ Partial Class homeCtrl
         '
         'Alarm
         '
+        Me.Alarm.Controls.Add(Me.SnoozeLabel)
         Me.Alarm.Controls.Add(Me.MusicAlarmLabel)
         Me.Alarm.Controls.Add(Me.AlarmList)
         Me.Alarm.Controls.Add(Me.GroupBox1)
         Me.Alarm.Location = New System.Drawing.Point(4, 22)
         Me.Alarm.Name = "Alarm"
-        Me.Alarm.Size = New System.Drawing.Size(1622, 494)
+        Me.Alarm.Size = New System.Drawing.Size(1872, 777)
         Me.Alarm.TabIndex = 4
         Me.Alarm.Text = "Alarm"
         Me.Alarm.UseVisualStyleBackColor = True
+        '
+        'SnoozeLabel
+        '
+        Me.SnoozeLabel.AutoSize = True
+        Me.SnoozeLabel.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.SnoozeLabel.ForeColor = System.Drawing.Color.Blue
+        Me.SnoozeLabel.Location = New System.Drawing.Point(341, 148)
+        Me.SnoozeLabel.Name = "SnoozeLabel"
+        Me.SnoozeLabel.Padding = New System.Windows.Forms.Padding(7)
+        Me.SnoozeLabel.Size = New System.Drawing.Size(63, 27)
+        Me.SnoozeLabel.TabIndex = 39
+        Me.SnoozeLabel.Text = "Snoozed"
+        Me.SnoozeLabel.Visible = False
         '
         'MusicAlarmLabel
         '
@@ -1505,7 +1510,7 @@ Partial Class homeCtrl
         '
         'StreamDebugIdx
         '
-        Me.StreamDebugIdx.Location = New System.Drawing.Point(749, 668)
+        Me.StreamDebugIdx.Location = New System.Drawing.Point(753, 949)
         Me.StreamDebugIdx.Maximum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.StreamDebugIdx.Name = "StreamDebugIdx"
         Me.StreamDebugIdx.Size = New System.Drawing.Size(48, 20)
@@ -1513,7 +1518,7 @@ Partial Class homeCtrl
         '
         'StreamIdx
         '
-        Me.StreamIdx.Location = New System.Drawing.Point(161, 679)
+        Me.StreamIdx.Location = New System.Drawing.Point(165, 960)
         Me.StreamIdx.Maximum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.StreamIdx.Name = "StreamIdx"
         Me.StreamIdx.Size = New System.Drawing.Size(48, 20)
@@ -1525,7 +1530,7 @@ Partial Class homeCtrl
         Me.ConnectCheck.Checked = True
         Me.ConnectCheck.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ConnectCheck.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.ConnectCheck.Location = New System.Drawing.Point(161, 646)
+        Me.ConnectCheck.Location = New System.Drawing.Point(165, 927)
         Me.ConnectCheck.Name = "ConnectCheck"
         Me.ConnectCheck.Size = New System.Drawing.Size(37, 17)
         Me.ConnectCheck.TabIndex = 22
@@ -1598,12 +1603,24 @@ Partial Class homeCtrl
         Me.Smoke.TabIndex = 40
         Me.Smoke.Text = "Smoke :"
         '
+        'DisableLightSchedule
+        '
+        Me.DisableLightSchedule.AutoSize = True
+        Me.DisableLightSchedule.Enabled = False
+        Me.DisableLightSchedule.ForeColor = System.Drawing.Color.Maroon
+        Me.DisableLightSchedule.Location = New System.Drawing.Point(490, 36)
+        Me.DisableLightSchedule.Name = "DisableLightSchedule"
+        Me.DisableLightSchedule.Size = New System.Drawing.Size(117, 17)
+        Me.DisableLightSchedule.TabIndex = 20
+        Me.DisableLightSchedule.Text = "Disable Scheduling"
+        Me.DisableLightSchedule.UseVisualStyleBackColor = True
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Wheat
-        Me.ClientSize = New System.Drawing.Size(1642, 711)
+        Me.ClientSize = New System.Drawing.Size(1904, 1011)
         Me.Controls.Add(Me.Smoke)
         Me.Controls.Add(Me.RealTime)
         Me.Controls.Add(Me.CO)
@@ -1624,9 +1641,11 @@ Partial Class homeCtrl
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "homeCtrl"
         Me.Text = "Automata"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Tabs.ResumeLayout(False)
         Me.settingsPage.ResumeLayout(False)
         Me.settingsPage.PerformLayout()
+        Me.SurveillanceGrp.ResumeLayout(False)
         CType(Me.MotionActDelay, System.ComponentModel.ISupportInitialize).EndInit()
         Me.room.ResumeLayout(False)
         Me.room.PerformLayout()
@@ -1645,8 +1664,6 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.surveilance.ResumeLayout(False)
-        Me.SurveillanceGrp.ResumeLayout(False)
         Me.rgb_led.ResumeLayout(False)
         Me.LEDButtons.ResumeLayout(False)
         Me.Alarm.ResumeLayout(False)
@@ -1721,52 +1738,10 @@ Partial Class homeCtrl
     Friend WithEvents SpeechTimer As Timer
     Friend WithEvents ReconnectTimer As Timer
     Friend WithEvents TcpTimer As Timer
-    Friend WithEvents surveilance As TabPage
-    Friend WithEvents SurveillanceGrp As GroupBox
-    Friend WithEvents OpenDir As Button
-    Friend WithEvents AudioOpen As Button
-    Friend WithEvents VideoOpen As Button
-    Friend WithEvents secList As ComboBox
-    Friend WithEvents minList As ComboBox
-    Friend WithEvents hrList As ComboBox
-    Friend WithEvents dayList As ComboBox
-    Friend WithEvents monthList As ComboBox
-    Friend WithEvents yrList As ComboBox
-    Friend WithEvents Surveillance As Button
-    Friend WithEvents LiveFeed As Button
-    Friend WithEvents Record As Button
-    Friend WithEvents Recordings As Button
     Friend WithEvents StreamDebugIdx As NumericUpDown
     Friend WithEvents rgb_led As TabPage
-    Friend WithEvents EnableLED As Button
-    Friend WithEvents LEDButtons As GroupBox
-    Friend WithEvents LEDButton24 As Button
-    Friend WithEvents LEDButton20 As Button
-    Friend WithEvents LEDButton23 As Button
-    Friend WithEvents LEDButton19 As Button
-    Friend WithEvents LEDButton22 As Button
-    Friend WithEvents LEDButton18 As Button
-    Friend WithEvents LEDButton21 As Button
-    Friend WithEvents LEDButton17 As Button
-    Friend WithEvents LEDButton16 As Button
-    Friend WithEvents LEDButton15 As Button
-    Friend WithEvents LEDButton14 As Button
-    Friend WithEvents LEDButton13 As Button
-    Friend WithEvents LEDButton12 As Button
-    Friend WithEvents LEDButton11 As Button
-    Friend WithEvents LEDButton10 As Button
-    Friend WithEvents LEDButton09 As Button
-    Friend WithEvents LEDButton08 As Button
-    Friend WithEvents LEDButton07 As Button
-    Friend WithEvents LEDButton06 As Button
-    Friend WithEvents LEDButton05 As Button
-    Friend WithEvents LEDButton04 As Button
-    Friend WithEvents LEDButton03 As Button
-    Friend WithEvents LEDButton02 As Button
-    Friend WithEvents LEDButton01 As Button
     Friend WithEvents StreamIdx As NumericUpDown
     Friend WithEvents ConnectCheck As CheckBox
-    Friend WithEvents DisableLED As Button
     Friend WithEvents LEDTimer As Timer
     Friend WithEvents Alcohol As Label
     Friend WithEvents CO As Label
@@ -1793,4 +1768,47 @@ Partial Class homeCtrl
     Friend WithEvents MusicFileBrowse As OpenFileDialog
     Friend WithEvents Timer1s As Timer
     Friend WithEvents Smoke As Label
+    Friend WithEvents DisableLED As Button
+    Friend WithEvents LEDButtons As GroupBox
+    Friend WithEvents LEDButton24 As Button
+    Friend WithEvents LEDButton20 As Button
+    Friend WithEvents LEDButton23 As Button
+    Friend WithEvents LEDButton19 As Button
+    Friend WithEvents LEDButton22 As Button
+    Friend WithEvents LEDButton18 As Button
+    Friend WithEvents LEDButton21 As Button
+    Friend WithEvents LEDButton17 As Button
+    Friend WithEvents LEDButton16 As Button
+    Friend WithEvents LEDButton15 As Button
+    Friend WithEvents LEDButton14 As Button
+    Friend WithEvents LEDButton13 As Button
+    Friend WithEvents LEDButton12 As Button
+    Friend WithEvents LEDButton11 As Button
+    Friend WithEvents LEDButton10 As Button
+    Friend WithEvents LEDButton09 As Button
+    Friend WithEvents LEDButton08 As Button
+    Friend WithEvents LEDButton07 As Button
+    Friend WithEvents LEDButton06 As Button
+    Friend WithEvents LEDButton05 As Button
+    Friend WithEvents LEDButton04 As Button
+    Friend WithEvents LEDButton03 As Button
+    Friend WithEvents LEDButton02 As Button
+    Friend WithEvents LEDButton01 As Button
+    Friend WithEvents EnableLED As Button
+    Friend WithEvents Recordings As Button
+    Friend WithEvents Record As Button
+    Friend WithEvents LiveFeed As Button
+    Friend WithEvents SurveillanceGrp As GroupBox
+    Friend WithEvents OpenDir As Button
+    Friend WithEvents AudioOpen As Button
+    Friend WithEvents VideoOpen As Button
+    Friend WithEvents secList As ComboBox
+    Friend WithEvents minList As ComboBox
+    Friend WithEvents hrList As ComboBox
+    Friend WithEvents dayList As ComboBox
+    Friend WithEvents monthList As ComboBox
+    Friend WithEvents yrList As ComboBox
+    Friend WithEvents Surveillance As Button
+    Friend WithEvents SnoozeLabel As Label
+    Friend WithEvents DisableLightSchedule As CheckBox
 End Class

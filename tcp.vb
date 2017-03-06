@@ -340,6 +340,9 @@ Module tcp
         If touchSensorStatus = "1" Then
             'touch button pressed
             KillMusic()
+
+            'show snoozing
+            homeCtrl.SnoozeLabel.Visible = True
         End If
     End Sub
 

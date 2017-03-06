@@ -57,6 +57,10 @@ Public Class Appliance
     'off time value in sec
     Private mStopTime As Integer
 
+    'check whether scheduling is disabled next time
+    Private mDisableSwitchOnScheduler As Boolean
+    Private mDisableSwitchOffScheduler As Boolean
+
     'average power requirement in W
     Private mPowerRequirement As Integer
 
@@ -261,7 +265,7 @@ Public Class Appliance
     End Sub
 
     'save scheduler data
-    Public Sub SaveSchedule(startTime As Integer, endTime As Integer)
+    Public Sub SaveSchedule(startTime As Integer, endTime As Integer, disabled As Boolean)
         Debug.Assert((startTime >= 0) And (startTime < 86400) And
                      (endTime >= 0) And (endTime < 86400))
 
@@ -286,6 +290,9 @@ Public Class Appliance
         Print(1, mStopTime.ToString + "        : off time" + Environment.NewLine)
 
         FileClose(1)
+
+        mDisableSwitchOnScheduler = disabled
+        mDisableSwitchOffScheduler = disabled
     End Sub
 
     'clear scheduler
@@ -362,14 +369,22 @@ Public Class Appliance
                                  DateAndTime.Now.Minute * 60 +
                                  DateAndTime.Now.Second
 
-        If (curTime >= mStartTime) And (curTime < mStartTime + 2) Then
+        If (curTime >= mStartTime) And (curTime < mStartTime + 1) Then
             If mPowerOn = False Then
-                SetPowerOn()
+                If mDisableSwitchOnScheduler = True Then
+                    mDisableSwitchOnScheduler = False
+                Else
+                    SetPowerOn()
+                End If
             End If
         End If
-        If (curTime >= mStopTime) And (curTime < mStopTime + 2) Then
+        If (curTime >= mStopTime) And (curTime < mStopTime + 1) Then
             If mPowerOn = True Then
-                SetPowerOn(False)
+                If mDisableSwitchOffScheduler = True Then
+                    mDisableSwitchOffScheduler = False
+                Else
+                    SetPowerOn(False)
+                End If
             End If
         End If
     End Sub
