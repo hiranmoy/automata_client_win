@@ -163,7 +163,6 @@ Module tcp
 
     'connect to a module
     Public Sub ConnectModule(idx As Integer)
-
         If gFetching(idx) = False Then
             Dim connected As Boolean = False
 
@@ -173,12 +172,15 @@ Module tcp
                 Case 0
                     'read rpi2 ip
                     host = GetIPFromFile("\\RPI2\backups\ip.txt")
+                    'Return
                 Case 1
                     'read rpi3 ip
                     host = GetIPFromFile("\\RPI3\backups\ip.txt")
+                    'Return
                 Case 2
                     'read rpi32 ip
                     host = GetIPFromFile("\\RPI32\backups\ip.txt")
+                    'Return
                 Case Else
                     Debug.Assert(False)
             End Select
@@ -198,7 +200,6 @@ Module tcp
                 End If
             End If
         End If
-
     End Sub
 
     'fetches all data from RPI
@@ -304,7 +305,7 @@ Module tcp
                 Return
             Case Else
                 'motion detection times
-                homeCtrl.MonitorStatus.Text += monitorStatus + Environment.NewLine
+                homeCtrl.MonitorStatus.Text += "Motion detected at " + monitorStatus + Environment.NewLine
 
                 'welcome speech
                 Speech("Welcome_")
@@ -317,7 +318,11 @@ Module tcp
                     Dim curTime As Date = DateAndTime.Now
 
                     If (curTime.Hour >= 18) Or (curTime.Hour <= 2) Then
-                        gFluLight.SetPowerOn(True)
+                        Try
+                            gFluLight.SetPowerOn()
+                        Catch
+                        End Try
+
                     End If
                 End If
         End Select
@@ -335,9 +340,9 @@ Module tcp
             Return
         End If
 
-        Debug.Assert((touchSensorStatus = "0") Or (touchSensorStatus = "1"))
+        Debug.Assert(touchSensorStatus <> "")
 
-        If touchSensorStatus = "1" Then
+        If touchSensorStatus <> "-" Then
             'touch button pressed
             KillMusic()
 

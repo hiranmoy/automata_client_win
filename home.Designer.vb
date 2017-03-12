@@ -23,15 +23,15 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
         Me.debugButton = New System.Windows.Forms.Button()
         Me.Connect = New System.Windows.Forms.Button()
-        Me.Timer10s = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer20s = New System.Windows.Forms.Timer(Me.components)
         Me.Pressure = New System.Windows.Forms.Label()
         Me.Humidity = New System.Windows.Forms.Label()
         Me.Toggleled = New System.Windows.Forms.Button()
@@ -64,6 +64,7 @@ Partial Class homeCtrl
         Me.ShowPowerHist = New System.Windows.Forms.Button()
         Me.pwHist = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.SettingsGrp = New System.Windows.Forms.GroupBox()
+        Me.DisableLightSchedule = New System.Windows.Forms.CheckBox()
         Me.ResetSchedule = New System.Windows.Forms.Button()
         Me.TimerGrp = New System.Windows.Forms.GroupBox()
         Me.hr2 = New System.Windows.Forms.NumericUpDown()
@@ -157,7 +158,6 @@ Partial Class homeCtrl
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
         Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Smoke = New System.Windows.Forms.Label()
-        Me.DisableLightSchedule = New System.Windows.Forms.CheckBox()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
@@ -240,9 +240,9 @@ Partial Class homeCtrl
         Me.Connect.Text = "connect"
         Me.Connect.UseVisualStyleBackColor = False
         '
-        'Timer10s
+        'Timer20s
         '
-        Me.Timer10s.Interval = 10000
+        Me.Timer20s.Interval = 20000
         '
         'Pressure
         '
@@ -601,17 +601,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend2)
+        ChartArea1.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend1)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Power on Time"
-        Series2.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series2)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Power on Time"
+        Series1.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series1)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -631,6 +631,18 @@ Partial Class homeCtrl
         Me.SettingsGrp.Size = New System.Drawing.Size(802, 429)
         Me.SettingsGrp.TabIndex = 21
         Me.SettingsGrp.TabStop = False
+        '
+        'DisableLightSchedule
+        '
+        Me.DisableLightSchedule.AutoSize = True
+        Me.DisableLightSchedule.Enabled = False
+        Me.DisableLightSchedule.ForeColor = System.Drawing.Color.Maroon
+        Me.DisableLightSchedule.Location = New System.Drawing.Point(490, 36)
+        Me.DisableLightSchedule.Name = "DisableLightSchedule"
+        Me.DisableLightSchedule.Size = New System.Drawing.Size(117, 17)
+        Me.DisableLightSchedule.TabIndex = 20
+        Me.DisableLightSchedule.Text = "Disable Scheduling"
+        Me.DisableLightSchedule.UseVisualStyleBackColor = True
         '
         'ResetSchedule
         '
@@ -1603,18 +1615,6 @@ Partial Class homeCtrl
         Me.Smoke.TabIndex = 40
         Me.Smoke.Text = "Smoke :"
         '
-        'DisableLightSchedule
-        '
-        Me.DisableLightSchedule.AutoSize = True
-        Me.DisableLightSchedule.Enabled = False
-        Me.DisableLightSchedule.ForeColor = System.Drawing.Color.Maroon
-        Me.DisableLightSchedule.Location = New System.Drawing.Point(490, 36)
-        Me.DisableLightSchedule.Name = "DisableLightSchedule"
-        Me.DisableLightSchedule.Size = New System.Drawing.Size(117, 17)
-        Me.DisableLightSchedule.TabIndex = 20
-        Me.DisableLightSchedule.Text = "Disable Scheduling"
-        Me.DisableLightSchedule.UseVisualStyleBackColor = True
-        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1684,7 +1684,7 @@ Partial Class homeCtrl
     Friend WithEvents Packet As TextBox
     Friend WithEvents debugButton As Button
     Friend WithEvents Connect As Button
-    Friend WithEvents Timer10s As Timer
+    Friend WithEvents Timer20s As Timer
     Friend WithEvents Pressure As Label
     Friend WithEvents Humidity As Label
     Friend WithEvents Toggleled As Button

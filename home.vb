@@ -71,7 +71,7 @@ Public Class homeCtrl
         Timer1s.Start()
 
         'start 10s timer
-        Timer10s.Start()
+        Timer20s.Start()
 
         'initialize am pm selector
         AmPmAlarm.SelectedIndex = 0
@@ -88,11 +88,7 @@ Public Class homeCtrl
             For idx = 0 To gFetching.Length - 1
                 ConnectModule(idx)
             Next
-
-            Return
         End If
-
-        ConnectModule(StreamIdx.Value)
     End Sub
 
     'debug only, incomplete codes here
@@ -443,7 +439,7 @@ Public Class homeCtrl
             Return
         End If
 
-        Debug.Assert(buttonStatus = "button " + CStr(CInt(buttonidx)) + " pressed")
+        Debug.Assert(buttonStatus = "button " + buttonidx.ToString + " pressed")
 
         'restart 1 hr disable led buttons timer
         LEDTimer.Stop()
@@ -710,7 +706,7 @@ Public Class homeCtrl
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
     'fetch weather and motion detection status
-    Private Sub Timer10s_Tick(sender As Object, e As EventArgs) Handles Timer10s.Tick
+    Private Sub Timer20s_Tick(sender As Object, e As EventArgs) Handles Timer20s.Tick
         CheckConnectionStatus()
 
         GetWeatherInfo()
