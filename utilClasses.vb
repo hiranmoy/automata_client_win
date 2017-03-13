@@ -44,19 +44,24 @@ Public Class TcpParameter
     End Function
 End Class
 
+
 'tcp response thread argument
 Public Class TcpParameterTrd
-    Private mTcpParam As TcpParameter
+    Inherits TcpParameter
+
     Private mResponse As String
 
-    Public Sub New(aTcpParam As TcpParameter, aResponse As String)
-        mTcpParam = aTcpParam
+    Public Sub New(aDataStr As String, aStreamIdx As Integer, aResponse As String)
+        MyBase.New(aDataStr, aStreamIdx)
+
         mResponse = aResponse
     End Sub
 
-    Public Function GetTcpParam() As TcpParameter
-        Return mTcpParam
-    End Function
+    Public Sub New(aTcpParameter As TcpParameter, aResponse As String)
+        MyBase.New(aTcpParameter.GetDataStr(), aTcpParameter.GetStreamIdx())
+
+        mResponse = aResponse
+    End Sub
 
     Public Function GetResponse() As String
         Return mResponse

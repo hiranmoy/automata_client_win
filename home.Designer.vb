@@ -145,7 +145,6 @@ Partial Class homeCtrl
         Me.SpeechCheck = New System.Windows.Forms.CheckBox()
         Me.SpeechTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ReconnectTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.TcpTimer = New System.Windows.Forms.Timer(Me.components)
         Me.StreamDebugIdx = New System.Windows.Forms.NumericUpDown()
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
         Me.ConnectCheck = New System.Windows.Forms.CheckBox()
@@ -1516,10 +1515,6 @@ Partial Class homeCtrl
         '
         Me.ReconnectTimer.Interval = 60000
         '
-        'TcpTimer
-        '
-        Me.TcpTimer.Interval = 1000
-        '
         'StreamDebugIdx
         '
         Me.StreamDebugIdx.Location = New System.Drawing.Point(753, 949)
@@ -1737,7 +1732,6 @@ Partial Class homeCtrl
     Friend WithEvents SpeechCheck As CheckBox
     Friend WithEvents SpeechTimer As Timer
     Friend WithEvents ReconnectTimer As Timer
-    Friend WithEvents TcpTimer As Timer
     Friend WithEvents StreamDebugIdx As NumericUpDown
     Friend WithEvents rgb_led As TabPage
     Friend WithEvents StreamIdx As NumericUpDown

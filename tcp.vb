@@ -70,7 +70,7 @@ Module tcp
         ' String to store the response ASCII representation.
         Dim responseData As String = [String].Empty
 
-        Dim streamIdx As Integer = aTcpTrdParam.GetTcpParam().GetStreamIdx()
+        Dim streamIdx As Integer = aTcpTrdParam.GetStreamIdx()
 
         Dim stream As NetworkStream
         Try
@@ -79,7 +79,7 @@ Module tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFile, OpenMode.Append)
-            Print(1, "Disconnected for not getting the stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not getting the stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
@@ -87,7 +87,7 @@ Module tcp
         End Try
 
         ' Translate the passed message into ASCII and store it as a Byte array.
-        Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpTrdParam.GetTcpParam().GetDataStr())
+        Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpTrdParam.GetDataStr())
 
         Try
             ' Send the message to the connected TcpServer. 
@@ -95,7 +95,7 @@ Module tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFile, OpenMode.Append)
-            Print(1, "Disconnected for not able to write in stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not able to write in stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
@@ -113,7 +113,7 @@ Module tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFile, OpenMode.Append)
-            Print(1, "Disconnected for not read from stream : " + aTcpTrdParam.GetTcpParam().GetDataStr() + " (" + aTcpTrdParam.GetTcpParam().GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not read from stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
