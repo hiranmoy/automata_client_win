@@ -25,7 +25,6 @@
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
 
 
-Imports WMPLib
 
 Module utils
     'global variables
@@ -33,16 +32,6 @@ Module utils
 
     'contains pending speech file list
     Private gSpeechArr As List(Of String) = New List(Of String)
-
-    'contains alarm list
-    Private mAlarmArr As List(Of Integer) = New List(Of Integer)
-
-    'alarm music file
-    Private mAlarmMusic As String = Application.StartupPath
-
-    'media player
-    Private gMediaPlayer As WindowsMediaPlayer = New WindowsMediaPlayer
-
 
 
     'adds speech files in the pending list
@@ -79,7 +68,7 @@ Module utils
         FileOpen(1, file, OpenMode.Output)
 
         Print(1, Int(gEnableSpeech).ToString + "      :Enable Speech" + Environment.NewLine)
-        Print(1, mAlarmMusic + Environment.NewLine)
+        Print(1, gAlarm.GetAlarmMusic() + Environment.NewLine)
 
         FileClose(1)
     End Sub
@@ -100,129 +89,10 @@ Module utils
         homeCtrl.SpeechCheck.Checked = gEnableSpeech
 
         'set music file
-        mAlarmMusic = LineInput(1)
-        homeCtrl.MusicAlarmLabel.Text = My.Computer.FileSystem.GetName(mAlarmMusic)
+        gAlarm.SetAlarmMusic(LineInput(1))
+        homeCtrl.MusicAlarmLabel.Text = My.Computer.FileSystem.GetName(gAlarm.GetAlarmMusic())
 
         FileClose(1)
-    End Sub
-
-    'returns ip after reading a file
-    Public Function GetIPFromFile(ipFile As String) As String
-        If My.Computer.FileSystem.FileExists(ipFile) = False Then
-            Return "-1"
-        End If
-
-        FileOpen(1, ipFile, OpenMode.Input)
-
-        Dim rpiIp As String = ""
-        Try
-            rpiIp = LineInput(1)
-        Catch ex As Exception
-            Return "-1"
-        End Try
-
-        ' Split string based on ',' character
-        Dim ips As String() = rpiIp.Split(New Char() {" "c})
-
-        FileClose(1)
-
-        If rpiIp = "" Then
-            Return "-1"
-        End If
-
-        Return ips(0)
-    End Function
-
-    'add alarm
-    Public Sub AddAlarmInList(hr As Integer, min As Integer)
-        Dim timeInMin As Integer = (hr + 12 * homeCtrl.AmPmAlarm.SelectedIndex) * 60 + min
-        If mAlarmArr.Contains(timeInMin) = True Then
-            Exit Sub
-        End If
-
-        mAlarmArr.Add(timeInMin)
-        mAlarmArr.Sort()
-
-        UpdateAlarmList()
-    End Sub
-
-    'remove alarm
-    Public Sub DeleteAlarmFromList(alarmIdx As Integer)
-        If alarmIdx < 1 Or alarmIdx > homeCtrl.AlarmList.Items.Count - 1 Then
-            Return
-        End If
-
-        homeCtrl.AlarmList.Items.RemoveAt(alarmIdx)
-        mAlarmArr.RemoveAt(alarmIdx - 1)
-
-        UpdateAlarmList()
-    End Sub
-
-    'browse music
-    Public Sub SelectMusic()
-        homeCtrl.MusicFileBrowse.InitialDirectory = My.Computer.FileSystem.GetParentPath(mAlarmMusic)
-        homeCtrl.MusicFileBrowse.ShowDialog()
-
-        If mAlarmMusic = homeCtrl.MusicFileBrowse.FileName Or homeCtrl.MusicFileBrowse.FileName = "OpenFileDialog1" Then
-            Exit Sub
-        End If
-
-        mAlarmMusic = homeCtrl.MusicFileBrowse.FileName
-        SaveSettings()
-        homeCtrl.MusicAlarmLabel.Text = My.Computer.FileSystem.GetName(mAlarmMusic)
-
-        'test music
-        PlayMusic()
-    End Sub
-
-    'play music
-    Public Sub PlayMusic()
-        gMediaPlayer.URL = mAlarmMusic
-    End Sub
-
-    'kill music
-    Public Sub KillMusic()
-        gMediaPlayer.close()
-    End Sub
-
-    'update alarm lists
-    Private Sub UpdateAlarmList()
-        homeCtrl.AlarmList.Items.Clear()
-        homeCtrl.AlarmList.Items.Add("Alarms set : " + CStr(mAlarmArr.Count))
-
-        For idx = 0 To mAlarmArr.Count - 1
-            Dim curMin As Integer = mAlarmArr(idx) Mod 60
-            Dim curHr As Integer = Int((mAlarmArr(idx) / 60))
-            Dim amPm As String = If(curHr > 12, "PM", "AM")
-            Dim curTimeStr As String = (curHr Mod 12).ToString + " : " + curMin.ToString + " " + amPm
-            homeCtrl.AlarmList.Items.Add(curTimeStr)
-        Next
-
-        homeCtrl.AlarmList.SelectedIndex = -1
-    End Sub
-
-    'check and trigger alarm
-    Public Sub CheckAndTriggerAlarm(prevTimeInMin As Integer, curTimeInMin As Integer)
-        If mAlarmArr.Count = 0 Then
-            Exit Sub
-        End If
-
-        For alarmIdx = 0 To mAlarmArr.Count - 1
-            Dim alarmTimeInMin As Integer = mAlarmArr(alarmIdx)
-
-            If alarmTimeInMin >= prevTimeInMin And alarmTimeInMin <= curTimeInMin Then
-                'alarm triggered
-
-                mAlarmArr.RemoveAt(alarmIdx)
-                UpdateAlarmList()
-
-                'play music
-                PlayMusic()
-
-                'start timer start
-                homeCtrl.TimerAlarm.Start()
-            End If
-        Next
     End Sub
 
 End Module

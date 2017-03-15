@@ -42,6 +42,7 @@ Public Class TcpParameter
     Public Function GetStreamIdx() As String
         Return mStreamIdx
     End Function
+
 End Class
 
 
@@ -70,4 +71,5 @@ Public Class TcpParameterTrd
     Public Sub SetResponse(aResponse As String)
         mResponse = aResponse
     End Sub
+
 End Class

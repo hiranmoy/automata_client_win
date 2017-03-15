@@ -92,6 +92,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="alarm.vb" />
     <Compile Include="appliance.vb" />
     <Compile Include="colorFormat.vb" />
     <Compile Include="globals.vb" />

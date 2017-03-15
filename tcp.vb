@@ -28,11 +28,329 @@
 Imports System.Net.Sockets
 Imports System.Threading
 
-Module tcp
-    'global variables
-    '------------------------------------------------------------------------------------------------------------------------------------------------
+
+Public Class Tcp
+    'tcp client
+    Private mClient(2) As TcpClient
+
+    'tcp connection status
+    Private mFetching(2) As Boolean
+
+    'tcp ips
+    Private mIPAddress(2) As String
+
+    'mark a particular stream as busy
+    Private mStreamBusy(2) As Boolean
+
+    'weather data
+    Private mTemperature As Double
+    Private mHumidity As Double
+    Private mPressure As Double
+
+    'gas sensor data
+    Private mAlcoholReading As Integer
+    Private mCOReading As Integer
+    Private mSmokeReading As Integer
+
+    'motion detection data
+    Private mMotionDetectionStatus As String
+
+    'touch sensor status
+    Private mTouchSensorStatus As String
+
+    'motion detection enable status
+    Private mEnableMotionDetect As Boolean
+
+    'video disable status
+    Private mDisableVideo As Boolean
+
+    'audio disable status
+    Private mDisableAudio As Boolean
+
+    'loading motion and camera status after connecting to rpi
+    Private mLoadMotionAndCamStatus As Boolean
+
+    'fluorescent light appliance
+    Public mFluLight As Appliance
+
+    'plug0 appliance
+    Public mPlug0 As Appliance
+
+    'fan appliance
+    Public mFan As Appliance
+
+    'balcony light appliance
+    Public mBalconyLight As Appliance
+
+    'light bulb appliance
+    Public mLightBulb As Appliance
+
+    'plug1 appliance
+    Public mPlug1 As Appliance
 
 
+    Public Sub New()
+        'initialize mFetching array
+        For idx = 0 To mFetching.Length - 1
+            mFetching(idx) = False
+
+            Select Case idx
+                Case 0 : mIPAddress(idx) = "rpi2"
+                Case 1 : mIPAddress(idx) = "rpi3"
+                Case 2 : mIPAddress(idx) = "rpi32"
+                Case Else
+                    Debug.Assert(False)
+            End Select
+
+            mStreamBusy(idx) = False
+        Next
+
+
+        'initialize weather data
+        mTemperature = 0
+        mHumidity = 0
+        mPressure = 0
+
+        'gas sensor data
+        mAlcoholReading = 0
+        mCOReading = 0
+        mSmokeReading = 0
+
+        'motion detection data
+        mMotionDetectionStatus = ""
+
+        'touch sensor status
+        mTouchSensorStatus = "-"
+
+        'motion detection enable status
+        mEnableMotionDetect = False
+
+        'video disable status
+        mDisableVideo = False
+
+        'audio disable status
+        mDisableAudio = False
+
+        'loading motion and camera status after connecting to rpi
+        mLoadMotionAndCamStatus = False
+
+
+        'fluorescent light data
+        mFluLight = New Appliance(homeCtrl.FluLight,
+                                  Color.White,
+                                  Color.DarkGray,
+                                  "CheckIfOnFluLight",
+                                  "PowerOnFluLight",
+                                  "GetFluLightProfile",
+                                  40)
+
+        'plug0
+        mPlug0 = New Appliance(homeCtrl.Plug0,
+                               Color.FromArgb(255, 192, 192),
+                               Color.FromArgb(192, 255, 255),
+                               "CheckIfOnPlug0",
+                               "PowerOnPlug0",
+                               "GetPlug0Profile",
+                               5)
+
+        'fan
+        mFan = New Appliance(homeCtrl.Fan,
+                             Color.FromArgb(128, 128, 255),
+                             Color.White,
+                             "CheckIfOnFan",
+                             "PowerOnFan",
+                             "GetFanProfile",
+                             60)
+
+        'balcony light
+        mBalconyLight = New Appliance(homeCtrl.BalconyLight,
+                                      Color.FromArgb(255, 255, 192),
+                                      Color.FromArgb(224, 224, 224),
+                                      "CheckIfOnBalconyLight",
+                                      "PowerOnBalconyLight",
+                                      "GetBalconyLightProfile",
+                                      100)
+
+        'light bulb
+        mLightBulb = New Appliance(homeCtrl.LightBulb,
+                                   Color.FromArgb(255, 255, 192),
+                                   Color.FromArgb(224, 224, 224),
+                                   "CheckIfOnBulb0",
+                                   "PowerOnBulb0",
+                                   "GetBulb0Profile",
+                                   100)
+
+        'plug1
+        mPlug1 = New Appliance(homeCtrl.Plug1,
+                               Color.FromArgb(192, 255, 192),
+                               Color.FromArgb(255, 192, 192),
+                               "CheckIfOnPlug1",
+                               "PowerOnPlug1",
+                               "GetPlug1Profile",
+                               100)
+    End Sub
+
+    'returns temperature
+    Public Function GetTemperature()
+        Return mTemperature
+    End Function
+
+    'returns humidity
+    Public Function GetHumidity()
+        Return mHumidity
+    End Function
+
+    'returns pressure
+    Public Function GetPressure()
+        Return mPressure
+    End Function
+
+    'returns alcohol reading
+    Public Function GetAlcoholReading()
+        Return mAlcoholReading
+    End Function
+
+    'returns CO reading
+    Public Function GetCOReading()
+        Return mCOReading
+    End Function
+
+    'returns smoke reading
+    Public Function GetSmokeReading()
+        Return mSmokeReading
+    End Function
+
+    'returns motion detection status
+    Public Function GetMotionDetectionStatus()
+        Return mMotionDetectionStatus
+    End Function
+
+    'clear motion detection status
+    Public Sub ClearMotionDetectionStatus()
+        mMotionDetectionStatus = ""
+    End Sub
+
+    'returns touch sensor status data
+    Public Function GetTouchSensorStatusData()
+        Return mTouchSensorStatus
+    End Function
+
+    'clear mtouch sensor status data
+    Public Sub ClearTouchSensorStatusData()
+        mTouchSensorStatus = "-"
+    End Sub
+
+    'returns EnableMotionDetect status
+    Public Function IsMotionDetectionEnabled()
+        Return mEnableMotionDetect
+    End Function
+
+    'returns video disable status
+    Public Function IsVideoDisabled()
+        Return mDisableVideo
+    End Function
+
+    'returns audio disable status
+    Public Function IsAudioDisabled()
+        Return mDisableAudio
+    End Function
+
+    'returns if motion can cam checkboxes are waiting to get refreshed
+    Public Function IsMotionAndCamStatusPending()
+        Dim curStatus As Boolean = mLoadMotionAndCamStatus
+        mLoadMotionAndCamStatus = False
+        Return curStatus
+    End Function
+
+    'returns true if the module is connected
+    Public Function IsConnected(streamIdx As Integer)
+        Return mFetching(streamIdx)
+    End Function
+
+    'dump time when some module(s) are disconnected
+    Public Sub DumpDebugInfo()
+        Dim moduleList As String = ""
+
+        For streamIndex = 0 To mFetching.Length - 1
+            If mFetching(streamIndex) = False Then
+                moduleList += streamIndex.ToString + " "
+            End If
+        Next
+
+        Try
+            If moduleList <> "" Then
+                FileOpen(1, gDebugFolder + "\TcpStreams.txt", OpenMode.Append)
+                Print(1, homeCtrl.RealTime.Text + " : " + moduleList + Environment.NewLine)
+                FileClose(1)
+            End If
+        Catch
+        End Try
+    End Sub
+
+    'update connect button color and text
+    Public Function GetConnectButtonStatus()
+        'count the number of connected modules
+        Dim numConnected As String = ""
+        For idx = 0 To mFetching.Length - 1
+            If mFetching(idx) Then
+                If numConnected <> "" Then
+                    numConnected = numConnected + ", "
+                End If
+                numConnected = numConnected + idx.ToString
+            End If
+        Next
+
+        If numConnected = "" Then
+            'change connect button text to "Connect"
+            Return "Connect"
+        Else
+            'change connect button text to "Connected"
+            Return "Connected (" + numConnected.ToString + ")"
+        End If
+    End Function
+
+    'connect to all the modules
+    Public Sub ConnectModules()
+        If homeCtrl.ConnectCheck.Checked = True Then
+            For idx = 0 To mFetching.Length - 1
+                ConnectModule(idx)
+            Next
+        Else
+            ConnectModule(homeCtrl.StreamIdx.Value)
+        End If
+    End Sub
+
+    'connect to a module
+    Private Sub ConnectModule(idx As Integer)
+        If mFetching(idx) = False Then
+            'thread to connect to RPI
+            Dim connectionTrd As Thread = New Thread(AddressOf ConnectTcpTrd)
+            connectionTrd.Start(idx)
+        End If
+    End Sub
+
+    'connect to an IP in thread
+    Private Sub ConnectTcpTrd(streamIdx As Integer)
+        Dim port As String = "10001"
+
+        ' Create a TcpClient.
+        ' Note, for this client to work you need to have a TcpServer 
+        ' connected to the same address as specified by the server, port combination.
+        Try
+            mClient(streamIdx) = New TcpClient(mIPAddress(streamIdx), port)
+            'MsgBox("Connected")
+
+            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", streamIdx)
+            Dim handshakeResponse As String = GetResponse(tcpParam)
+            If handshakeResponse = "ok" Then
+                'connected to rpi
+                mFetching(streamIdx) = True
+                FetchData(streamIdx)
+            End If
+        Catch ex As Exception
+            'MsgBox("Not able to connect")
+        End Try
+    End Sub
 
     'retuns RPI response w.r.t a input string
     Public Function GetResponse(aTcpParam As TcpParameter) As String
@@ -51,7 +369,7 @@ Module tcp
                 tcpResponseTrd.Abort()
 
                 'dump debug info when disconnected
-                FileOpen(1, gDebugFile, OpenMode.Append)
+                FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
                 Print(1, "Disconnected due to 10s timeout: " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
                 FileClose(1)
 
@@ -75,10 +393,10 @@ Module tcp
         Dim stream As NetworkStream
         Try
             ' Get a client stream for reading and writing.
-            stream = gClient(streamIdx).GetStream()
+            stream = mClient(streamIdx).GetStream()
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFile, OpenMode.Append)
+            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
             Print(1, "Disconnected for not getting the stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
@@ -89,16 +407,24 @@ Module tcp
         ' Translate the passed message into ASCII and store it as a Byte array.
         Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpTrdParam.GetDataStr())
 
+        'wait if the stream is busy
+        While mStreamBusy(aTcpTrdParam.GetStreamIdx()) = True
+            Thread.Sleep(1)
+        End While
+        'set the stream as busy
+        mStreamBusy(aTcpTrdParam.GetStreamIdx()) = True
+
         Try
             ' Send the message to the connected TcpServer. 
             stream.Write(data, 0, data.Length)
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFile, OpenMode.Append)
+            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
             Print(1, "Disconnected for not able to write in stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
+            mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
             Return
         End Try
 
@@ -112,126 +438,80 @@ Module tcp
             responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFile, OpenMode.Append)
+            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
             Print(1, "Disconnected for not read from stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
             FileClose(1)
 
             aTcpTrdParam.SetResponse(Disconnect(streamIdx))
+            mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
             Return
         End Try
 
         aTcpTrdParam.SetResponse(responseData)
+        mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
     End Sub
 
     'sets to disconnected mode
     Private Function Disconnect(aStreamIdx As Integer) As String
-        gFetching(aStreamIdx) = False
+        mFetching(aStreamIdx) = False
         Try
-            gClient(aStreamIdx).Close()
+            mClient(aStreamIdx).Close()
         Catch
         End Try
 
-        homeCtrl.EnableAllWidgets()
-
         'MsgBox("Connection broken")
-
         Return "Disconnected"
     End Function
 
-    'connect to an IP
-    Public Function ConnectIP(ip As String, streamIdx As Integer) As Boolean
-        Dim port As String = "10001"
-
-        ' Create a TcpClient.
-        ' Note, for this client to work you need to have a TcpServer 
-        ' connected to the same address as specified by the server, port combination.
-        Try
-            gClient(streamIdx) = New TcpClient(ip, port)
-            'MsgBox("Connected")
-
-            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", streamIdx)
-            Dim handshakeResponse As String = GetResponse(tcpParam)
-            If handshakeResponse = "ok" Then
-                Return True
-            End If
-        Catch ex As Exception
-            'MsgBox("Not able to connect")
-        End Try
-
-        Return False
-    End Function
-
-    'connect to a module
-    Public Sub ConnectModule(idx As Integer)
-        If gFetching(idx) = False Then
-            Dim connected As Boolean = False
-
-            Dim host As String = "-1"
-
-            Select Case idx
-                Case 0
-                    'read rpi2 ip
-                    host = GetIPFromFile("\\RPI2\backups\ip.txt")
-                    'Return
-                Case 1
-                    'read rpi3 ip
-                    host = GetIPFromFile("\\RPI3\backups\ip.txt")
-                    'Return
-                Case 2
-                    'read rpi32 ip
-                    host = GetIPFromFile("\\RPI32\backups\ip.txt")
-                    'Return
-                Case Else
-                    Debug.Assert(False)
-            End Select
-            'MsgBox(host)
-
-            If host <> "-1" Then
-                If ConnectIP(host, idx) = True Then
-                    connected = True
-                End If
-
-                If connected = True Then
-                    'connected to rpi
-                    gFetching(idx) = True
-
-                    homeCtrl.EnableAllWidgets()
-                    FetchData(idx)
-                End If
-            End If
+    'fetches data from RPI
+    Public Sub FetchDataFromAll()
+        If homeCtrl.ConnectCheck.Checked = True Then
+            For idx = 0 To mFetching.Length - 1
+                FetchData(idx)
+            Next
+        Else
+            FetchData(homeCtrl.StreamIdx.Value)
         End If
     End Sub
 
-    'fetches all data from RPI
-    Public Sub FetchData(idx As Integer)
-        gLoading = True
-
-        If idx = 0 Then
-            If gFetching(0) = True Then
-                GetLightingSettings()
-            End If
+    'fetches data from RPI
+    Private Sub FetchData(idx As Integer)
+        If mFetching(idx) = False Then
+            Return
         End If
 
-        If idx = 1 Then
-            If gFetching(1) = True Then
+        gLoading = True
+
+        Select Case idx
+            Case 0
+                GetLightingSettings()
+            Case 1
                 MotionAndCameraSettings()
                 GetMonitorStatus()
                 GetWeatherInfo()
-            End If
-        End If
-
-        If idx = 2 Then
-            If gFetching(2) = True Then
+            Case 2
                 GetAirQualityInfo()
-            End If
-        End If
+            Case Else
+                Debug.Assert(False)
+        End Select
 
         gLoading = False
     End Sub
 
     'gets weather info
     Public Sub GetWeatherInfo()
-        If gFetching(gWeatherModuleId) = False Then
+        If mFetching(gWeatherModuleId) = False Then
+            Exit Sub
+        End If
+
+        'thread to get weather data from RPI
+        Dim weatherDataTrd As Thread = New Thread(AddressOf GetWeatherInfoTrd)
+        weatherDataTrd.Start()
+    End Sub
+
+    'gets weather info from RPI
+    Private Sub GetWeatherInfoTrd()
+        If mFetching(gWeatherModuleId) = False Then
             Exit Sub
         End If
 
@@ -244,23 +524,29 @@ Module tcp
         ' Split string based on ',' character
         Dim params As String() = weather.Split(New Char() {","c})
         Debug.Assert(params.Length() = 3)
-
-        homeCtrl.Temperature.Text = "Temperature : " + params(0) + " ^C"
-        homeCtrl.Humidity.Text = "Humidity : " + params(1)
-        homeCtrl.Pressure.Text = "Atmospheric Pressure : " + params(2) + " Pa"
-
-        'Graphics
         Debug.Assert(IsNumeric(params(0)))
-        UpdateTemperatureColor(params(0))
         Debug.Assert(IsNumeric(params(1)))
-        UpdateHumidityColor(params(1))
         Debug.Assert(IsNumeric(params(2)))
-        UpdatePressureColor(params(2))
+
+        mTemperature = CDbl(params(0))
+        mHumidity = CDbl(params(1))
+        mPressure = CDbl(params(2))
     End Sub
 
-    'gets weather info
+    'gets air quality info
     Public Sub GetAirQualityInfo()
-        If gFetching(gAirQualityModuleId) = False Then
+        If mFetching(gAirQualityModuleId) = False Then
+            Exit Sub
+        End If
+
+        'thread to get weather data from RPI
+        Dim aitQualityTrd As Thread = New Thread(AddressOf GetAirQualityInfoTrd)
+        aitQualityTrd.Start()
+    End Sub
+
+    'gets air quality info in thread
+    Private Sub GetAirQualityInfoTrd()
+        If mFetching(gAirQualityModuleId) = False Then
             Exit Sub
         End If
 
@@ -273,23 +559,29 @@ Module tcp
         ' Split string based on ',' character
         Dim params As String() = airQuality.Split(New Char() {","c})
         Debug.Assert(params.Length() = 3)
-
-        homeCtrl.Alcohol.Text = "Alcohol : " + params(0)
-        homeCtrl.CO.Text = "CO : " + params(1)
-        homeCtrl.Smoke.Text = "Smoke : " + params(2)
-
-        'Graphics
         Debug.Assert(IsNumeric(params(0)))
-        UpdateAlcoholColor(params(0))
         Debug.Assert(IsNumeric(params(1)))
-        UpdateCOColor(params(1))
         Debug.Assert(IsNumeric(params(2)))
-        UpdateSmokeColor(params(2))
+
+        mAlcoholReading = CInt(params(0))
+        mCOReading = CInt(params(1))
+        mSmokeReading = CInt(params(2))
     End Sub
 
     'gets motion detection status
     Public Sub GetMonitorStatus()
-        If gFetching(gMotionSensorModuleId) = False Then
+        If mFetching(gMotionSensorModuleId) = False Then
+            Exit Sub
+        End If
+
+        'thread to get motion detection status from RPI
+        Dim motionDetectTrd As Thread = New Thread(AddressOf GetMonitorStatusTrd)
+        motionDetectTrd.Start()
+    End Sub
+
+    'gets motion detection status
+    Private Sub GetMonitorStatusTrd()
+        If mFetching(gMotionSensorModuleId) = False Then
             Exit Sub
         End If
 
@@ -304,33 +596,25 @@ Module tcp
                 'no motion detected
                 Return
             Case Else
-                'motion detection times
-                homeCtrl.MonitorStatus.Text += "Motion detected at " + monitorStatus + Environment.NewLine
-
-                'welcome speech
-                Speech("Welcome_")
-
-                'disable surveillance box
-                homeCtrl.SurveillanceGrp.Enabled = False
-
-                'switch on light
-                If homeCtrl.MotionDetectPowerOn.Checked = False Then
-                    Dim curTime As Date = DateAndTime.Now
-
-                    If (curTime.Hour >= 18) Or (curTime.Hour <= 2) Then
-                        Try
-                            gFluLight.SetPowerOn()
-                        Catch
-                        End Try
-
-                    End If
-                End If
+                'motion detection time
+                mMotionDetectionStatus = "Motion detected at " + monitorStatus + Environment.NewLine
         End Select
     End Sub
 
     'gets touch sensor status
     Public Sub GetTouchSensorStatus()
-        If gFetching(gTouchSensorModuleId) = False Then
+        If mFetching(gTouchSensorModuleId) = False Then
+            Exit Sub
+        End If
+
+        'thread to get touch sensor pressed status from RPI
+        Dim touchSensorTrd As Thread = New Thread(AddressOf GetTouchSensorStatusTrd)
+        touchSensorTrd.Start()
+    End Sub
+
+    'gets touch sensor status
+    Private Sub GetTouchSensorStatusTrd()
+        If mFetching(gTouchSensorModuleId) = False Then
             Exit Sub
         End If
 
@@ -341,37 +625,52 @@ Module tcp
         End If
 
         Debug.Assert(touchSensorStatus <> "")
-
-        If touchSensorStatus <> "-" Then
-            'touch button pressed
-            KillMusic()
-
-            'show snoozing
-            homeCtrl.SnoozeLabel.Visible = True
-        End If
+        mTouchSensorStatus = touchSensorStatus
     End Sub
 
     'check whether tcp connection is maintained
     Public Sub CheckConnectionStatus()
-        For idx = 0 To gFetching.Length - 1
-            If gFetching(idx) = False Then
+        For idx = 0 To mFetching.Length - 1
+            If mFetching(idx) = False Then
                 Continue For
             End If
 
-            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx)
-            Dim connectionStatus As String = GetResponse(tcpParam)
-
-            If (connectionStatus = "Disconnected") Or (connectionStatus = "") Then
-                Return
-            End If
-
-            Debug.Assert(connectionStatus = "connected")
+            'thread to get touch sensor pressed status from RPI
+            Dim connectionCheckTrd As Thread = New Thread(AddressOf CheckConnectionStatusTrd)
+            connectionCheckTrd.Start(idx)
         Next
+    End Sub
+
+    'check whether tcp connection is maintained
+    Private Sub CheckConnectionStatusTrd(streamIdx As Integer)
+        If mFetching(streamIdx) = False Then
+            Return
+        End If
+
+        Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", streamIdx)
+        Dim connectionStatus As String = GetResponse(tcpParam)
+
+        If (connectionStatus = "Disconnected") Or (connectionStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert(connectionStatus = "connected")
     End Sub
 
     'gets motion and camera settings
     Public Sub MotionAndCameraSettings()
-        If (gFetching(gMotionSensorModuleId) = False) Or (gFetching(gCameraModuleId) = False) Then
+        If (mFetching(gMotionSensorModuleId) = False) Or (mFetching(gCameraModuleId) = False) Then
+            Exit Sub
+        End If
+
+        'thread to get touch sensor pressed status from RPI
+        Dim motionCamSettingsTrd As Thread = New Thread(AddressOf MotionAndCameraSettingsInTrd)
+        motionCamSettingsTrd.Start()
+    End Sub
+
+    'gets motion and camera settings using thread
+    Private Sub MotionAndCameraSettingsInTrd()
+        If (mFetching(gMotionSensorModuleId) = False) Or (mFetching(gCameraModuleId) = False) Then
             Exit Sub
         End If
 
@@ -381,8 +680,7 @@ Module tcp
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
-        gEnableMotionDetect = CBool(Int(data))
-        homeCtrl.MotionDetectCheck.Checked = gEnableMotionDetect
+        mEnableMotionDetect = CBool(Int(data))
 
         'enabled video data
         tcpParam = New TcpParameter("GetIsDisableVideo", gCameraModuleId)
@@ -390,8 +688,7 @@ Module tcp
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
-        gDisableVideo = CBool(Int(data))
-        homeCtrl.VideoCheck.Checked = gDisableVideo
+        mDisableVideo = CBool(Int(data))
 
         'enabled audio data
         tcpParam = New TcpParameter("GetIsDisableAudio", gCameraModuleId)
@@ -399,74 +696,39 @@ Module tcp
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
-        gDisableAudio = CBool(Int(data))
-        homeCtrl.AudioCheck.Checked = gDisableAudio
+        mDisableAudio = CBool(Int(data))
+
+        mLoadMotionAndCamStatus = True
     End Sub
 
     'gets light settings data
     Public Sub GetLightingSettings()
-        If gFetching(gLightings1ModuleId) = False Then
+        If mFetching(gLightings1ModuleId) = False Then
             Exit Sub
         End If
 
-        'fluorescent light data
-        gFluLight = New Appliance(homeCtrl.FluLight,
-                                  Color.White,
-                                  Color.DarkGray,
-                                  "CheckIfOnFluLight",
-                                  "PowerOnFluLight",
-                                  "GetFluLightProfile",
-                                  40)
+        'thread to get touch sensor pressed status from RPI
+        Dim lightingSettingsTrd As Thread = New Thread(AddressOf GetLightingSettingsInTrd)
+        lightingSettingsTrd.Start()
+    End Sub
 
-        'plug0
-        gPlug0 = New Appliance(homeCtrl.Plug0,
-                               Color.FromArgb(255, 192, 192),
-                               Color.FromArgb(192, 255, 255),
-                               "CheckIfOnPlug0",
-                               "PowerOnPlug0",
-                               "GetPlug0Profile",
-                               5)
+    'gets light settings data
+    Private Sub GetLightingSettingsInTrd()
+        If mFetching(gLightings1ModuleId) = False Then
+            Exit Sub
+        End If
 
-        'fan
-        gFan = New Appliance(homeCtrl.Fan,
-                             Color.FromArgb(128, 128, 255),
-                             Color.White,
-                             "CheckIfOnFan",
-                             "PowerOnFan",
-                             "GetFanProfile",
-                             60)
-
-        'balcony light
-        gBalconyLight = New Appliance(homeCtrl.BalconyLight,
-                                      Color.FromArgb(255, 255, 192),
-                                      Color.FromArgb(224, 224, 224),
-                                      "CheckIfOnBalconyLight",
-                                      "PowerOnBalconyLight",
-                                      "GetBalconyLightProfile",
-                                      100)
-
-        'light bulb
-        gLightBulb = New Appliance(homeCtrl.LightBulb,
-                                   Color.FromArgb(255, 255, 192),
-                                   Color.FromArgb(224, 224, 224),
-                                   "CheckIfOnBulb0",
-                                   "PowerOnBulb0",
-                                   "GetBulb0Profile",
-                                   100)
-
-        'plug1
-        gPlug1 = New Appliance(homeCtrl.Plug1,
-                               Color.FromArgb(192, 255, 192),
-                               Color.FromArgb(255, 192, 192),
-                               "CheckIfOnPlug1",
-                               "PowerOnPlug1",
-                               "GetPlug1Profile",
-                               100)
+        mFluLight.CheckPowerOnStatus()
+        mPlug0.CheckPowerOnStatus()
+        mFan.CheckPowerOnStatus()
+        mBalconyLight.CheckPowerOnStatus()
+        mPlug1.CheckPowerOnStatus()
+        mLightBulb.CheckPowerOnStatus()
     End Sub
 
     'toggles LED light
     Public Sub ToggleLEDLight()
-        If gFetching(gLightings2ModuleId) = False Then
+        If mFetching(gLightings2ModuleId) = False Then
             Exit Sub
         End If
 
@@ -476,7 +738,7 @@ Module tcp
 
     'enables/disables motion detection
     Public Function EnableMotionDetect(en As Integer) As Boolean
-        If gFetching(gMotionSensorModuleId) = False Then
+        If mFetching(gMotionSensorModuleId) = False Then
             Return False
         End If
 
@@ -488,13 +750,13 @@ Module tcp
         End If
         Debug.Assert((Int(enableMotionDetectFlag) = 0) Or (Int(enableMotionDetectFlag) = 1))
 
-        gEnableMotionDetect = CBool(en)
+        mEnableMotionDetect = CBool(en)
         Return CBool(Int(enableMotionDetectFlag))
     End Function
 
     'enables/disables video recording on motion detection
     Public Function DisableVideo(en As Integer) As Boolean
-        If gFetching(gCameraModuleId) = False Then
+        If mFetching(gCameraModuleId) = False Then
             Return False
         End If
 
@@ -506,13 +768,13 @@ Module tcp
         End If
         Debug.Assert((Int(disableVideoFlag) = 0) Or (Int(disableVideoFlag) = 1))
 
-        gDisableVideo = CBool(en)
+        mDisableVideo = CBool(en)
         Return CBool(Int(disableVideoFlag))
     End Function
 
     'enables/disables audio recording on motion detection
     Public Function DisableAudio(en As Integer) As Boolean
-        If gFetching(gCameraModuleId) = False Then
+        If mFetching(gCameraModuleId) = False Then
             Return False
         End If
 
@@ -524,8 +786,8 @@ Module tcp
         End If
         Debug.Assert((Int(disableAudioFlag) = 0) Or (Int(disableAudioFlag) = 1))
 
-        gDisableAudio = CBool(en)
+        mDisableAudio = CBool(en)
         Return CBool(Int(disableAudioFlag))
     End Function
 
-End Module
+End Class

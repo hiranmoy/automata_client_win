@@ -23,9 +23,9 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -157,6 +157,7 @@ Partial Class homeCtrl
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
         Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Smoke = New System.Windows.Forms.Label()
+        Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
@@ -600,17 +601,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea1.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend1)
+        ChartArea2.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend2)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Power on Time"
-        Series1.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series1)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Power on Time"
+        Series2.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series2)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1610,6 +1611,9 @@ Partial Class homeCtrl
         Me.Smoke.TabIndex = 40
         Me.Smoke.Text = "Smoke :"
         '
+        'ControlRefreshTimer
+        '
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1805,4 +1809,5 @@ Partial Class homeCtrl
     Friend WithEvents Surveillance As Button
     Friend WithEvents SnoozeLabel As Label
     Friend WithEvents DisableLightSchedule As CheckBox
+    Friend WithEvents ControlRefreshTimer As Timer
 End Class

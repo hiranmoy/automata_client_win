@@ -81,14 +81,6 @@ Public Class Appliance
         mTcpProfileCommand = tcpProfileCommand
         mPowerRequirement = power
 
-        'get on/off status from the RPI
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId)
-        Dim data As String = GetResponse(tcpParam)
-        If data = "Disconnected" Then
-            Return
-        End If
-        mPowerOn = CBool(Int(data))
-
         'initialization
         mTimerVal = -1
         mStartTime = 86400
@@ -97,12 +89,12 @@ Public Class Appliance
         'load schedule
         RestoreSchedule()
 
-        'update color depending on the on/off status
-        UpdateColor()
+        'pwr on status
+        mPowerOn = False
     End Sub
 
     'updates background color of the button depending on the on/off status
-    Private Sub UpdateColor()
+    Public Sub UpdateColor()
         If mPowerOn = True Then
             mButton.BackColor = mOnColor
         Else
@@ -188,12 +180,12 @@ Public Class Appliance
                             DateAndTime.Now.ToString
         homeCtrl.pwHist.Series.Add(col)
 
-        If gFetching(gWeatherModuleId) = False Then
+        If gTcpMgr.IsConnected(gWeatherModuleId) = False Then
             Exit Sub
         End If
 
         Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, gLightings1ModuleId)
-        Dim profile As String = GetResponse(tcpParam)
+        Dim profile As String = gTcpMgr.GetResponse(tcpParam)
         If (profile = "Disconnected") Or (profile = "") Then
             Return
         End If
@@ -245,16 +237,37 @@ Public Class Appliance
 
     'on/off appliance
     Public Sub SetPowerOn(Optional powerOn As Boolean = True)
+        If gTcpMgr.IsConnected(gLightings1ModuleId) = False Then
+            Exit Sub
+        End If
+
         mPowerOn = powerOn
 
         Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), gLightings1ModuleId)
-        Dim data As String = GetResponse(tcpParam)
+        Dim data As String = gTcpMgr.GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return
         End If
         Debug.Assert((Int(data) = 0) Or (Int(data) = 1))
 
         Debug.Assert(CBool(Int(data)) = mPowerOn)
+        UpdateColor()
+    End Sub
+
+    Public Sub CheckPowerOnStatus()
+        If gTcpMgr.IsConnected(gLightings1ModuleId) = False Then
+            Exit Sub
+        End If
+
+        'get on/off status from the RPI
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId)
+        Dim data As String = gTcpMgr.GetResponse(tcpParam)
+        If data = "Disconnected" Then
+            Return
+        End If
+        mPowerOn = CBool(Int(data))
+
+        'update color depending on the on/off status
         UpdateColor()
     End Sub
 

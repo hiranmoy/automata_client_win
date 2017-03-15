@@ -46,17 +46,21 @@ Public Class homeCtrl
         'disable maximize button
         Me.MaximizeBox = False
 
+
         'RestoreSettings
         RestoreSettings()
         gLoading = False
+
 
         'disable all tabs
         For idx = 0 To Tabs.TabCount - 1
             Tabs.TabPages(idx).Enabled = False
         Next
 
+
         'Welcome speech
         Speech("Welcome_Hiranmoy_")
+
 
         'start reconnect timer
         ReconnectTimer.Start()
@@ -73,8 +77,22 @@ Public Class homeCtrl
         'start 10s timer
         Timer20s.Start()
 
+        'start 100 ms timer
+        ControlRefreshTimer.Start()
+
+        'start lighting timer
+        LightingsTimer.Start()
+
+
         'initialize am pm selector
         AmPmAlarm.SelectedIndex = 0
+
+
+        'clear and create debug directory
+        If My.Computer.FileSystem.DirectoryExists(gDebugFolder) Then
+            My.Computer.FileSystem.DeleteDirectory(gDebugFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        My.Computer.FileSystem.CreateDirectory(gDebugFolder)
     End Sub
 
 
@@ -84,59 +102,53 @@ Public Class homeCtrl
 
     'connect to RPI
     Private Sub connect_Click(sender As Object, e As EventArgs) Handles Connect.Click
-        If ConnectCheck.Checked = True Then
-            For idx = 0 To gFetching.Length - 1
-                ConnectModule(idx)
-            Next
-        End If
+        gTcpMgr.ConnectModules()
     End Sub
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
-        MsgBox(GetResponse(tcpParam))
+        MsgBox(gTcpMgr.GetResponse(tcpParam))
     End Sub
 
     'Fatch data
     Private Sub Fetch_Click(sender As Object, e As EventArgs) Handles Fetch.Click
-        For idx = 0 To gFetching.Length - 1
-            FetchData(idx)
-        Next
+        gTcpMgr.FetchDataFromAll()
     End Sub
 
     'toggle LED light
     Private Sub Toggleled_Click(sender As Object, e As EventArgs) Handles Toggleled.Click
-        ToggleLEDLight()
+        gTcpMgr.ToggleLEDLight()
     End Sub
 
     'toggle fluorescent light
     Private Sub FluLight_Click(sender As Object, e As EventArgs) Handles FluLight.Click
-        gFluLight.Toggle()
+        gTcpMgr.mFluLight.Toggle()
     End Sub
 
     'toggle plug0 (good night connected)
     Private Sub Plug0_Click(sender As Object, e As EventArgs) Handles Plug0.Click
-        gPlug0.Toggle()
+        gTcpMgr.mPlug0.Toggle()
     End Sub
 
     'toggle fan
     Private Sub fan_Click(sender As Object, e As EventArgs) Handles Fan.Click
-        gFan.Toggle()
+        gTcpMgr.mFan.Toggle()
     End Sub
 
     'toggle balcony light
     Private Sub balconyLight_Click(sender As Object, e As EventArgs) Handles BalconyLight.Click
-        gBalconyLight.Toggle()
+        gTcpMgr.mBalconyLight.Toggle()
     End Sub
 
     'toggle light bulb
     Private Sub LightBulb_Click(sender As Object, e As EventArgs) Handles LightBulb.Click
-        gLightBulb.Toggle()
+        gTcpMgr.mLightBulb.Toggle()
     End Sub
 
     'toggle plug1 (laptop connected)
     Private Sub Plug1_Click(sender As Object, e As EventArgs) Handles Plug1.Click
-        gPlug1.Toggle()
+        gTcpMgr.mPlug1.Toggle()
     End Sub
 
     'power on scheduling settings
@@ -224,7 +236,7 @@ Public Class homeCtrl
     'clear power profile graph
     Private Sub ClearHist_Click(sender As Object, e As EventArgs) Handles ClearHist.Click
         pwHist.Series.Clear()
-        Dim col As String = "Power on Time"
+        Dim col As String = "Power consumption"
         pwHist.Series.Add(col)
     End Sub
 
@@ -302,14 +314,26 @@ Public Class homeCtrl
             'disable video check
             VideoCheck.Enabled = False
 
-            If gDisableVideo = False Then
+            If gTcpMgr.IsVideoDisabled() = False Then
                 'start live feed through RPI
                 Dim tcpParam As TcpParameter = New TcpParameter("StartLiveFeed", gCameraModuleId)
-                Dim feedStatus As String = GetResponse(tcpParam)
+                Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
 
+                'get name of the module
+                Dim host As String = ""
+                Select Case gCameraModuleId
+                    Case 0
+                        host = "rpi2"
+                    Case 1
+                        host = "rpi3"
+                    Case 2
+                        host = "rpi32"
+                    Case Else
+                        Debug.Assert(False)
+                End Select
+
                 'open the link in default web broswer
-                Dim host As String = GetIPFromFile("\\RPI3\backups\ip.txt")
                 Process.Start("http://" + host + ":8080/?action=stream")
             End If
         Else
@@ -324,7 +348,7 @@ Public Class homeCtrl
 
             'stop live feed through RPI
             Dim tcpParam As TcpParameter = New TcpParameter("StopLiveFeed", gCameraModuleId)
-            Dim feedStatus As String = GetResponse(tcpParam)
+            Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
             Debug.Assert(feedStatus = "off")
         End If
 
@@ -348,17 +372,17 @@ Public Class homeCtrl
             'disable audio check
             AudioCheck.Enabled = False
 
-            If gDisableVideo = False Then
+            If gTcpMgr.IsVideoDisabled() = False Then
                 'start video recording through RPI
                 Dim tcpParam As TcpParameter = New TcpParameter("StartVideoRec", gCameraModuleId)
-                Dim feedStatus As String = GetResponse(tcpParam)
+                Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
             End If
 
-            If gDisableAudio = False Then
+            If gTcpMgr.IsAudioDisabled() = False Then
                 'start audio recording through RPI
                 Dim tcpParam As TcpParameter = New TcpParameter("StartAudioRec", gCameraModuleId)
-                Dim audioFeedStatus As String = GetResponse(tcpParam)
+                Dim audioFeedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "on")
             End If
         Else
@@ -373,17 +397,17 @@ Public Class homeCtrl
             'enable audio check
             AudioCheck.Enabled = True
 
-            If gDisableVideo = False Then
+            If gTcpMgr.IsVideoDisabled() = False Then
                 'stop video recording through RPI
                 Dim tcpParam As TcpParameter = New TcpParameter("StopVideoRec", gCameraModuleId)
-                Dim feedStatus As String = GetResponse(tcpParam)
+                Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "off")
             End If
 
-            If gDisableAudio = False Then
+            If gTcpMgr.IsAudioDisabled() = False Then
                 'stop audio recording through RPI
                 Dim tcpParam As TcpParameter = New TcpParameter("StopAudioRec", gCameraModuleId)
-                Dim audioFeedStatus As String = GetResponse(tcpParam)
+                Dim audioFeedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "off")
             End If
         End If
@@ -395,7 +419,7 @@ Public Class homeCtrl
     'set up led flood light
     Private Sub enableLED_Click(sender As Object, e As EventArgs) Handles EnableLED.Click
         Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", gLircModuleId)
-        Dim powerStatus As String = GetResponse(tcpParam)
+        Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
             Return
         End If
@@ -412,7 +436,7 @@ Public Class homeCtrl
     'switch off led flood light
     Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
         Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId)
-        Dim powerStatus As String = GetResponse(tcpParam)
+        Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
         Debug.Assert(powerStatus = "off")
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
             Return
@@ -433,8 +457,8 @@ Public Class homeCtrl
         Dim buttonidx As String = btn.Name
         buttonidx = buttonidx.Substring(9, 2)
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + CStr(buttonidx), gLircModuleId)
-        Dim buttonStatus As String = GetResponse(tcpParam)
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + buttonidx, gLircModuleId)
+        Dim buttonStatus As String = gTcpMgr.GetResponse(tcpParam)
         If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
             Return
         End If
@@ -448,27 +472,27 @@ Public Class homeCtrl
 
     'add alarm
     Private Sub AddAlarm_Click(sender As Object, e As EventArgs) Handles AddAlarm.Click
-        AddAlarmInList(HourAlarm.Value, MinAlarm.Value)
+        gAlarm.AddAlarmInList(HourAlarm.Value, MinAlarm.Value)
     End Sub
 
     'remove alarm
     Private Sub DeleteAlarm_Click(sender As Object, e As EventArgs) Handles DeleteAlarm.Click
-        DeleteAlarmFromList(AlarmList.SelectedIndex)
+        gAlarm.DeleteAlarmFromList(AlarmList.SelectedIndex)
     End Sub
 
     'browse alarm
     Private Sub BrowseAlarm_Click(sender As Object, e As EventArgs) Handles BrowseAlarm.Click
-        SelectMusic()
+        gAlarm.SelectMusic()
     End Sub
 
     'test alarm music
     Private Sub TestAlarm_Click(sender As Object, e As EventArgs) Handles TestAlarm.Click
-        PlayMusic()
+        gAlarm.PlayMusic()
     End Sub
 
     'snooze alarm music
     Private Sub SnoozeAlarm_Click(sender As Object, e As EventArgs) Handles SnoozeAlarm.Click
-        KillMusic()
+        gAlarm.KillMusic()
 
         'show snoozing
         SnoozeLabel.Visible = True
@@ -476,7 +500,7 @@ Public Class homeCtrl
 
     'stop alarm
     Private Sub StopAlarm_Click(sender As Object, e As EventArgs) Handles StopAlarm.Click
-        KillMusic()
+        gAlarm.KillMusic()
 
         'stop alarm timer
         TimerAlarm.Stop()
@@ -521,8 +545,8 @@ Public Class homeCtrl
             'enabling motion detect speech
             Speech("Enabling_motion_detection")
         Else
-            Dim enableMotionDetectFlag As Boolean = EnableMotionDetect(Int(MotionDetectCheck.Checked))
-            Debug.Assert((gFetching(1) = False) Or (enableMotionDetectFlag = MotionDetectCheck.Checked))
+            Dim enableMotionDetectFlag As Boolean = gTcpMgr.EnableMotionDetect(Int(MotionDetectCheck.Checked))
+            Debug.Assert((gTcpMgr.IsConnected(gMotionSensorModuleId) = False) Or (enableMotionDetectFlag = MotionDetectCheck.Checked))
 
             'disable motion detect speech
             Speech("Motion_detection_disabled")
@@ -538,8 +562,8 @@ Public Class homeCtrl
             Return
         End If
 
-        Dim disableVideoFlag As Boolean = DisableVideo(Int(VideoCheck.Checked))
-        Debug.Assert((gFetching(1) = False) Or (disableVideoFlag = VideoCheck.Checked))
+        Dim disableVideoFlag As Boolean = gTcpMgr.DisableVideo(Int(VideoCheck.Checked))
+        Debug.Assert((gTcpMgr.IsConnected(gCameraModuleId) = False) Or (disableVideoFlag = VideoCheck.Checked))
     End Sub
 
     'enable/disable audio recording when motion is detected
@@ -551,8 +575,8 @@ Public Class homeCtrl
             Return
         End If
 
-        Dim disableAudioFlag As Boolean = DisableAudio(Int(AudioCheck.Checked))
-        Debug.Assert((gFetching(1) = False) Or (disableAudioFlag = AudioCheck.Checked))
+        Dim disableAudioFlag As Boolean = gTcpMgr.DisableAudio(Int(AudioCheck.Checked))
+        Debug.Assert((gTcpMgr.IsConnected(gCameraModuleId) = False) Or (disableAudioFlag = AudioCheck.Checked))
     End Sub
 
     'enable/disable power on scheduler
@@ -590,12 +614,12 @@ Public Class homeCtrl
         If SelectPlug0.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gPlug0.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mPlug0.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gPlug0.GetPowerHistogram()
+                gTcpMgr.mPlug0.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -605,12 +629,12 @@ Public Class homeCtrl
         If SelectFluLight.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gFluLight.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mFluLight.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gFluLight.GetPowerHistogram()
+                gTcpMgr.mFluLight.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -620,12 +644,12 @@ Public Class homeCtrl
         If SelectBalconyLight.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gBalconyLight.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mBalconyLight.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gBalconyLight.GetPowerHistogram()
+                gTcpMgr.mBalconyLight.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -635,12 +659,12 @@ Public Class homeCtrl
         If SelectFan.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gFan.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mFan.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gFan.GetPowerHistogram()
+                gTcpMgr.mFan.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -650,12 +674,12 @@ Public Class homeCtrl
         If SelectLightBulb.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gLightBulb.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mLightBulb.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gLightBulb.GetPowerHistogram()
+                gTcpMgr.mLightBulb.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -665,12 +689,12 @@ Public Class homeCtrl
         If SelectPlug1.Checked = True Then
             If gLightSettingsMode = True Then
                 'populate schedule
-                EnableLightSchedule.Checked = gPlug1.GetSchedule()
+                EnableLightSchedule.Checked = gTcpMgr.mPlug1.GetSchedule()
             End If
 
             If gPowerHistSelectMode Then
                 'populate power on histogram
-                gPlug1.GetPowerHistogram()
+                gTcpMgr.mPlug1.GetPowerHistogram()
             End If
         End If
     End Sub
@@ -707,12 +731,12 @@ Public Class homeCtrl
 
     'fetch weather and motion detection status
     Private Sub Timer20s_Tick(sender As Object, e As EventArgs) Handles Timer20s.Tick
-        CheckConnectionStatus()
+        gTcpMgr.CheckConnectionStatus()
 
-        GetWeatherInfo()
-        GetMonitorStatus()
+        gTcpMgr.GetWeatherInfo()
+        gTcpMgr.GetMonitorStatus()
 
-        GetAirQualityInfo()
+        gTcpMgr.GetAirQualityInfo()
     End Sub
 
     'updates time remaining motion detect activation
@@ -733,8 +757,8 @@ Public Class homeCtrl
             gMotionActDelay = MotionActDelay.Value * 5
             MotionActDelayLabel.Text = "Motion Activation Delay : " + gMotionActDelay.ToString + " sec."
 
-            Dim enableMotionDetectFlag As Boolean = EnableMotionDetect(Int(MotionDetectCheck.Checked))
-            Debug.Assert((gFetching(1) = False) Or (enableMotionDetectFlag = MotionDetectCheck.Checked))
+            Dim enableMotionDetectFlag As Boolean = gTcpMgr.EnableMotionDetect(Int(MotionDetectCheck.Checked))
+            Debug.Assert((gTcpMgr.IsConnected(gMotionSensorModuleId) = False) Or (enableMotionDetectFlag = MotionDetectCheck.Checked))
             'MsgBox("motion detection enabled")
 
             'enable motion detect speech
@@ -744,6 +768,10 @@ Public Class homeCtrl
 
     'check for timer and scheduler for appliances
     Private Sub LightingsTimer_Tick(sender As Object, e As EventArgs) Handles LightingsTimer.Tick
+        If (gTcpMgr.IsConnected(gLightings1ModuleId)) = True Then
+            Return
+        End If
+
         ToggleAppliancesIfNeeded()
         ScheduleAppliances()
     End Sub
@@ -766,11 +794,7 @@ Public Class homeCtrl
 
     'If connection is broken, try to reconnect to rpi at every minute
     Private Sub ReconnectTimer_Tick(sender As Object, e As EventArgs) Handles ReconnectTimer.Tick
-        If ConnectCheck.Checked = True Then
-            For idx = 0 To gFetching.Length - 1
-                ConnectModule(idx)
-            Next
-        End If
+        gTcpMgr.ConnectModules()
     End Sub
 
     'disable led buttons after 1 hr
@@ -786,8 +810,8 @@ Public Class homeCtrl
         Select Case curHr
             Case 0 To 9 : curTime = curTime + "0" + curHr.ToString + ":"
             Case 10 To 12 : curTime += curHr.ToString + ":"
-            Case 13 To 21 : curTime += "0" + CStr(curHr - 12) + ":"
-            Case 22 To 23 : curTime += CStr(curHr - 12) + ":"
+            Case 13 To 21 : curTime += "0" + (curHr - 12).ToString + ":"
+            Case 22 To 23 : curTime += (curHr - 12).ToString + ":"
         End Select
 
         Dim curMin As Integer = Now.TimeOfDay.Minutes
@@ -830,38 +854,146 @@ Public Class homeCtrl
         End If
 
         'check for alarm
-        CheckAndTriggerAlarm(prevTimeInMin, curTimeInMin)
-
-        Try
-            'dump time when some module(s) are disconnected
-
-            Dim moduleList As String = ""
-
-            For streamIndex = 0 To gFetching.Length - 1
-                If gFetching(streamIndex) = False Then
-                    moduleList += streamIndex.ToString + " "
-                End If
-            Next
-
-            If moduleList <> "" Then
-                FileOpen(1, gDebugFile, OpenMode.Append)
-                Print(1, RealTime.Text + " : " + moduleList + Environment.NewLine)
-                FileClose(1)
-            End If
-        Catch
-        End Try
+        gAlarm.CheckAndTriggerAlarm(prevTimeInMin, curTimeInMin)
     End Sub
 
     'alarm timer 
     Private Sub TimerAlarm_Tick(sender As Object, e As EventArgs) Handles TimerAlarm.Tick
-        PlayMusic()
+        gAlarm.PlayMusic()
     End Sub
 
     'check for touch sensor status
     Private Sub Timer1s_Tick(sender As Object, e As EventArgs) Handles Timer1s.Tick
         If TimerAlarm.Enabled = True Then
-            GetTouchSensorStatus()
+            gTcpMgr.GetTouchSensorStatus()
         End If
+    End Sub
+
+    Private Sub ControlRefreshTimer_Tick(sender As Object, e As EventArgs) Handles ControlRefreshTimer.Tick
+        'enable controls depending connection status of different RPIs
+        EnableAllWidgets()
+
+
+        'refresh weather data
+        Dim curTemperature As Double = gTcpMgr.GetTemperature()
+        If curTemperature > 0 Then
+            Dim newText As String = "Temperature : " + curTemperature.ToString + " ^C"
+            If Temperature.Text <> newText Then
+                Temperature.Text = newText
+                UpdateTemperatureColor(curTemperature)
+            End If
+        End If
+
+        Dim curHumidity As Double = gTcpMgr.GetHumidity()
+        If curHumidity > 0 Then
+            Dim newText As String = "Humidity : " + curHumidity.ToString
+            If Humidity.Text <> newText Then
+                Humidity.Text = newText
+                UpdateHumidityColor(curHumidity)
+            End If
+        End If
+
+        Dim curPressure As Double = gTcpMgr.GetPressure()
+        If curPressure > 0 Then
+            Dim newText As String = "Atmospheric Pressure : " + curPressure.ToString + " Pa"
+            If Pressure.Text <> newText Then
+                Pressure.Text = newText
+                UpdatePressureColor(curPressure)
+            End If
+        End If
+
+
+        'refresh gas sensors data
+        Dim curAlcoholReading As Integer = gTcpMgr.GetAlcoholReading()
+        If curAlcoholReading > 0 Then
+            Dim newText As String = "Alcohol : " + curAlcoholReading.ToString
+            If Alcohol.Text <> newText Then
+                Alcohol.Text = newText
+                UpdateAlcoholColor(curAlcoholReading)
+            End If
+        End If
+
+        Dim curCOReading As Integer = gTcpMgr.GetCOReading()
+        If curCOReading > 0 Then
+            Dim newText As String = "CO : " + curCOReading.ToString
+            If CO.Text <> newText Then
+                CO.Text = newText
+                UpdateCOColor(curCOReading)
+            End If
+        End If
+
+        Dim curSmokeReading As Integer = gTcpMgr.GetSmokeReading()
+        If curSmokeReading > 0 Then
+            Dim newText As String = "Smoke : " + curSmokeReading.ToString
+            If Smoke.Text <> newText Then
+                Smoke.Text = newText
+                UpdateSmokeColor(curSmokeReading)
+            End If
+        End If
+
+
+        'refresh motion detection data
+        Dim motionStatus As String = gTcpMgr.GetMotionDetectionStatus()
+        If motionStatus <> "" Then
+            MonitorStatus.Text += motionStatus
+            gTcpMgr.ClearMotionDetectionStatus()
+
+            'welcome speech
+            Speech("Welcome_")
+
+            'disable surveillance box
+            SurveillanceGrp.Enabled = False
+
+            'switch on light
+            If MotionDetectPowerOn.Checked = False Then
+                Dim curTime As Date = DateAndTime.Now
+                If (curTime.Hour >= 18) Or (curTime.Hour <= 2) Then
+                    gTcpMgr.mFluLight.SetPowerOn()
+                End If
+            End If
+        End If
+
+
+        'refresh snooze status based on touch sensor output
+        Dim touchSensorStatus As String = gTcpMgr.GetTouchSensorStatusData()
+        If touchSensorStatus <> "-" Then
+            'touch button pressed
+            gAlarm.KillMusic()
+
+            'show snoozing
+            SnoozeLabel.Visible = True
+        End If
+
+
+        'refresh motion, video, audio check status
+        If gTcpMgr.IsMotionAndCamStatusPending() = True Then
+            MotionDetectCheck.Checked = gTcpMgr.IsMotionDetectionEnabled()
+            VideoCheck.Checked = gTcpMgr.IsVideoDisabled()
+            AudioCheck.Checked = gTcpMgr.IsAudioDisabled()
+        End If
+
+
+        'refresh connect button text
+        Dim connectText As String = gTcpMgr.GetConnectButtonStatus()
+        If Connect.Text <> connectText Then
+            Connect.Text = connectText
+            If connectText = "Connect" Then
+                'change connect button color to reddish
+                Connect.BackColor = Color.FromArgb(255, 128, 128)
+            Else
+                'change connect button color sky blue
+                Connect.BackColor = Color.LightSkyBlue
+            End If
+        End If
+
+
+        'update appliance color
+        gTcpMgr.mFluLight.UpdateColor()
+        gTcpMgr.mPlug0.UpdateColor()
+        gTcpMgr.mFan.UpdateColor()
+        gTcpMgr.mBalconyLight.UpdateColor()
+        gTcpMgr.mLightBulb.UpdateColor()
+        gTcpMgr.mPlug1.UpdateColor()
     End Sub
 
 
@@ -886,7 +1018,7 @@ Public Class homeCtrl
 
             Dim month As String = params(1)
 
-            If dir.Contains(yr + "-") = False Then
+            If dir.Contains(yr + " - ") = False Then
                 Continue For
             End If
 
@@ -916,7 +1048,7 @@ Public Class homeCtrl
 
             Dim day As String = params(2)
 
-            If dir.Contains(yr + "-" + month + "-") = False Then
+            If dir.Contains(yr + " - " + month + " - ") = False Then
                 Continue For
             End If
 
@@ -932,12 +1064,12 @@ Public Class homeCtrl
     Private Sub dayList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dayList.SelectedIndexChanged
         hrList.Items.Clear()
 
-        Dim dayDir As String = gCurSurveillanceDir + "\" +
-                               yrList.SelectedItem + "-" +
-                               monthList.SelectedItem + "-" +
+        Dim dayDir As String = gCurSurveillanceDir + " \ " +
+                               yrList.SelectedItem + " - " +
+                               monthList.SelectedItem + " - " +
                                dayList.SelectedItem
         Dim clipDir As DirectoryInfo = New DirectoryInfo(dayDir)
-        Dim clips() As FileInfo = clipDir.GetFiles("*.h264")
+        Dim clips() As FileInfo = clipDir.GetFiles(" * .h264")
         Dim audioClips() As FileInfo = clipDir.GetFiles("*.wav")
         ReDim Preserve clips(clips.Length + audioClips.Length - 1)
         audioClips.CopyTo(clips, clips.Length - audioClips.Length)
@@ -1047,46 +1179,13 @@ Public Class homeCtrl
 
     'enable/disable widgets
     Public Sub EnableAllWidgets()
+        Fetch.Enabled = gTcpMgr.IsConnected(gLightings1ModuleId)
+        Toggleled.Enabled = gTcpMgr.IsConnected(gLightings2ModuleId)
 
-        Fetch.Enabled = gFetching(gLightings1ModuleId)
-        Toggleled.Enabled = gFetching(gLightings2ModuleId)
-
-        Tabs.TabPages(0).Enabled = gFetching(gMotionSensorModuleId) And gFetching(gCameraModuleId)
-        Tabs.TabPages(1).Enabled = gFetching(gLightings1ModuleId)
-        Tabs.TabPages(2).Enabled = gFetching(gLircModuleId)
-        Tabs.TabPages(3).Enabled = gFetching(gAirQualityModuleId)
-
-        If (gFetching(gLightings1ModuleId)) Then
-            LightingsTimer.Start()
-        Else
-            LightingsTimer.Stop()
-        End If
-
-        'count the number of connected modules
-        Dim numConnected As String = ""
-        For idx = 0 To gFetching.Length - 1
-            If gFetching(idx) Then
-                If numConnected <> "" Then
-                    numConnected = numConnected + ", "
-                End If
-                numConnected = numConnected + idx.ToString
-            End If
-        Next
-
-        If numConnected = "" Then
-            'change connect button text to "Connect"
-            Connect.Text = "Connect"
-
-            'change connect button color to reddish
-            Connect.BackColor = Color.FromArgb(255, 128, 128)
-        Else
-            'change connect button text to "Connected"
-            Connect.Text = "Connected (" + CStr(numConnected) + ")"
-
-            'change connect button color sky blue
-            Connect.BackColor = Color.LightSkyBlue
-        End If
-
+        Tabs.TabPages(0).Enabled = gTcpMgr.IsConnected(gMotionSensorModuleId) And gTcpMgr.IsConnected(gCameraModuleId)
+        Tabs.TabPages(1).Enabled = gTcpMgr.IsConnected(gLightings1ModuleId)
+        Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
+        Tabs.TabPages(3).Enabled = gTcpMgr.IsConnected(gAirQualityModuleId)
     End Sub
 
     'enable all radio buttons
