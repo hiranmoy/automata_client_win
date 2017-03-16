@@ -39,6 +39,9 @@ Public Class Tcp
     'tcp ips
     Private mIPAddress(2) As String
 
+    'tcp fetch pending
+    Private mFetchPending(2) As Boolean
+
     'stores tcp responses
     Private mResposnses As Hashtable
 
@@ -101,6 +104,8 @@ Public Class Tcp
                 Case Else
                     Debug.Assert(False)
             End Select
+
+            mFetchPending(idx) = False
         Next
         mResposnses = New Hashtable()
 
@@ -321,15 +326,18 @@ Public Class Tcp
     'connect to a module
     Private Sub ConnectModule(idx As Integer)
         If mFetching(idx) = False Then
+            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", idx)
+
             'thread to connect to RPI
             Dim connectionTrd As Thread = New Thread(AddressOf ConnectTcpTrd)
-            connectionTrd.Start(idx)
+            connectionTrd.Start(tcpParam)
         End If
     End Sub
 
     'connect to an IP in thread
-    Private Sub ConnectTcpTrd(streamIdx As Integer)
+    Private Sub ConnectTcpTrd(atcpParam As TcpParameter)
         Dim port As String = "10001"
+        Dim streamIdx As Integer = atcpParam.GetStreamIdx()
 
         ' Create a TcpClient.
         ' Note, for this client to work you need to have a TcpServer 
@@ -338,16 +346,27 @@ Public Class Tcp
             mClient(streamIdx) = New TcpClient(mIPAddress(streamIdx), port)
             'MsgBox("Connected")
 
-            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", streamIdx)
-            Dim handshakeResponse As String = GetResponse(tcpParam)
+            Dim handshakeResponse As String = GetResponse(atcpParam)
             If handshakeResponse = "ok" Then
                 'connected to rpi
                 mFetching(streamIdx) = True
-                FetchData(streamIdx)
+                mFetchPending(streamIdx) = True
             End If
         Catch ex As Exception
             'MsgBox("Not able to connect")
         End Try
+    End Sub
+
+    'fetch data if it is pending
+    Public Sub FetchDataIfPending()
+        For idx = 0 To mFetching.Length - 1
+            If mFetchPending(idx) = False Then
+                Continue For
+            End If
+
+            mFetchPending(idx) = False
+            FetchData(idx)
+        Next
     End Sub
 
     'retuns RPI response w.r.t a input string
@@ -434,22 +453,26 @@ Public Class Tcp
             Return
         End Try
 
-        ' Split string based on '#' character
-        Dim params As String() = responseData.Split(New Char() {"#"c})
-        Debug.Assert(params.Length() = 2)
-        Debug.Assert(IsNumeric(params(0)))
-        Dim responseKey As Integer = CInt(params(0))
+        While responseData <> ""
+            ' Split string based on '#' character
+            Dim params As String() = responseData.Split(New Char() {"#"c})
+            Debug.Assert(params.Length() = 2)
+            Debug.Assert(IsNumeric(params(0)))
+            Dim responseKey As Integer = CInt(params(0))
 
-        Debug.Assert(mResposnses.Contains(responseKey) = False)
-        mResposnses.Add(responseKey, params(1))
+            Debug.Assert(mResposnses.Contains(responseKey) = False)
+            mResposnses.Add(responseKey, params(1))
 
-        'response key might not be same as original message key
-        'wait till message with the original key is received
-        While mResposnses.Contains(aTcpParam.GetKey() = False)
-            Thread.Sleep(1)
+            'response key might not be same as original message key
+            'wait till message with the original key is received
+            While mResposnses.Contains(aTcpParam.GetKey() = False)
+                Thread.Sleep(1)
+            End While
+
+            aTcpParam.SetResponse(mResposnses.Item(aTcpParam.GetKey()))
+            mResposnses.Remove(aTcpParam.GetKey())
+            Exit While
         End While
-        aTcpParam.SetResponse(mResposnses.Item(aTcpParam.GetKey()))
-        mResposnses.Remove(aTcpParam.GetKey())
     End Sub
 
     'sets to disconnected mode
@@ -505,19 +528,20 @@ Public Class Tcp
             Exit Sub
         End If
 
+        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId)
+
         'thread to get weather data from RPI
         Dim weatherDataTrd As Thread = New Thread(AddressOf GetWeatherInfoTrd)
-        weatherDataTrd.Start()
+        weatherDataTrd.Start(tcpParam)
     End Sub
 
     'gets weather info from RPI
-    Private Sub GetWeatherInfoTrd()
+    Private Sub GetWeatherInfoTrd(atcpParam As TcpParameter)
         If mFetching(gWeatherModuleId) = False Then
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId)
-        Dim weather As String = GetResponse(tcpParam)
+        Dim weather As String = GetResponse(atcpParam)
         If (weather = "Disconnected") Or (weather = "") Then
             Return
         End If
@@ -540,19 +564,20 @@ Public Class Tcp
             Exit Sub
         End If
 
+        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId)
+
         'thread to get weather data from RPI
         Dim aitQualityTrd As Thread = New Thread(AddressOf GetAirQualityInfoTrd)
-        aitQualityTrd.Start()
+        aitQualityTrd.Start(tcpParam)
     End Sub
 
     'gets air quality info in thread
-    Private Sub GetAirQualityInfoTrd()
+    Private Sub GetAirQualityInfoTrd(atcpParam As TcpParameter)
         If mFetching(gAirQualityModuleId) = False Then
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId)
-        Dim airQuality As String = GetResponse(tcpParam)
+        Dim airQuality As String = GetResponse(atcpParam)
         If (airQuality = "Disconnected") Or (airQuality = "") Then
             Return
         End If
@@ -575,19 +600,21 @@ Public Class Tcp
             Exit Sub
         End If
 
+        Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", gMotionSensorModuleId)
+
         'thread to get motion detection status from RPI
         Dim motionDetectTrd As Thread = New Thread(AddressOf GetMonitorStatusTrd)
-        motionDetectTrd.Start()
+        motionDetectTrd.Start(tcpParam)
     End Sub
 
     'gets motion detection status
-    Private Sub GetMonitorStatusTrd()
+    Private Sub GetMonitorStatusTrd(atcpParam As TcpParameter)
         If mFetching(gMotionSensorModuleId) = False Then
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", gMotionSensorModuleId)
-        Dim monitorStatus As String = GetResponse(tcpParam)
+
+        Dim monitorStatus As String = GetResponse(atcpParam)
         If (monitorStatus = "Disconnected") Or (monitorStatus = "") Then
             Return
         End If
@@ -608,19 +635,20 @@ Public Class Tcp
             Exit Sub
         End If
 
+        Dim tcpParam As TcpParameter = New TcpParameter("ExtractTouchSensorStatus", gTouchSensorModuleId)
+
         'thread to get touch sensor pressed status from RPI
         Dim touchSensorTrd As Thread = New Thread(AddressOf GetTouchSensorStatusTrd)
-        touchSensorTrd.Start()
+        touchSensorTrd.Start(tcpParam)
     End Sub
 
     'gets touch sensor status
-    Private Sub GetTouchSensorStatusTrd()
+    Private Sub GetTouchSensorStatusTrd(atcpParam As TcpParameter)
         If mFetching(gTouchSensorModuleId) = False Then
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ExtractTouchSensorStatus", gTouchSensorModuleId)
-        Dim touchSensorStatus As String = GetResponse(tcpParam)
+        Dim touchSensorStatus As String = GetResponse(atcpParam)
         If (touchSensorStatus = "Disconnected") Or (touchSensorStatus = "") Then
             Return
         End If
@@ -636,20 +664,21 @@ Public Class Tcp
                 Continue For
             End If
 
+            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx)
+
             'thread to get touch sensor pressed status from RPI
             Dim connectionCheckTrd As Thread = New Thread(AddressOf CheckConnectionStatusTrd)
-            connectionCheckTrd.Start(idx)
+            connectionCheckTrd.Start(tcpParam)
         Next
     End Sub
 
     'check whether tcp connection is maintained
-    Private Sub CheckConnectionStatusTrd(streamIdx As Integer)
-        If mFetching(streamIdx) = False Then
+    Private Sub CheckConnectionStatusTrd(atcpParam As TcpParameter)
+        If mFetching(atcpParam.GetStreamIdx()) = False Then
             Return
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", streamIdx)
-        Dim connectionStatus As String = GetResponse(tcpParam)
+        Dim connectionStatus As String = GetResponse(atcpParam)
 
         If (connectionStatus = "Disconnected") Or (connectionStatus = "") Then
             Return
@@ -664,36 +693,42 @@ Public Class Tcp
             Exit Sub
         End If
 
+        Dim tcpParam1 As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
+        Dim tcpParam2 As TcpParameter = New TcpParameter("GetIsDisableVideo", gCameraModuleId)
+        Dim tcpParam3 As TcpParameter = New TcpParameter("GetIsDisableAudio", gCameraModuleId)
+
+        Dim tcpParamArr(2) As TcpParameter
+        tcpParamArr(0) = tcpParam1
+        tcpParamArr(1) = tcpParam2
+        tcpParamArr(2) = tcpParam3
+
         'thread to get touch sensor pressed status from RPI
         Dim motionCamSettingsTrd As Thread = New Thread(AddressOf MotionAndCameraSettingsInTrd)
-        motionCamSettingsTrd.Start()
+        motionCamSettingsTrd.Start(tcpParamArr)
     End Sub
 
     'gets motion and camera settings using thread
-    Private Sub MotionAndCameraSettingsInTrd()
+    Private Sub MotionAndCameraSettingsInTrd(aTcpParamArr() As TcpParameter)
         If (mFetching(gMotionSensorModuleId) = False) Or (mFetching(gCameraModuleId) = False) Then
             Exit Sub
         End If
 
         'motion detection enabled data
-        Dim tcpParam As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
-        Dim data As String = GetResponse(tcpParam)
+        Dim data As String = GetResponse(aTcpParamArr(0))
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
         mEnableMotionDetect = CBool(Int(data))
 
         'enabled video data
-        tcpParam = New TcpParameter("GetIsDisableVideo", gCameraModuleId)
-        data = GetResponse(tcpParam)
+        data = GetResponse(aTcpParamArr(1))
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
         mDisableVideo = CBool(Int(data))
 
         'enabled audio data
-        tcpParam = New TcpParameter("GetIsDisableAudio", gCameraModuleId)
-        data = GetResponse(tcpParam)
+        data = GetResponse(aTcpParamArr(2))
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
@@ -704,17 +739,6 @@ Public Class Tcp
 
     'gets light settings data
     Public Sub GetLightingSettings()
-        If mFetching(gLightings1ModuleId) = False Then
-            Exit Sub
-        End If
-
-        'thread to get touch sensor pressed status from RPI
-        Dim lightingSettingsTrd As Thread = New Thread(AddressOf GetLightingSettingsInTrd)
-        lightingSettingsTrd.Start()
-    End Sub
-
-    'gets light settings data
-    Private Sub GetLightingSettingsInTrd()
         If mFetching(gLightings1ModuleId) = False Then
             Exit Sub
         End If

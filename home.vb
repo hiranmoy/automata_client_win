@@ -27,6 +27,8 @@
 
 Imports System.IO
 Imports WMPLib
+Imports System.Threading
+
 
 Public Class homeCtrl
     'global variables
@@ -45,6 +47,10 @@ Public Class homeCtrl
 
         'disable maximize button
         Me.MaximizeBox = False
+
+
+        'set main thread name
+        Thread.CurrentThread.Name() = "Automata_Main_Trd"
 
 
         'RestoreSettings
@@ -107,7 +113,9 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        MsgBox(My.Computer.Clock.TickCount.ToString)
+        Dim trd As Thread = Thread.CurrentThread
+        trd.Name() = "Automata_Main_Trd"
+        MsgBox(trd.Name())
         Return
 
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
@@ -876,6 +884,9 @@ Public Class homeCtrl
     End Sub
 
     Private Sub ControlRefreshTimer_Tick(sender As Object, e As EventArgs) Handles ControlRefreshTimer.Tick
+        'fetch data if it is pending
+        gTcpMgr.FetchDataIfPending()
+
         'enable controls depending connection status of different RPIs
         EnableAllWidgets()
 

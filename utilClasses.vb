@@ -28,7 +28,6 @@
 Imports System.Threading
 
 
-
 'tcp response argument
 Public Class TcpParameter
     Private mDataStr As String
@@ -44,8 +43,15 @@ Public Class TcpParameter
         'using system uptime (in ms) as key)
         mKey = My.Computer.Clock.TickCount
 
-        'wait for 1 ms
-        Thread.Sleep(1)
+        'debug: checking for duplicate keys
+        Debug.Assert(gTcpKeys.Contains(mKey) = False)
+        gTcpKeys.Add(mKey)
+
+        'wait for 20 ms
+        Thread.Sleep(20)
+
+        'TcpParameter should be created only in main thread
+        Debug.Assert(Thread.CurrentThread.Name() = "Automata_Main_Trd")
     End Sub
 
     Public Function GetDataStr() As String
@@ -71,4 +77,5 @@ Public Class TcpParameter
     Public Function GetTcpDataStr()
         Return mKey.ToString + "#" + mDataStr
     End Function
+
 End Class
