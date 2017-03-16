@@ -39,8 +39,8 @@ Public Class Tcp
     'tcp ips
     Private mIPAddress(2) As String
 
-    'mark a particular stream as busy
-    Private mStreamBusy(2) As Boolean
+    'stores tcp responses
+    Private mResposnses As Hashtable
 
     'weather data
     Private mTemperature As Double
@@ -101,10 +101,8 @@ Public Class Tcp
                 Case Else
                     Debug.Assert(False)
             End Select
-
-            mStreamBusy(idx) = False
         Next
-
+        mResposnses = New Hashtable()
 
         'initialize weather data
         mTemperature = 0
@@ -354,16 +352,14 @@ Public Class Tcp
 
     'retuns RPI response w.r.t a input string
     Public Function GetResponse(aTcpParam As TcpParameter) As String
-        Dim tcpTrdParam As TcpParameterTrd = New TcpParameterTrd(aTcpParam, "")
-
         'thread to get response from RPI
         Dim tcpResponseTrd As Thread = New Thread(AddressOf GetResponseFromRPI)
-        tcpResponseTrd.Start(tcpTrdParam)
+        tcpResponseTrd.Start(aTcpParam)
 
         'wait 30 sec for the thread to finish
         'disconnect if no response received
         Dim timeInSec As Integer = 0
-        While tcpTrdParam.GetResponse() = ""
+        While aTcpParam.GetResponse() = ""
             timeInSec += 1
             If timeInSec >= 10000 Then
                 tcpResponseTrd.Abort()
@@ -380,15 +376,12 @@ Public Class Tcp
             Thread.Sleep(1)
         End While
 
-        Return tcpTrdParam.GetResponse()
+        Return aTcpParam.GetResponse()
     End Function
 
     'This function updates the global variable and is run on thread.
-    Private Sub GetResponseFromRPI(aTcpTrdParam As TcpParameterTrd)
-        ' String to store the response ASCII representation.
-        Dim responseData As String = [String].Empty
-
-        Dim streamIdx As Integer = aTcpTrdParam.GetStreamIdx()
+    Private Sub GetResponseFromRPI(aTcpParam As TcpParameter)
+        Dim streamIdx As Integer = aTcpParam.GetStreamIdx()
 
         Dim stream As NetworkStream
         Try
@@ -397,22 +390,15 @@ Public Class Tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not getting the stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not getting the stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
             FileClose(1)
 
-            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
+            aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
         ' Translate the passed message into ASCII and store it as a Byte array.
-        Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpTrdParam.GetDataStr())
-
-        'wait if the stream is busy
-        While mStreamBusy(aTcpTrdParam.GetStreamIdx()) = True
-            Thread.Sleep(1)
-        End While
-        'set the stream as busy
-        mStreamBusy(aTcpTrdParam.GetStreamIdx()) = True
+        Dim data As [Byte]() = Text.Encoding.ASCII.GetBytes(aTcpParam.GetTcpDataStr())
 
         Try
             ' Send the message to the connected TcpServer. 
@@ -420,17 +406,19 @@ Public Class Tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not able to write in stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
             FileClose(1)
 
-            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
-            mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
+            aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
         ' Receive the TcpServer.response.
         ' Buffer to store the response bytes.
         data = New [Byte](1024) {}
+
+        ' String to store the response ASCII representation.
+        Dim responseData As String = [String].Empty
 
         Try
             ' Read the first batch of the TcpServer response bytes.
@@ -439,16 +427,29 @@ Public Class Tcp
         Catch ex As Exception
             'dump debug info when disconnected
             FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not read from stream : " + aTcpTrdParam.GetDataStr() + " (" + aTcpTrdParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+            Print(1, "Disconnected for not read from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
             FileClose(1)
 
-            aTcpTrdParam.SetResponse(Disconnect(streamIdx))
-            mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
+            aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
-        aTcpTrdParam.SetResponse(responseData)
-        mStreamBusy(aTcpTrdParam.GetStreamIdx()) = False
+        ' Split string based on '#' character
+        Dim params As String() = responseData.Split(New Char() {"#"c})
+        Debug.Assert(params.Length() = 2)
+        Debug.Assert(IsNumeric(params(0)))
+        Dim responseKey As Integer = CInt(params(0))
+
+        Debug.Assert(mResposnses.Contains(responseKey) = False)
+        mResposnses.Add(responseKey, params(1))
+
+        'response key might not be same as original message key
+        'wait till message with the original key is received
+        While mResposnses.Contains(aTcpParam.GetKey() = False)
+            Thread.Sleep(1)
+        End While
+        aTcpParam.SetResponse(mResposnses.Item(aTcpParam.GetKey()))
+        mResposnses.Remove(aTcpParam.GetKey())
     End Sub
 
     'sets to disconnected mode

@@ -25,14 +25,27 @@
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
 
 
+Imports System.Threading
+
+
+
 'tcp response argument
 Public Class TcpParameter
     Private mDataStr As String
     Private mStreamIdx As Integer
+    Private mResponse As String
+    Private mKey As Integer
 
     Public Sub New(aDataStr As String, aStreamIdx As Integer)
         mDataStr = aDataStr
         mStreamIdx = aStreamIdx
+        mResponse = ""
+
+        'using system uptime (in ms) as key)
+        mKey = My.Computer.Clock.TickCount
+
+        'wait for 1 ms
+        Thread.Sleep(1)
     End Sub
 
     Public Function GetDataStr() As String
@@ -43,27 +56,6 @@ Public Class TcpParameter
         Return mStreamIdx
     End Function
 
-End Class
-
-
-'tcp response thread argument
-Public Class TcpParameterTrd
-    Inherits TcpParameter
-
-    Private mResponse As String
-
-    Public Sub New(aDataStr As String, aStreamIdx As Integer, aResponse As String)
-        MyBase.New(aDataStr, aStreamIdx)
-
-        mResponse = aResponse
-    End Sub
-
-    Public Sub New(aTcpParameter As TcpParameter, aResponse As String)
-        MyBase.New(aTcpParameter.GetDataStr(), aTcpParameter.GetStreamIdx())
-
-        mResponse = aResponse
-    End Sub
-
     Public Function GetResponse() As String
         Return mResponse
     End Function
@@ -72,4 +64,11 @@ Public Class TcpParameterTrd
         mResponse = aResponse
     End Sub
 
+    Public Function GetKey()
+        Return mKey
+    End Function
+
+    Public Function GetTcpDataStr()
+        Return mKey.ToString + "#" + mDataStr
+    End Function
 End Class

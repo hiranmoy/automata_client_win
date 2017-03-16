@@ -107,6 +107,9 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
+        MsgBox(My.Computer.Clock.TickCount.ToString)
+        Return
+
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
         MsgBox(gTcpMgr.GetResponse(tcpParam))
     End Sub
@@ -855,6 +858,9 @@ Public Class homeCtrl
 
         'check for alarm
         gAlarm.CheckAndTriggerAlarm(prevTimeInMin, curTimeInMin)
+
+        'dump tcp disconnnection debug info
+        gTcpMgr.DumpDebugInfo()
     End Sub
 
     'alarm timer 

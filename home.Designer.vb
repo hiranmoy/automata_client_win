@@ -23,9 +23,9 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -601,17 +601,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend2)
+        ChartArea1.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend1)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Power on Time"
-        Series2.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series2)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Power on Time"
+        Series1.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series1)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1514,7 +1514,7 @@ Partial Class homeCtrl
         '
         'ReconnectTimer
         '
-        Me.ReconnectTimer.Interval = 60000
+        Me.ReconnectTimer.Interval = 20000
         '
         'StreamDebugIdx
         '
