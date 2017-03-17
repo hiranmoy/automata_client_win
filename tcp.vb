@@ -280,14 +280,14 @@ Public Class Tcp
             End If
         Next
 
-        Try
-            If moduleList <> "" Then
+        If moduleList <> "" Then
+            Try
                 FileOpen(1, gDebugFolder + "\TcpStreams.txt", OpenMode.Append)
                 Print(1, homeCtrl.RealTime.Text + " : " + moduleList + Environment.NewLine)
                 FileClose(1)
-            End If
-        Catch
-        End Try
+            Catch
+            End Try
+        End If
     End Sub
 
     'update connect button color and text
@@ -384,9 +384,12 @@ Public Class Tcp
                 tcpResponseTrd.Abort()
 
                 'dump debug info when disconnected
-                FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
-                Print(1, "Disconnected due to 10s timeout: " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
-                FileClose(1)
+                Try
+                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
+                    Print(1, "Disconnected due to 10s timeout: " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+                    FileClose(1)
+                Catch
+                End Try
 
                 Return Disconnect(aTcpParam.GetStreamIdx())
                 Exit While
@@ -408,9 +411,12 @@ Public Class Tcp
             stream = mClient(streamIdx).GetStream()
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not getting the stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
-            FileClose(1)
+            Try
+                FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                Print(1, "Disconnected for not getting the stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                FileClose(1)
+            Catch
+            End Try
 
             aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
@@ -424,9 +430,12 @@ Public Class Tcp
             stream.Write(data, 0, data.Length)
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
-            FileClose(1)
+            Try
+                FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                Print(1, "Disconnected for not able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                FileClose(1)
+            Catch
+            End Try
 
             aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
@@ -445,9 +454,12 @@ Public Class Tcp
             responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
         Catch ex As Exception
             'dump debug info when disconnected
-            FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-            Print(1, "Disconnected for not read from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
-            FileClose(1)
+            Try
+                FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                Print(1, "Disconnected for not read from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                FileClose(1)
+            Catch
+            End Try
 
             aTcpParam.SetResponse(Disconnect(streamIdx))
             Return

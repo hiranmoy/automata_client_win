@@ -67,7 +67,10 @@ Module utils
         'dump settings
         FileOpen(1, file, OpenMode.Output)
 
+        'enable speech check
         Print(1, Int(gEnableSpeech).ToString + "      :Enable Speech" + Environment.NewLine)
+
+        'set music file
         Print(1, gAlarm.GetAlarmMusic() + Environment.NewLine)
 
         FileClose(1)
