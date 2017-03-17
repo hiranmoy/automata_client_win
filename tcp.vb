@@ -468,12 +468,31 @@ Public Class Tcp
         While responseData <> ""
             ' Split string based on '#' character
             Dim params As String() = responseData.Split(New Char() {"#"c})
-            Debug.Assert(params.Length() = 2)
-            Debug.Assert(IsNumeric(params(0)))
-            Dim responseKey As Integer = CInt(params(0))
+            Debug.Assert(((params.Length() Mod 2) = 1) And (params.Length() > 2))
 
-            Debug.Assert(mResposnses.Contains(responseKey) = False)
-            mResposnses.Add(responseKey, params(1))
+            'last element is empty
+            Debug.Assert((params(params.Length() - 1)) = "")
+
+            For paramIdx = 0 To params.Length() - 2 Step 2
+                'tcp response
+                Dim response As String = params(paramIdx + 1)
+                If response = "Unknown command" Then
+                    Try
+                        FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                        Print(1, "Received 'Unknown command' from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        FileClose(1)
+                    Catch
+                    End Try
+                    Exit While
+                End If
+
+                'tcp key
+                Debug.Assert(IsNumeric(params(paramIdx)))
+                Dim responseKey As Integer = CInt(params(paramIdx))
+                Debug.Assert(mResposnses.Contains(responseKey) = False)
+
+                mResposnses.Add(responseKey, params(1))
+            Next
 
             'response key might not be same as original message key
             'wait till message with the original key is received
