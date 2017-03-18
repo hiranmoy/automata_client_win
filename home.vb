@@ -779,7 +779,7 @@ Public Class homeCtrl
 
     'check for timer and scheduler for appliances
     Private Sub LightingsTimer_Tick(sender As Object, e As EventArgs) Handles LightingsTimer.Tick
-        If (gTcpMgr.IsConnected(gLightings1ModuleId)) = True Then
+        If (gTcpMgr.IsConnected(gLightings1ModuleId)) = False Then
             Return
         End If
 
@@ -1189,6 +1189,15 @@ Public Class homeCtrl
         secList.SelectedItem = secList.Items(secList.Items.Count - 1)
     End Sub
 
+    Private Sub AmPmAlarm_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AmPmAlarm.SelectedIndexChanged
+        If AmPmAlarm.SelectedIndex = 0 Then
+            HourAlarm.Maximum = 11
+            HourAlarm.Minimum = 0
+        ElseIf AmPmAlarm.SelectedIndex = 1 Then
+            HourAlarm.Maximum = 12
+            HourAlarm.Minimum = 1
+        End If
+    End Sub
 
 
     'others

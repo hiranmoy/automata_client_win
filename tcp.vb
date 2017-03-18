@@ -644,7 +644,6 @@ Public Class Tcp
             Exit Sub
         End If
 
-
         Dim monitorStatus As String = GetResponse(atcpParam)
         If (monitorStatus = "Disconnected") Or (monitorStatus = "") Then
             Return

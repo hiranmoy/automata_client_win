@@ -32,6 +32,7 @@ Public Class Alarm
 
     'contains alarm list
     Private mAlarmArr As List(Of Integer)
+
     'alarm music file
     Private mAlarmMusic As String
 
@@ -40,8 +41,13 @@ Public Class Alarm
 
 
     Public Sub New()
+        'alarm list: empty array
         mAlarmArr = New List(Of Integer)
+
+        'alarm music file: application statup path
         mAlarmMusic = Application.StartupPath
+
+        'create media player
         mMediaPlayer = New WindowsMediaPlayer
     End Sub
 
@@ -57,7 +63,7 @@ Public Class Alarm
 
     'add alarm
     Public Sub AddAlarmInList(hr As Integer, min As Integer)
-        Dim timeInMin As Integer = (hr + 12 * homeCtrl.AmPmAlarm.SelectedIndex) * 60 + min
+        Dim timeInMin As Integer = ((hr Mod 12) + 12 * homeCtrl.AmPmAlarm.SelectedIndex) * 60 + min
         If mAlarmArr.Contains(timeInMin) = True Then
             Exit Sub
         End If
@@ -115,8 +121,12 @@ Public Class Alarm
         For idx = 0 To mAlarmArr.Count - 1
             Dim curMin As Integer = mAlarmArr(idx) Mod 60
             Dim curHr As Integer = Int((mAlarmArr(idx) / 60))
-            Dim amPm As String = If(curHr > 12, "PM", "AM")
-            Dim curTimeStr As String = (curHr Mod 12).ToString + " : " + curMin.ToString + " " + amPm
+            Dim amPm As String = If(curHr >= 12, "PM", "AM")
+            If curHr > 12 Then
+                curHr -= 12
+            End If
+
+            Dim curTimeStr As String = curHr.ToString + " : " + curMin.ToString + " " + amPm
             homeCtrl.AlarmList.Items.Add(curTimeStr)
         Next
 
