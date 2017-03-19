@@ -97,13 +97,13 @@ Public Class homeCtrl
 
 
         'clear and create debug directory
-        Try
-            If My.Computer.FileSystem.DirectoryExists(gDebugFolder) Then
-                My.Computer.FileSystem.DeleteDirectory(gDebugFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            My.Computer.FileSystem.CreateDirectory(gDebugFolder)
-        Catch
-        End Try
+        'Try
+        If My.Computer.FileSystem.DirectoryExists(gDebugFolder) Then
+            My.Computer.FileSystem.DeleteDirectory(gDebugFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        My.Computer.FileSystem.CreateDirectory(gDebugFolder)
+        'Catch
+        'End Try
     End Sub
 
     'form closing
@@ -793,6 +793,10 @@ Public Class homeCtrl
 
     'play one speech file at a time
     Private Sub SpeechTimer_Tick(sender As Object, e As EventArgs) Handles SpeechTimer.Tick
+        If gEnableSpeech = False Then
+            Exit Sub
+        End If
+
         SpeechTimer.Stop()
 
         Dim speechFile As String = GetSpeechFile()
@@ -1028,7 +1032,7 @@ Public Class homeCtrl
 
     'cimate timer
     Private Sub ClimateTimer_Tick(sender As Object, e As EventArgs) Handles ClimateTimer.Tick
-        'gTcpMgr.ClimateData()
+        gTcpMgr.ClimateData()
 
         gTcpMgr.ShowClimateData()
     End Sub

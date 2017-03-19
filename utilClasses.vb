@@ -88,7 +88,7 @@ Public Class TcpParameter
         Return mResponse(idx)
     End Function
 
-    Public Sub SetResponse(aResponse As String, Optional idx As Integer = 0)
+    Public Sub SetResponse(aResponse As String, idx As Integer)
         mResponse(idx) = aResponse
         mReceived(idx) = True
     End Sub

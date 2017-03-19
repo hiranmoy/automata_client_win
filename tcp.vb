@@ -312,9 +312,18 @@ Public Class Tcp
 
     'dump time when some module(s) are disconnected
     Public Sub DumpDebugInfo()
+        Dim fetchingEnabledOnly As Integer = -1
+        If homeCtrl.ConnectCheck.Checked = False Then
+            fetchingEnabledOnly = homeCtrl.StreamIdx.Value
+        End If
+
         Dim moduleList As String = ""
 
         For streamIndex = 0 To mFetching.Length - 1
+            If (fetchingEnabledOnly <> -1) And (fetchingEnabledOnly <> streamIndex) Then
+                Continue For
+            End If
+
             If mFetching(streamIndex) = False Then
                 moduleList += streamIndex.ToString + " "
             End If
@@ -414,6 +423,8 @@ Public Class Tcp
         'add current tcp parameter in the response pending list
         mResposnses.Add(aTcpParam.GetKey(), aTcpParam)
 
+        Dim numPackets As Integer = aTcpParam.GetNumPackets()
+
         'thread to get response from RPI
         Dim tcpResponseTrd As Thread = New Thread(AddressOf SetTcpCommandToRPI)
         tcpResponseTrd.Start(aTcpParam)
@@ -421,11 +432,16 @@ Public Class Tcp
         'wait 30 sec for the thread to finish
         'disconnect if no response received
         Dim timeInSec As Integer = 0
-        While aTcpParam.IsAllPacketsReceived() = False
+        While aTcpParam.GetResponse(numPackets - 1) = ""
             '(aTcpParam.GetResponse(aTcpParam.GetNumPackets() - 1) = "")
             timeInSec += 1
             If timeInSec >= 10000 Then
                 tcpResponseTrd.Abort()
+
+                If numPackets > 1 Then
+                    'don't disconnect in case of multi-packet tcp parameter
+                    Return "done"
+                End If
 
                 'dump debug info when disconnected
                 Try
@@ -442,8 +458,12 @@ Public Class Tcp
             Thread.Sleep(1)
         End While
 
-        Debug.Assert(aTcpParam.GetResponse() <> "")
-        Return aTcpParam.GetResponse()
+        If numPackets = 1 Then
+            Debug.Assert(aTcpParam.GetResponse() <> "")
+            Return aTcpParam.GetResponse()
+        Else
+            Return "done"
+        End If
     End Function
 
     'send tcp command to rpi
@@ -475,7 +495,7 @@ Public Class Tcp
             'dump debug info when disconnected
             Try
                 FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                Print(1, "Disconnected for not able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                Print(1, "Disconnected for not being able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
                 FileClose(1)
             Catch
             End Try
@@ -486,57 +506,99 @@ Public Class Tcp
     'get tcp responses from rpi
     Private Sub GetTcpResponseToRPI(streamIdx As Integer)
         While (1)
+            If mFetching(streamIdx) = False Then
+                Thread.Sleep(1000)
+            End If
+
             ' Receive the TcpServer.response.
             ' Buffer to store the response bytes.
             Dim data As [Byte]() = New [Byte](64) {}
 
             ' String to store the response ASCII representation.
-            Dim responseData As String = [String].Empty
+            Dim origResponseData As String = [String].Empty
 
             Dim stream As NetworkStream
             Try
                 ' Get a client stream for reading and writing.
                 stream = mClient(streamIdx).GetStream()
             Catch ex As Exception
-                'dump debug info when disconnected
-                Try
-                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                    Print(1, "Disconnected for not getting the stream while receiving the packets (" + streamIdx.ToString + ")" + Environment.NewLine)
-                    FileClose(1)
-                Catch
-                End Try
-                Continue While
+                If mFetching(streamIdx) Then
+                    'dump debug info when disconnected
+                    Try
+                        FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                        Print(1, "Disconnected for not getting the stream (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        FileClose(1)
+                    Catch
+                    End Try
+                    Continue While
+                End If
             End Try
 
             Try
                 ' Read the first batch of the TcpServer response bytes.
                 Dim bytes As Int32 = stream.Read(data, 0, data.Length)
-                responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
+                origResponseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
             Catch ex As Exception
-                'dump debug info when disconnected
-                Try
-                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                    Print(1, "Disconnected for not read from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
-                    FileClose(1)
-                Catch
-                End Try
-                Continue While
+                If mFetching(streamIdx) Then
+                    'dump debug info when disconnected
+                    Try
+                        FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                        Print(1, "Disconnected for not being able to read from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        FileClose(1)
+                    Catch
+                    End Try
+                    Continue While
+                End If
             End Try
 
+            If origResponseData = "" Then
+                Continue While
+            End If
+
+            'response with broken packets removed
+            Dim responseData As String = origResponseData
+
+            'response from RPI : <broken packet><complete packet><complete packet> ... <complete packet><broken packet>
+            'complete packet type 1 : #<key>=<data>~
+            'complete packet type 2 : #<key>=<packetIdx>|<data>~
+            'Hence, broken packets need to be removed before parsing the complete packets
+
+            Dim firstHashCharPos As Integer = responseData.IndexOf("#", 0)
+            If firstHashCharPos = -1 Then
+                Continue While
+            End If
+            'remove incorrect characters before first '#'
+            responseData = responseData.Substring(firstHashCharPos)
+            If responseData = "" Then
+                Continue While
+            End If
+
+            Dim lastTildaCharPos As Integer = responseData.LastIndexOf("~")
+            If lastTildaCharPos = -1 Then
+                Continue While
+            End If
+            'remove incorrect characters after last '~'
+            responseData = responseData.Substring(0, lastTildaCharPos + 1)
             If responseData = "" Then
                 Continue While
             End If
 
             ' Split string based on '#' character
             Dim params As String() = responseData.Split(New Char() {"#"c})
-            Debug.Assert(((params.Length() Mod 2) = 1) And (params.Length() > 2))
+            Debug.Assert(params.Length() >= 2)
 
-            'last element is empty
-            Debug.Assert((params(params.Length() - 1)) = "")
+            'first element is empty
+            Debug.Assert(params(0) = "")
 
-            For paramIdx = 0 To params.Length() - 2 Step 2
+            For paramIdx = 1 To params.Length() - 1
+                ' Split string based on '=' character
+                Dim packetParams As String() = params(paramIdx).Split(New Char() {"="c})
+                Debug.Assert(packetParams.Length() = 2)
+
                 'tcp response
-                Dim response As String = params(paramIdx + 1)
+                Dim response As String = packetParams(1)
+                Debug.Assert(response(response.Length - 1) = "~")
+                response = response.Substring(0, response.Length - 1)
                 If response = "Unknown command" Then
                     Try
                         FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
@@ -548,15 +610,15 @@ Public Class Tcp
                 End If
 
                 'tcp key
-                Debug.Assert(IsNumeric(params(paramIdx)))
-                Dim responseKey As Integer = CInt(params(paramIdx))
+                Debug.Assert(IsNumeric(packetParams(0)))
+                Dim responseKey As Integer = CInt(packetParams(0))
                 Debug.Assert(mResposnses.Contains(responseKey))
 
                 Dim tcpParam As TcpParameter = mResposnses.Item(responseKey)
                 Dim packetId As Integer = 0
 
                 ' Split string based on '|' character
-                Dim subparams As String() = responseData.Split(New Char() {"|"c})
+                Dim subparams As String() = response.Split(New Char() {"|"c})
                 Debug.Assert(subparams.Length() <= 2)
 
                 If subparams.Length() = 2 Then
@@ -612,7 +674,7 @@ Public Class Tcp
                 MotionAndCameraSettings()
                 GetMonitorStatus()
                 GetWeatherInfo()
-                'ClimateData()
+                ClimateData()
             Case 2
                 GetAirQualityInfo()
             Case Else
@@ -938,13 +1000,17 @@ Public Class Tcp
             Return
         End If
 
+        'wait for 10 sec so that important and small data can be captured properly
+        Thread.Sleep(10000)
+
         For idx = 0 To 2
-            Dim profile As String = gTcpMgr.GetResponse(aTcpParamArr(idx))
-            If (profile = "Disconnected") Or (profile = "") Then
-                Return
-            End If
+            gTcpMgr.GetResponse(aTcpParamArr(idx))
 
             For minIdx = 0 To aTcpParamArr(idx).GetNumPackets() - 1
+                If aTcpParamArr(idx).GetResponse(minIdx) = "" Then
+                    Continue For
+                End If
+
                 Debug.Assert(IsNumeric(aTcpParamArr(idx).GetResponse(minIdx)))
                 mClimate(idx, minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
             Next
@@ -953,6 +1019,10 @@ Public Class Tcp
 
     'show chart data
     Public Sub ShowClimateData()
+        If mFetching(gWeatherModuleId) = False Then
+            Return
+        End If
+
         homeCtrl.TemperatureData.Series("Temperature (^C)").Points.Clear()
         homeCtrl.HumidityData.Series("Humidity").Points.Clear()
         homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.Clear()
