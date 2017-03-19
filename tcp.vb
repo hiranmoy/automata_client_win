@@ -1031,30 +1031,46 @@ Public Class Tcp
             Dim minVal As Double = 1000000
             Dim maxVal As Double = -1
             For minIdx = 0 To 1439
-                Dim val As Double = GetClimateReading(idx, minIdx)
+                Dim origVal As Double = GetClimateReading(idx, minIdx)
 
-                If val = 0 Then
+                If origVal = 0 Then
                     Continue For
                 End If
+
+                'apply moving average filter of order 5
+                Dim avgVal As Double = 0
+                Dim div As Integer = 0
+
+                For filterIdx = Math.Max(0, minIdx - 2) To Math.Min(minIdx + 2, 1439)
+                    If GetClimateReading(idx, filterIdx) = 0 Then
+                        Continue For
+                    End If
+
+                    avgVal += GetClimateReading(idx, filterIdx)
+                    div += 1
+                Next
+
+                avgVal /= div
+                Debug.Assert(avgVal > 0)
 
                 Dim hr As Double = minIdx / 60
 
                 'add points in the graph
                 Select Case idx
-                    Case 0 : homeCtrl.TemperatureData.Series("Temperature (^C)").Points.AddXY(hr, val)
-                    Case 1 : homeCtrl.HumidityData.Series("Humidity").Points.AddXY(hr, val)
-                    Case 2 : homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.AddXY(hr, val)
+                    Case 0 : homeCtrl.TemperatureData.Series("Temperature (^C)").Points.AddXY(hr, avgVal)
+                    Case 1 : homeCtrl.HumidityData.Series("Humidity").Points.AddXY(hr, avgVal)
+                    Case 2 : homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.AddXY(hr, avgVal)
                     Case Else
                 End Select
 
                 'set minimum value
-                If minVal > val Then
-                    minVal = val
+                If minVal > avgVal Then
+                    minVal = avgVal
                 End If
 
                 'set maximum value
-                If maxVal < val Then
-                    maxVal = val
+                If maxVal < avgVal Then
+                    maxVal = avgVal
                 End If
             Next
 
