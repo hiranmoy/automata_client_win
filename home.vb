@@ -59,7 +59,7 @@ Public Class homeCtrl
 
 
         'disable all tabs
-        For idx = 0 To Tabs.TabCount - 1
+        For idx = 0 To Tabs.TabCount - 2
             Tabs.TabPages(idx).Enabled = False
         Next
 
@@ -68,39 +68,48 @@ Public Class homeCtrl
         Speech("Welcome_Hiranmoy_")
 
 
-        'start reconnect timer
-        ReconnectTimer.Start()
-
-        'Start speech timer
-        SpeechTimer.Start()
-
-        'start 1ms timer
-        Timer500ms.Start()
-
-        'start 1s timer
-        Timer1s.Start()
-
-        'start 10s timer
-        Timer20s.Start()
-
-        'start 100 ms timer
-        ControlRefreshTimer.Start()
-
-        'start lighting timer
-        LightingsTimer.Start()
-
-
         'initialize am pm selector
         AmPmAlarm.SelectedIndex = 0
 
 
+        'x-axis: min=0, max=23, interval=1
+        pwHist.ChartAreas.Min.AxisX.Minimum = 0
+        pwHist.ChartAreas.Min.AxisX.Maximum = 23
+        pwHist.ChartAreas.Min.AxisX.Interval = 1
+
+        'x-axis: min=0, max=23, interval=2
+        TemperatureData.ChartAreas.Min.AxisX.Minimum = 0
+        TemperatureData.ChartAreas.Min.AxisX.Maximum = 24
+        TemperatureData.ChartAreas.Min.AxisX.Interval = 2
+
+        HumidityData.ChartAreas.Min.AxisX.Minimum = 0
+        HumidityData.ChartAreas.Min.AxisX.Maximum = 24
+        HumidityData.ChartAreas.Min.AxisX.Interval = 2
+
+        PressureData.ChartAreas.Min.AxisX.Minimum = 0
+        PressureData.ChartAreas.Min.AxisX.Maximum = 24
+        PressureData.ChartAreas.Min.AxisX.Interval = 2
+
+        'set chart type
+        TemperatureData.Series("Temperature (^C)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+        HumidityData.Series("Humidity").ChartType = DataVisualization.Charting.SeriesChartType.Line
+        PressureData.Series("Air Pressure (Pa)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+
+
         'clear and create debug directory
-        If My.Computer.FileSystem.DirectoryExists(gDebugFolder) Then
-            My.Computer.FileSystem.DeleteDirectory(gDebugFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-        End If
-        My.Computer.FileSystem.CreateDirectory(gDebugFolder)
+        Try
+            If My.Computer.FileSystem.DirectoryExists(gDebugFolder) Then
+                My.Computer.FileSystem.DeleteDirectory(gDebugFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            End If
+            My.Computer.FileSystem.CreateDirectory(gDebugFolder)
+        Catch
+        End Try
     End Sub
 
+    'form closing
+    Private Sub homeCtrl_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        gTcpMgr.KillTcpReponseThreads()
+    End Sub
 
 
     'buttons
@@ -113,11 +122,6 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        Dim trd As Thread = Thread.CurrentThread
-        trd.Name() = "Automata_Main_Trd"
-        MsgBox(trd.Name())
-        Return
-
         Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
         MsgBox(gTcpMgr.GetResponse(tcpParam))
     End Sub
@@ -887,8 +891,17 @@ Public Class homeCtrl
         'fetch data if it is pending
         gTcpMgr.FetchDataIfPending()
 
+
         'enable controls depending connection status of different RPIs
         EnableAllWidgets()
+
+
+        'refresh climate data once
+        If (TemperatureData.Series("Temperature (^C)").Points.Count = 0) Or
+            (HumidityData.Series("Humidity").Points.Count = 0) Or
+            (PressureData.Series("Air Pressure (Pa)").Points.Count = 0) Then
+            gTcpMgr.ShowClimateData()
+        End If
 
 
         'refresh weather data
@@ -1011,6 +1024,13 @@ Public Class homeCtrl
         gTcpMgr.mBalconyLight.UpdateColor()
         gTcpMgr.mLightBulb.UpdateColor()
         gTcpMgr.mPlug1.UpdateColor()
+    End Sub
+
+    'cimate timer
+    Private Sub ClimateTimer_Tick(sender As Object, e As EventArgs) Handles ClimateTimer.Tick
+        'gTcpMgr.ClimateData()
+
+        gTcpMgr.ShowClimateData()
     End Sub
 
 
@@ -1189,6 +1209,7 @@ Public Class homeCtrl
         secList.SelectedItem = secList.Items(secList.Items.Count - 1)
     End Sub
 
+    'am/pm seltection while setting alarm
     Private Sub AmPmAlarm_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AmPmAlarm.SelectedIndexChanged
         If AmPmAlarm.SelectedIndex = 0 Then
             HourAlarm.Maximum = 11
@@ -1198,6 +1219,7 @@ Public Class homeCtrl
             HourAlarm.Minimum = 1
         End If
     End Sub
+
 
 
     'others
@@ -1212,6 +1234,7 @@ Public Class homeCtrl
         Tabs.TabPages(1).Enabled = gTcpMgr.IsConnected(gLightings1ModuleId)
         Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
         Tabs.TabPages(3).Enabled = gTcpMgr.IsConnected(gAirQualityModuleId)
+        Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
     End Sub
 
     'enable all radio buttons

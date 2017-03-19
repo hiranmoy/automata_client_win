@@ -30,15 +30,37 @@ Imports System.Threading
 
 'tcp response argument
 Public Class TcpParameter
+    'tcp input to rpi
     Private mDataStr As String
+
+    'stream index
     Private mStreamIdx As Integer
-    Private mResponse As String
+
+    'tcp responses from rpi
+    Private mResponse() As String
+
+    'tcp key
     Private mKey As Integer
 
-    Public Sub New(aDataStr As String, aStreamIdx As Integer)
+    'number of data packets to be received from rpi
+    Private mNumPackets As Integer
+
+    'check whether all packets are recived
+    Private mReceived() As Boolean
+
+
+    Public Sub New(aDataStr As String, aStreamIdx As Integer, Optional numPackets As Integer = 1)
         mDataStr = aDataStr
         mStreamIdx = aStreamIdx
-        mResponse = ""
+        mNumPackets = numPackets
+
+        'initilize responses and packet check
+        ReDim mResponse(numPackets - 1)
+        ReDim mReceived(numPackets - 1)
+        For idx = 0 To numPackets - 1
+            mResponse(idx) = ""
+            mReceived(idx) = False
+        Next
 
         'using system uptime (in ms) as key)
         mKey = My.Computer.Clock.TickCount
@@ -62,20 +84,39 @@ Public Class TcpParameter
         Return mStreamIdx
     End Function
 
-    Public Function GetResponse() As String
-        Return mResponse
+    Public Function GetResponse(Optional idx As Integer = 0) As String
+        Return mResponse(idx)
     End Function
 
-    Public Sub SetResponse(aResponse As String)
-        mResponse = aResponse
+    Public Sub SetResponse(aResponse As String, Optional idx As Integer = 0)
+        mResponse(idx) = aResponse
+        mReceived(idx) = True
     End Sub
 
-    Public Function GetKey()
+    Public Function GetKey() As Integer
         Return mKey
     End Function
 
-    Public Function GetTcpDataStr()
-        Return mKey.ToString + "#" + mDataStr
+    Public Function GetTcpDataStr() As String
+        Return mKey.ToString + "#" + mDataStr + "#"
     End Function
+
+    Public Function GetNumPackets() As Integer
+        Return mNumPackets
+    End Function
+
+    Public Function IsAllPacketsReceived() As Boolean
+        For idx = 0 To mNumPackets - 1
+            If mReceived(idx) = False Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+
+    ' Public Sub SetPacketReceived(idx As Integer)
+    '    mReceived(idx) = True
+    'End Sub
 
 End Class

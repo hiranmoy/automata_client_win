@@ -45,6 +45,9 @@ Public Class Tcp
     'stores tcp responses
     Private mResposnses As Hashtable
 
+    'response thread
+    Private mTcpResponsesTrds(2) As Thread
+
     'weather data
     Private mTemperature As Double
     Private mHumidity As Double
@@ -54,6 +57,9 @@ Public Class Tcp
     Private mAlcoholReading As Integer
     Private mCOReading As Integer
     Private mSmokeReading As Integer
+
+    'climate data
+    Private mClimate(5, 1439) As Double
 
     'motion detection data
     Private mMotionDetectionStatus As String
@@ -106,6 +112,10 @@ Public Class Tcp
             End Select
 
             mFetchPending(idx) = False
+
+            'thread to get response from RPI
+            mTcpResponsesTrds(idx) = New Thread(AddressOf GetTcpResponseToRPI)
+            mTcpResponsesTrds(idx).Start(idx)
         Next
         mResposnses = New Hashtable()
 
@@ -118,6 +128,19 @@ Public Class Tcp
         mAlcoholReading = 0
         mCOReading = 0
         mSmokeReading = 0
+
+        'initilize climate data
+        '0: temperature
+        '1: humidity
+        '2: air pressure
+        '3: alcohol
+        '4: CO
+        '5: smoke
+        For idx = 0 To 5
+            For minIdx = 0 To 1439
+                mClimate(idx, minIdx) = 0
+            Next
+        Next
 
         'motion detection data
         mMotionDetectionStatus = ""
@@ -193,9 +216,26 @@ Public Class Tcp
                                100)
     End Sub
 
+    'kill all tcp response threads
+    Public Sub KillTcpReponseThreads()
+        For idx = 0 To mTcpResponsesTrds.Length() - 1
+            Try
+                mClient(idx).Close()
+            Catch
+            End Try
+
+            mTcpResponsesTrds(idx).Abort()
+        Next
+    End Sub
+
     'returns temperature
     Public Function GetTemperature()
         Return mTemperature
+    End Function
+
+    'returns temperature at a particular minute
+    Public Function GetClimateReading(idx As Integer, min As Integer)
+        Return mClimate(idx, min)
     End Function
 
     'returns humidity
@@ -371,14 +411,18 @@ Public Class Tcp
 
     'retuns RPI response w.r.t a input string
     Public Function GetResponse(aTcpParam As TcpParameter) As String
+        'add current tcp parameter in the response pending list
+        mResposnses.Add(aTcpParam.GetKey(), aTcpParam)
+
         'thread to get response from RPI
-        Dim tcpResponseTrd As Thread = New Thread(AddressOf GetResponseFromRPI)
+        Dim tcpResponseTrd As Thread = New Thread(AddressOf SetTcpCommandToRPI)
         tcpResponseTrd.Start(aTcpParam)
 
         'wait 30 sec for the thread to finish
         'disconnect if no response received
         Dim timeInSec As Integer = 0
-        While aTcpParam.GetResponse() = ""
+        While aTcpParam.IsAllPacketsReceived() = False
+            '(aTcpParam.GetResponse(aTcpParam.GetNumPackets() - 1) = "")
             timeInSec += 1
             If timeInSec >= 10000 Then
                 tcpResponseTrd.Abort()
@@ -398,11 +442,12 @@ Public Class Tcp
             Thread.Sleep(1)
         End While
 
+        Debug.Assert(aTcpParam.GetResponse() <> "")
         Return aTcpParam.GetResponse()
     End Function
 
-    'This function updates the global variable and is run on thread.
-    Private Sub GetResponseFromRPI(aTcpParam As TcpParameter)
+    'send tcp command to rpi
+    Private Sub SetTcpCommandToRPI(aTcpParam As TcpParameter)
         Dim streamIdx As Integer = aTcpParam.GetStreamIdx()
 
         Dim stream As NetworkStream
@@ -417,8 +462,6 @@ Public Class Tcp
                 FileClose(1)
             Catch
             End Try
-
-            aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
 
@@ -436,36 +479,54 @@ Public Class Tcp
                 FileClose(1)
             Catch
             End Try
-
-            aTcpParam.SetResponse(Disconnect(streamIdx))
             Return
         End Try
+    End Sub
 
-        ' Receive the TcpServer.response.
-        ' Buffer to store the response bytes.
-        data = New [Byte](1024) {}
+    'get tcp responses from rpi
+    Private Sub GetTcpResponseToRPI(streamIdx As Integer)
+        While (1)
+            ' Receive the TcpServer.response.
+            ' Buffer to store the response bytes.
+            Dim data As [Byte]() = New [Byte](64) {}
 
-        ' String to store the response ASCII representation.
-        Dim responseData As String = [String].Empty
+            ' String to store the response ASCII representation.
+            Dim responseData As String = [String].Empty
 
-        Try
-            ' Read the first batch of the TcpServer response bytes.
-            Dim bytes As Int32 = stream.Read(data, 0, data.Length)
-            responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
-        Catch ex As Exception
-            'dump debug info when disconnected
+            Dim stream As NetworkStream
             Try
-                FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                Print(1, "Disconnected for not read from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
-                FileClose(1)
-            Catch
+                ' Get a client stream for reading and writing.
+                stream = mClient(streamIdx).GetStream()
+            Catch ex As Exception
+                'dump debug info when disconnected
+                Try
+                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                    Print(1, "Disconnected for not getting the stream while receiving the packets (" + streamIdx.ToString + ")" + Environment.NewLine)
+                    FileClose(1)
+                Catch
+                End Try
+                Continue While
             End Try
 
-            aTcpParam.SetResponse(Disconnect(streamIdx))
-            Return
-        End Try
+            Try
+                ' Read the first batch of the TcpServer response bytes.
+                Dim bytes As Int32 = stream.Read(data, 0, data.Length)
+                responseData = Text.Encoding.ASCII.GetString(data, 0, bytes)
+            Catch ex As Exception
+                'dump debug info when disconnected
+                Try
+                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
+                    Print(1, "Disconnected for not read from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
+                    FileClose(1)
+                Catch
+                End Try
+                Continue While
+            End Try
 
-        While responseData <> ""
+            If responseData = "" Then
+                Continue While
+            End If
+
             ' Split string based on '#' character
             Dim params As String() = responseData.Split(New Char() {"#"c})
             Debug.Assert(((params.Length() Mod 2) = 1) And (params.Length() > 2))
@@ -479,30 +540,37 @@ Public Class Tcp
                 If response = "Unknown command" Then
                     Try
                         FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                        Print(1, "Received 'Unknown command' from stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        Print(1, "Received 'Unknown command' from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
                         FileClose(1)
                     Catch
                     End Try
-                    Exit While
+                    Continue While
                 End If
 
                 'tcp key
                 Debug.Assert(IsNumeric(params(paramIdx)))
                 Dim responseKey As Integer = CInt(params(paramIdx))
-                Debug.Assert(mResposnses.Contains(responseKey) = False)
+                Debug.Assert(mResposnses.Contains(responseKey))
 
-                mResposnses.Add(responseKey, params(1))
+                Dim tcpParam As TcpParameter = mResposnses.Item(responseKey)
+                Dim packetId As Integer = 0
+
+                ' Split string based on '|' character
+                Dim subparams As String() = responseData.Split(New Char() {"|"c})
+                Debug.Assert(subparams.Length() <= 2)
+
+                If subparams.Length() = 2 Then
+                    'tcp packet index
+                    Debug.Assert(IsNumeric(subparams(0)))
+                    packetId = CInt(subparams(0))
+                    response = subparams(1)
+                End If
+
+                tcpParam.SetResponse(response, packetId)
+                If tcpParam.IsAllPacketsReceived() = True Then
+                    mResposnses.Remove(responseKey)
+                End If
             Next
-
-            'response key might not be same as original message key
-            'wait till message with the original key is received
-            While mResposnses.Contains(aTcpParam.GetKey() = False)
-                Thread.Sleep(1)
-            End While
-
-            aTcpParam.SetResponse(mResposnses.Item(aTcpParam.GetKey()))
-            mResposnses.Remove(aTcpParam.GetKey())
-            Exit While
         End While
     End Sub
 
@@ -544,6 +612,7 @@ Public Class Tcp
                 MotionAndCameraSettings()
                 GetMonitorStatus()
                 GetWeatherInfo()
+                'ClimateData()
             Case 2
                 GetAirQualityInfo()
             Case Else
@@ -844,5 +913,104 @@ Public Class Tcp
         mDisableAudio = CBool(en)
         Return CBool(Int(disableAudioFlag))
     End Function
+
+    'get climate data
+    Public Sub ClimateData()
+        If mFetching(gWeatherModuleId) Then
+            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile", gWeatherModuleId, 1440)
+            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile", gWeatherModuleId, 1440)
+            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile", gWeatherModuleId, 1440)
+
+            Dim tcpParamArr(2) As TcpParameter
+            tcpParamArr(0) = tcpParam1
+            tcpParamArr(1) = tcpParam2
+            tcpParamArr(2) = tcpParam3
+
+            'thread to get climate from RPI
+            Dim temperatureProfileTrd As Thread = New Thread(AddressOf ClimateDataTrd)
+            temperatureProfileTrd.Start(tcpParamArr)
+        End If
+    End Sub
+
+    'get climate data in thread
+    Private Sub ClimateDataTrd(aTcpParamArr() As TcpParameter)
+        If mFetching(gWeatherModuleId) = False Then
+            Return
+        End If
+
+        For idx = 0 To 2
+            Dim profile As String = gTcpMgr.GetResponse(aTcpParamArr(idx))
+            If (profile = "Disconnected") Or (profile = "") Then
+                Return
+            End If
+
+            For minIdx = 0 To aTcpParamArr(idx).GetNumPackets() - 1
+                Debug.Assert(IsNumeric(aTcpParamArr(idx).GetResponse(minIdx)))
+                mClimate(idx, minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
+            Next
+        Next
+    End Sub
+
+    'show chart data
+    Public Sub ShowClimateData()
+        homeCtrl.TemperatureData.Series("Temperature (^C)").Points.Clear()
+        homeCtrl.HumidityData.Series("Humidity").Points.Clear()
+        homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.Clear()
+
+        For idx = 0 To 2
+            Dim minVal As Double = 1000000
+            Dim maxVal As Double = -1
+            For minIdx = 0 To 1439
+                Dim val As Double = GetClimateReading(idx, minIdx)
+
+                If val = 0 Then
+                    Continue For
+                End If
+
+                Dim hr As Double = minIdx / 60
+
+                'add points in the graph
+                Select Case idx
+                    Case 0 : homeCtrl.TemperatureData.Series("Temperature (^C)").Points.AddXY(hr, val)
+                    Case 1 : homeCtrl.HumidityData.Series("Humidity").Points.AddXY(hr, val)
+                    Case 2 : homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.AddXY(hr, val)
+                    Case Else
+                End Select
+
+                'set minimum value
+                If minVal > val Then
+                    minVal = val
+                End If
+
+                'set maximum value
+                If maxVal < val Then
+                    maxVal = val
+                End If
+            Next
+
+            If maxVal = minVal Then
+                maxVal += 1
+            End If
+            Dim chartMin As Integer = Int(minVal)
+            Dim chartMax As Integer = Int(maxVal + 0.99)
+
+            'y-axis: interval = (max - min)/5
+            Select Case idx
+                Case 0
+                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Minimum = chartMin
+                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Maximum = chartMax
+                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
+                Case 1
+                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Minimum = chartMin
+                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Maximum = chartMax
+                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
+                Case 2
+                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Minimum = chartMin
+                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Maximum = chartMax
+                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
+                Case Else
+            End Select
+        Next
+    End Sub
 
 End Class

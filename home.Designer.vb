@@ -23,9 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea29 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend29 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series29 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea30 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend30 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series30 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea31 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend31 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series31 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea32 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend32 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series32 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -158,6 +167,11 @@ Partial Class homeCtrl
         Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Smoke = New System.Windows.Forms.Label()
         Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TemperatureData = New System.Windows.Forms.DataVisualization.Charting.Chart()
+        Me.ClimateTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.HumidityData = New System.Windows.Forms.DataVisualization.Charting.Chart()
+        Me.PressureData = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
@@ -186,6 +200,10 @@ Partial Class homeCtrl
         Me.GroupBox2.SuspendLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage1.SuspendLayout()
+        CType(Me.TemperatureData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.HumidityData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PressureData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Fetch
@@ -242,6 +260,7 @@ Partial Class homeCtrl
         '
         'Timer20s
         '
+        Me.Timer20s.Enabled = True
         Me.Timer20s.Interval = 20000
         '
         'Pressure
@@ -284,6 +303,7 @@ Partial Class homeCtrl
         Me.Tabs.Controls.Add(Me.room)
         Me.Tabs.Controls.Add(Me.rgb_led)
         Me.Tabs.Controls.Add(Me.Alarm)
+        Me.Tabs.Controls.Add(Me.TabPage1)
         Me.Tabs.Location = New System.Drawing.Point(12, 87)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
@@ -601,17 +621,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea1.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend1)
+        ChartArea29.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea29)
+        Legend29.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend29)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Power on Time"
-        Series1.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series1)
+        Series29.ChartArea = "ChartArea1"
+        Series29.Legend = "Legend1"
+        Series29.Name = "Power on Time"
+        Series29.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series29)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1492,6 +1512,7 @@ Partial Class homeCtrl
         '
         'LightingsTimer
         '
+        Me.LightingsTimer.Enabled = True
         Me.LightingsTimer.Interval = 1000
         '
         'ToolTip1
@@ -1511,9 +1532,11 @@ Partial Class homeCtrl
         '
         'SpeechTimer
         '
+        Me.SpeechTimer.Enabled = True
         '
         'ReconnectTimer
         '
+        Me.ReconnectTimer.Enabled = True
         Me.ReconnectTimer.Interval = 20000
         '
         'StreamDebugIdx
@@ -1598,6 +1621,7 @@ Partial Class homeCtrl
         '
         'Timer1s
         '
+        Me.Timer1s.Enabled = True
         Me.Timer1s.Interval = 1000
         '
         'Smoke
@@ -1613,6 +1637,77 @@ Partial Class homeCtrl
         '
         'ControlRefreshTimer
         '
+        Me.ControlRefreshTimer.Enabled = True
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.PressureData)
+        Me.TabPage1.Controls.Add(Me.HumidityData)
+        Me.TabPage1.Controls.Add(Me.TemperatureData)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Size = New System.Drawing.Size(1872, 777)
+        Me.TabPage1.TabIndex = 5
+        Me.TabPage1.Text = "Climate"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TemperatureData
+        '
+        ChartArea30.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea30)
+        Legend30.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend30)
+        Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
+        Me.TemperatureData.Name = "TemperatureData"
+        Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
+        Series30.ChartArea = "ChartArea1"
+        Series30.Legend = "Legend1"
+        Series30.Name = "Temperature (^C)"
+        Series30.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series30)
+        Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
+        Me.TemperatureData.TabIndex = 34
+        Me.TemperatureData.Text = "Power Histogram"
+        '
+        'ClimateTimer
+        '
+        Me.ClimateTimer.Enabled = True
+        Me.ClimateTimer.Interval = 60000
+        '
+        'HumidityData
+        '
+        ChartArea31.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea31)
+        Legend31.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend31)
+        Me.HumidityData.Location = New System.Drawing.Point(14, 414)
+        Me.HumidityData.Name = "HumidityData"
+        Series31.ChartArea = "ChartArea1"
+        Series31.Legend = "Legend1"
+        Series31.Name = "Humidity"
+        Series31.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series31)
+        Me.HumidityData.Size = New System.Drawing.Size(900, 350)
+        Me.HumidityData.TabIndex = 35
+        Me.HumidityData.Text = "Power Histogram"
+        '
+        'PressureData
+        '
+        ChartArea32.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea32)
+        Legend32.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend32)
+        Me.PressureData.Location = New System.Drawing.Point(969, 12)
+        Me.PressureData.Name = "PressureData"
+        Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
+        Series32.ChartArea = "ChartArea1"
+        Series32.Legend = "Legend1"
+        Series32.Name = "Air Pressure (Pa)"
+        Series32.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series32)
+        Me.PressureData.Size = New System.Drawing.Size(900, 350)
+        Me.PressureData.TabIndex = 36
+        Me.PressureData.Text = "Power Histogram"
         '
         'homeCtrl
         '
@@ -1674,6 +1769,10 @@ Partial Class homeCtrl
         Me.GroupBox2.PerformLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage1.ResumeLayout(False)
+        CType(Me.TemperatureData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.HumidityData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PressureData, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1810,4 +1909,9 @@ Partial Class homeCtrl
     Friend WithEvents SnoozeLabel As Label
     Friend WithEvents DisableLightSchedule As CheckBox
     Friend WithEvents ControlRefreshTimer As Timer
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents TemperatureData As DataVisualization.Charting.Chart
+    Friend WithEvents ClimateTimer As Timer
+    Friend WithEvents PressureData As DataVisualization.Charting.Chart
+    Friend WithEvents HumidityData As DataVisualization.Charting.Chart
 End Class

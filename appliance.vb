@@ -224,11 +224,6 @@ Public Class Appliance
             maxVal += 1
         End If
 
-        'x-axis: min=0, max=23, interval=1
-        homeCtrl.pwHist.ChartAreas.Min.AxisX.Minimum = 0
-        homeCtrl.pwHist.ChartAreas.Min.AxisX.Maximum = 23
-        homeCtrl.pwHist.ChartAreas.Min.AxisX.Interval = 1
-
         'y-axis: interval = (max - min)/5
         homeCtrl.pwHist.ChartAreas.Min.AxisY.Minimum = minVal
         homeCtrl.pwHist.ChartAreas.Min.AxisY.Maximum = maxVal
