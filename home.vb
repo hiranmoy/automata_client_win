@@ -749,7 +749,6 @@ Public Class homeCtrl
         gTcpMgr.CheckConnectionStatus()
 
         gTcpMgr.GetWeatherInfo()
-        gTcpMgr.GetMonitorStatus()
 
         gTcpMgr.GetAirQualityInfo()
     End Sub
@@ -884,13 +883,7 @@ Public Class homeCtrl
         gAlarm.PlayMusic()
     End Sub
 
-    'check for touch sensor status
-    Private Sub Timer1s_Tick(sender As Object, e As EventArgs) Handles Timer1s.Tick
-        If TimerAlarm.Enabled = True Then
-            gTcpMgr.GetTouchSensorStatus()
-        End If
-    End Sub
-
+    'update form controls
     Private Sub ControlRefreshTimer_Tick(sender As Object, e As EventArgs) Handles ControlRefreshTimer.Tick
         'fetch data if it is pending
         gTcpMgr.FetchDataIfPending()
@@ -991,6 +984,8 @@ Public Class homeCtrl
         'refresh snooze status based on touch sensor output
         Dim touchSensorStatus As String = gTcpMgr.GetTouchSensorStatusData()
         If touchSensorStatus <> "-" Then
+            gTcpMgr.ClearTouchDetectionStatus()
+
             'touch button pressed
             gAlarm.KillMusic()
 

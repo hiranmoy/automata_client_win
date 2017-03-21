@@ -59,7 +59,7 @@ Public Class Tcp
     Private mSmokeReading As Integer
 
     'climate data
-    Private mClimate(5, 1439) As Double
+    Private mClimate(2, 1439) As Double
 
     'motion detection data
     Private mMotionDetectionStatus As String
@@ -133,10 +133,7 @@ Public Class Tcp
         '0: temperature
         '1: humidity
         '2: air pressure
-        '3: alcohol
-        '4: CO
-        '5: smoke
-        For idx = 0 To 5
+        For idx = 0 To 2
             For minIdx = 0 To 1439
                 mClimate(idx, minIdx) = 0
             Next
@@ -146,7 +143,7 @@ Public Class Tcp
         mMotionDetectionStatus = ""
 
         'touch sensor status
-        mTouchSensorStatus = "-"
+        mTouchSensorStatus = ""
 
         'motion detection enable status
         mEnableMotionDetect = False
@@ -277,6 +274,11 @@ Public Class Tcp
     Public Function GetTouchSensorStatusData()
         Return mTouchSensorStatus
     End Function
+
+    'clear touch detection status
+    Public Sub ClearTouchDetectionStatus()
+        mTouchSensorStatus = ""
+    End Sub
 
     'clear mtouch sensor status data
     Public Sub ClearTouchSensorStatusData()
@@ -612,6 +614,24 @@ Public Class Tcp
                 'tcp key
                 Debug.Assert(IsNumeric(packetParams(0)))
                 Dim responseKey As Integer = CInt(packetParams(0))
+
+                If responseKey < 0 Then
+                    'interrupt from sensors like motion, touch etc.
+
+                    Select Case responseKey
+                        Case -1
+                            'motion sensor
+                            SetMonitorStatus(response)
+                        Case -2
+                            'touch sensor
+                            SetTouchSensorStatus(response)
+                        Case Else
+                            Debug.Assert(False)
+                    End Select
+
+                    Continue For
+                End If
+
                 Debug.Assert(mResposnses.Contains(responseKey))
 
                 Dim tcpParam As TcpParameter = mResposnses.Item(responseKey)
@@ -672,7 +692,6 @@ Public Class Tcp
                 GetLightingSettings()
             Case 1
                 MotionAndCameraSettings()
-                GetMonitorStatus()
                 GetWeatherInfo()
                 ClimateData()
             Case 2
@@ -756,64 +775,16 @@ Public Class Tcp
         mSmokeReading = CInt(params(2))
     End Sub
 
-    'gets motion detection status
-    Public Sub GetMonitorStatus()
-        If mFetching(gMotionSensorModuleId) = False Then
-            Exit Sub
-        End If
+    'set motion detection status
+    Private Sub SetMonitorStatus(monitorStatus As String)
+        Debug.Assert(monitorStatus <> "")
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ExtractMonitorStatus", gMotionSensorModuleId)
-
-        'thread to get motion detection status from RPI
-        Dim motionDetectTrd As Thread = New Thread(AddressOf GetMonitorStatusTrd)
-        motionDetectTrd.Start(tcpParam)
-    End Sub
-
-    'gets motion detection status
-    Private Sub GetMonitorStatusTrd(atcpParam As TcpParameter)
-        If mFetching(gMotionSensorModuleId) = False Then
-            Exit Sub
-        End If
-
-        Dim monitorStatus As String = GetResponse(atcpParam)
-        If (monitorStatus = "Disconnected") Or (monitorStatus = "") Then
-            Return
-        End If
-
-        Select Case monitorStatus
-            Case "-"
-                'no motion detected
-                Return
-            Case Else
-                'motion detection time
-                mMotionDetectionStatus = "Motion detected at " + monitorStatus + Environment.NewLine
-        End Select
+        'motion detection time
+        mMotionDetectionStatus = "Motion detected at " + monitorStatus + Environment.NewLine
     End Sub
 
     'gets touch sensor status
-    Public Sub GetTouchSensorStatus()
-        If mFetching(gTouchSensorModuleId) = False Then
-            Exit Sub
-        End If
-
-        Dim tcpParam As TcpParameter = New TcpParameter("ExtractTouchSensorStatus", gTouchSensorModuleId)
-
-        'thread to get touch sensor pressed status from RPI
-        Dim touchSensorTrd As Thread = New Thread(AddressOf GetTouchSensorStatusTrd)
-        touchSensorTrd.Start(tcpParam)
-    End Sub
-
-    'gets touch sensor status
-    Private Sub GetTouchSensorStatusTrd(atcpParam As TcpParameter)
-        If mFetching(gTouchSensorModuleId) = False Then
-            Exit Sub
-        End If
-
-        Dim touchSensorStatus As String = GetResponse(atcpParam)
-        If (touchSensorStatus = "Disconnected") Or (touchSensorStatus = "") Then
-            Return
-        End If
-
+    Private Sub SetTouchSensorStatus(touchSensorStatus As String)
         Debug.Assert(touchSensorStatus <> "")
         mTouchSensorStatus = touchSensorStatus
     End Sub

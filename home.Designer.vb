@@ -23,18 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea6 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend6 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea4 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend4 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -168,7 +168,6 @@ Partial Class homeCtrl
         Me.Timer500ms = New System.Windows.Forms.Timer(Me.components)
         Me.TimerAlarm = New System.Windows.Forms.Timer(Me.components)
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
-        Me.Timer1s = New System.Windows.Forms.Timer(Me.components)
         Me.Smoke = New System.Windows.Forms.Label()
         Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ClimateTimer = New System.Windows.Forms.Timer(Me.components)
@@ -621,17 +620,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea5.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea5)
-        Legend5.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend5)
+        ChartArea1.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend1)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series5.ChartArea = "ChartArea1"
-        Series5.Legend = "Legend1"
-        Series5.Name = "Power on Time"
-        Series5.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series5)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Power on Time"
+        Series1.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series1)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1520,53 +1519,53 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea6.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea6)
-        Legend6.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend6)
+        ChartArea2.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend2)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series6.ChartArea = "ChartArea1"
-        Series6.Legend = "Legend1"
-        Series6.Name = "Air Pressure (Pa)"
-        Series6.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series6)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Air Pressure (Pa)"
+        Series2.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series2)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Power Histogram"
         '
         'HumidityData
         '
-        ChartArea7.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea7)
-        Legend7.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend7)
+        ChartArea3.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea3)
+        Legend3.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend3)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Legend = "Legend1"
-        Series7.Name = "Humidity"
-        Series7.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series7)
+        Series3.ChartArea = "ChartArea1"
+        Series3.Legend = "Legend1"
+        Series3.Name = "Humidity"
+        Series3.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series3)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea8.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea8)
-        Legend8.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend8)
+        ChartArea4.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea4)
+        Legend4.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend4)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series8.ChartArea = "ChartArea1"
-        Series8.Legend = "Legend1"
-        Series8.Name = "Temperature (^C)"
-        Series8.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series8)
+        Series4.ChartArea = "ChartArea1"
+        Series4.Legend = "Legend1"
+        Series4.Name = "Temperature (^C)"
+        Series4.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series4)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Power Histogram"
@@ -1683,11 +1682,6 @@ Partial Class homeCtrl
         'MusicFileBrowse
         '
         Me.MusicFileBrowse.FileName = "OpenFileDialog1"
-        '
-        'Timer1s
-        '
-        Me.Timer1s.Enabled = True
-        Me.Timer1s.Interval = 1000
         '
         'Smoke
         '
@@ -1863,7 +1857,6 @@ Partial Class homeCtrl
     Friend WithEvents Timer500ms As Timer
     Friend WithEvents TimerAlarm As Timer
     Friend WithEvents MusicFileBrowse As OpenFileDialog
-    Friend WithEvents Timer1s As Timer
     Friend WithEvents Smoke As Label
     Friend WithEvents DisableLED As Button
     Friend WithEvents LEDButtons As GroupBox
