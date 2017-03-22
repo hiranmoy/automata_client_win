@@ -895,8 +895,8 @@ Public Class homeCtrl
 
         'refresh climate data once
         If (TemperatureData.Series("Temperature (^C)").Points.Count = 0) Or
-            (HumidityData.Series("Humidity").Points.Count = 0) Or
-            (PressureData.Series("Air Pressure (Pa)").Points.Count = 0) Then
+           (HumidityData.Series("Humidity").Points.Count = 0) Or
+           (PressureData.Series("Air Pressure (Pa)").Points.Count = 0) Then
             gTcpMgr.ShowClimateData()
         End If
 
@@ -983,7 +983,7 @@ Public Class homeCtrl
 
         'refresh snooze status based on touch sensor output
         Dim touchSensorStatus As String = gTcpMgr.GetTouchSensorStatusData()
-        If touchSensorStatus <> "-" Then
+        If touchSensorStatus <> "" Then
             gTcpMgr.ClearTouchDetectionStatus()
 
             'touch button pressed

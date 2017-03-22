@@ -58,8 +58,11 @@ Public Class Tcp
     Private mCOReading As Integer
     Private mSmokeReading As Integer
 
+    'number of points in a graph
+    Public mNumPointsInGraph As Integer
+
     'climate data
-    Private mClimate(2, 1439) As Double
+    Private mClimate(2, 0) As Double
 
     'motion detection data
     Private mMotionDetectionStatus As String
@@ -129,12 +132,16 @@ Public Class Tcp
         mCOReading = 0
         mSmokeReading = 0
 
+        'initilize number of points
+        mNumPointsInGraph = 480
+
         'initilize climate data
         '0: temperature
         '1: humidity
         '2: air pressure
+        ReDim mClimate(2, mNumPointsInGraph - 1)
         For idx = 0 To 2
-            For minIdx = 0 To 1439
+            For minIdx = 0 To mNumPointsInGraph - 1
                 mClimate(idx, minIdx) = 0
             Next
         Next
@@ -278,11 +285,6 @@ Public Class Tcp
     'clear touch detection status
     Public Sub ClearTouchDetectionStatus()
         mTouchSensorStatus = ""
-    End Sub
-
-    'clear mtouch sensor status data
-    Public Sub ClearTouchSensorStatusData()
-        mTouchSensorStatus = "-"
     End Sub
 
     'returns EnableMotionDetect status
@@ -950,9 +952,9 @@ Public Class Tcp
     'get climate data
     Public Sub ClimateData()
         If mFetching(gWeatherModuleId) Then
-            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile", gWeatherModuleId, 1440)
-            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile", gWeatherModuleId, 1440)
-            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile", gWeatherModuleId, 1440)
+            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile", gWeatherModuleId, mNumPointsInGraph)
+            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile", gWeatherModuleId, mNumPointsInGraph)
+            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile", gWeatherModuleId, mNumPointsInGraph)
 
             Dim tcpParamArr(2) As TcpParameter
             tcpParamArr(0) = tcpParam1
@@ -1001,7 +1003,7 @@ Public Class Tcp
         For idx = 0 To 2
             Dim minVal As Double = 1000000
             Dim maxVal As Double = -1
-            For minIdx = 0 To 1439
+            For minIdx = 0 To mNumPointsInGraph - 1
                 Dim origVal As Double = GetClimateReading(idx, minIdx)
 
                 If origVal = 0 Then
@@ -1012,7 +1014,7 @@ Public Class Tcp
                 Dim avgVal As Double = 0
                 Dim div As Integer = 0
 
-                For filterIdx = Math.Max(0, minIdx - 2) To Math.Min(minIdx + 2, 1439)
+                For filterIdx = Math.Max(0, minIdx - 2) To Math.Min(minIdx + 2, mNumPointsInGraph - 1)
                     If GetClimateReading(idx, filterIdx) = 0 Then
                         Continue For
                     End If
@@ -1024,7 +1026,7 @@ Public Class Tcp
                 avgVal /= div
                 Debug.Assert(avgVal > 0)
 
-                Dim hr As Double = minIdx / 60
+                Dim hr As Double = minIdx * (1440 / mNumPointsInGraph) / 60
 
                 'add points in the graph
                 Select Case idx
