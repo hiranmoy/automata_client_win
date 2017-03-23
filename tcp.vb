@@ -140,11 +140,7 @@ Public Class Tcp
         '1: humidity
         '2: air pressure
         ReDim mClimate(2, mNumPointsInGraph - 1)
-        For idx = 0 To 2
-            For minIdx = 0 To mNumPointsInGraph - 1
-                mClimate(idx, minIdx) = 0
-            Next
-        Next
+        ClearClimateData()
 
         'motion detection data
         mMotionDetectionStatus = ""
@@ -218,6 +214,15 @@ Public Class Tcp
                                "PowerOnPlug1",
                                "GetPlug1Profile",
                                100)
+    End Sub
+
+    'clear climate data
+    Public Sub ClearClimateData()
+        For idx = 0 To 2
+            For minIdx = 0 To mNumPointsInGraph - 1
+                mClimate(idx, minIdx) = 0
+            Next
+        Next
     End Sub
 
     'kill all tcp response threads
@@ -950,11 +955,16 @@ Public Class Tcp
     End Function
 
     'get climate data
-    Public Sub ClimateData()
+    Public Sub ClimateData(Optional sensorDate As String = "")
         If mFetching(gWeatherModuleId) Then
-            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile", gWeatherModuleId, mNumPointsInGraph)
-            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile", gWeatherModuleId, mNumPointsInGraph)
-            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile", gWeatherModuleId, mNumPointsInGraph)
+            ClearClimateData()
+            homeCtrl.TemperatureData.Series(0).Points.Clear()
+            homeCtrl.HumidityData.Series(0).Points.Clear()
+            homeCtrl.PressureData.Series(0).Points.Clear()
+
+            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
+            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
+            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
 
             Dim tcpParamArr(2) As TcpParameter
             tcpParamArr(0) = tcpParam1
@@ -973,8 +983,11 @@ Public Class Tcp
             Return
         End If
 
-        'wait for 10 sec so that important and small data can be captured properly
-        Thread.Sleep(10000)
+        If aTcpParamArr(0).GetDataStr().Contains("-") = False Then
+            'wait for 10 sec so that important and small data can be captured properly
+            'don't in case of a specific date input
+            Thread.Sleep(10000)
+        End If
 
         For idx = 0 To 2
             gTcpMgr.GetResponse(aTcpParamArr(idx))

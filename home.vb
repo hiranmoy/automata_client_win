@@ -528,6 +528,24 @@ Public Class homeCtrl
         SnoozeLabel.Visible = False
     End Sub
 
+    'load past sensor data
+    Private Sub LoadSensorData_Click(sender As Object, e As EventArgs) Handles LoadSensorData.Click
+        ClimateTimer.Stop()
+        LoadSensorData.Enabled = False
+        SensorDateTime.Enabled = False
+
+        'clear
+        gTcpMgr.ClearClimateData()
+        TemperatureData.Series(0).Points.Clear()
+        HumidityData.Series(0).Points.Clear()
+        PressureData.Series(0).Points.Clear()
+
+        Dim sensorDate As String = SensorDateTime.Value.Month.ToString + "-" + SensorDateTime.Value.Day.ToString
+        gTcpMgr.ClimateData(sensorDate)
+
+        ClimateTimer.Start()
+    End Sub
+
 
 
     'TrackBar(s)
@@ -749,12 +767,15 @@ Public Class homeCtrl
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
     'fetch weather and motion detection status
-    Private Sub Timer20s_Tick(sender As Object, e As EventArgs) Handles Timer20s.Tick
+    Private Sub Timer30s_Tick(sender As Object, e As EventArgs) Handles Timer30s.Tick
         gTcpMgr.CheckConnectionStatus()
 
         gTcpMgr.GetWeatherInfo()
 
         gTcpMgr.GetAirQualityInfo()
+
+        LoadSensorData.Enabled = True
+        SensorDateTime.Enabled = True
     End Sub
 
     'updates time remaining motion detect activation
@@ -902,6 +923,9 @@ Public Class homeCtrl
            (HumidityData.Series("Humidity").Points.Count = 0) Or
            (PressureData.Series("Air Pressure (Pa)").Points.Count = 0) Then
             gTcpMgr.ShowClimateData()
+        Else
+            LoadSensorData.Enabled = True
+            SensorDateTime.Enabled = True
         End If
 
 
@@ -1299,5 +1323,6 @@ Public Class homeCtrl
         Next
         yrList.SelectedItem = yrList.Items(yrList.Items.Count - 1)
     End Sub
+
 
 End Class
