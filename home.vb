@@ -224,6 +224,10 @@ Public Class homeCtrl
 
     'display power profile
     Private Sub ShowPowerHist_Click(sender As Object, e As EventArgs) Handles ShowPowerHist.Click
+        'TODO
+        MsgBox("This feature is disabled for now")
+        Return
+
         'toggle power profile mode
         gPowerHistSelectMode = Not gPowerHistSelectMode
 
@@ -1232,7 +1236,8 @@ Public Class homeCtrl
         Tabs.TabPages(0).Enabled = gTcpMgr.IsConnected(gMotionSensorModuleId) And gTcpMgr.IsConnected(gCameraModuleId)
         Tabs.TabPages(1).Enabled = gTcpMgr.IsConnected(gLightings1ModuleId)
         Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
-        Tabs.TabPages(3).Enabled = gTcpMgr.IsConnected(gAirQualityModuleId)
+        'Tabs.TabPages(3).Enabled = gTcpMgr.IsConnected(gAirQualityModuleId)
+        Tabs.TabPages(3).Enabled = True
         Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
     End Sub
 

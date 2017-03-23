@@ -996,11 +996,28 @@ Public Class Tcp
             Return
         End If
 
-        homeCtrl.TemperatureData.Series("Temperature (^C)").Points.Clear()
-        homeCtrl.HumidityData.Series("Humidity").Points.Clear()
-        homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.Clear()
+        Dim graph As DataVisualization.Charting.Series
+        Dim colorOfTodaysReading, colorOfYesterdaysReading As Color
 
         For idx = 0 To 2
+            Select Case idx
+                Case 0
+                    graph = homeCtrl.TemperatureData.Series(0)
+                    colorOfTodaysReading = Color.Crimson
+                    colorOfYesterdaysReading = Color.Green
+                Case 1 : graph = homeCtrl.HumidityData.Series(0)
+                    colorOfTodaysReading = Color.Brown
+                    colorOfYesterdaysReading = Color.Green
+                Case 2 : graph = homeCtrl.PressureData.Series(0)
+                    colorOfTodaysReading = Color.Blue
+                    colorOfYesterdaysReading = Color.Green
+                Case Else
+                    Debug.Assert(False)
+            End Select
+
+            'clear the graph
+            graph.Points.Clear()
+
             Dim minVal As Double = 1000000
             Dim maxVal As Double = -1
             For minIdx = 0 To mNumPointsInGraph - 1
@@ -1029,12 +1046,14 @@ Public Class Tcp
                 Dim hr As Double = minIdx * (1440 / mNumPointsInGraph) / 60
 
                 'add points in the graph
-                Select Case idx
-                    Case 0 : homeCtrl.TemperatureData.Series("Temperature (^C)").Points.AddXY(hr, avgVal)
-                    Case 1 : homeCtrl.HumidityData.Series("Humidity").Points.AddXY(hr, avgVal)
-                    Case 2 : homeCtrl.PressureData.Series("Air Pressure (Pa)").Points.AddXY(hr, avgVal)
-                    Case Else
-                End Select
+                Dim point As Integer = graph.Points.AddXY(hr, avgVal)
+
+                'set color
+                If hr < DateAndTime.Now.Hour + DateAndTime.Now.Minute / 60 Then
+                    graph.Points(point).Color = colorOfTodaysReading
+                Else
+                    graph.Points(point).Color = colorOfYesterdaysReading
+                End If
 
                 'set minimum value
                 If minVal > avgVal Then
