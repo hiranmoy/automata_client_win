@@ -64,6 +64,9 @@ Public Class Tcp
     'climate data
     Private mClimate(2, 0) As Double
 
+    'update climate data
+    Private mUpdateClimate(2) As Boolean
+
     'motion detection data
     Private mMotionDetectionStatus As String
 
@@ -142,6 +145,10 @@ Public Class Tcp
         ReDim mClimate(2, mNumPointsInGraph - 1)
         ClearClimateData()
 
+        For idx = 0 To mUpdateClimate.Length - 1
+            mUpdateClimate(idx) = False
+        Next
+
         'motion detection data
         mMotionDetectionStatus = ""
 
@@ -217,8 +224,12 @@ Public Class Tcp
     End Sub
 
     'clear climate data
-    Public Sub ClearClimateData()
+    Public Sub ClearClimateData(Optional n As Integer = -1)
         For idx = 0 To 2
+            If n <> -1 And n <> idx Then
+                Continue For
+            End If
+
             For minIdx = 0 To mNumPointsInGraph - 1
                 mClimate(idx, minIdx) = 0
             Next
@@ -957,11 +968,6 @@ Public Class Tcp
     'get climate data
     Public Sub ClimateData(Optional sensorDate As String = "")
         If mFetching(gWeatherModuleId) Then
-            ClearClimateData()
-            homeCtrl.TemperatureData.Series(0).Points.Clear()
-            homeCtrl.HumidityData.Series(0).Points.Clear()
-            homeCtrl.PressureData.Series(0).Points.Clear()
-
             Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
             Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
             Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
@@ -991,6 +997,8 @@ Public Class Tcp
 
         For idx = 0 To 2
             gTcpMgr.GetResponse(aTcpParamArr(idx))
+            ClearClimateData(idx)
+            mUpdateClimate(idx) = True
 
             For minIdx = 0 To aTcpParamArr(idx).GetNumPackets() - 1
                 If aTcpParamArr(idx).GetResponse(minIdx) = "" Then
@@ -1028,8 +1036,18 @@ Public Class Tcp
                     Debug.Assert(False)
             End Select
 
-            'clear the graph
-            graph.Points.Clear()
+            If mUpdateClimate(idx) = True Then
+                'clear the graph
+                graph.Points.Clear()
+
+                If idx = 2 Then
+                    homeCtrl.LoadSensorData.Enabled = True
+                    homeCtrl.SensorDateTime.Enabled = True
+                End If
+            Else
+                Continue For
+            End If
+
 
             Dim minVal As Double = 1000000
             Dim maxVal As Double = -1

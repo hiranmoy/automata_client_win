@@ -534,12 +534,6 @@ Public Class homeCtrl
         LoadSensorData.Enabled = False
         SensorDateTime.Enabled = False
 
-        'clear
-        gTcpMgr.ClearClimateData()
-        TemperatureData.Series(0).Points.Clear()
-        HumidityData.Series(0).Points.Clear()
-        PressureData.Series(0).Points.Clear()
-
         Dim sensorDate As String = SensorDateTime.Value.Month.ToString + "-" + SensorDateTime.Value.Day.ToString
         gTcpMgr.ClimateData(sensorDate)
 
@@ -919,14 +913,7 @@ Public Class homeCtrl
 
 
         'refresh climate data once
-        If (TemperatureData.Series("Temperature (^C)").Points.Count = 0) Or
-           (HumidityData.Series("Humidity").Points.Count = 0) Or
-           (PressureData.Series("Air Pressure (Pa)").Points.Count = 0) Then
-            gTcpMgr.ShowClimateData()
-        Else
-            LoadSensorData.Enabled = True
-            SensorDateTime.Enabled = True
-        End If
+        gTcpMgr.ShowClimateData()
 
 
         'refresh weather data
@@ -1056,8 +1043,8 @@ Public Class homeCtrl
     'cimate timer
     Private Sub ClimateTimer_Tick(sender As Object, e As EventArgs) Handles ClimateTimer.Tick
         gTcpMgr.ClimateData()
-
-        gTcpMgr.ShowClimateData()
+        LoadSensorData.Enabled = True
+        SensorDateTime.Enabled = True
     End Sub
 
 
