@@ -395,7 +395,7 @@ Public Class Tcp
     'connect to a module
     Private Sub ConnectModule(idx As Integer)
         If mFetching(idx) = False Then
-            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", idx)
+            Dim tcpParam As TcpParameter = New TcpParameter("Handshake", idx, 1)
 
             'thread to connect to RPI
             Dim connectionTrd As Thread = New Thread(AddressOf ConnectTcpTrd)
@@ -445,45 +445,60 @@ Public Class Tcp
 
         Dim numPackets As Integer = aTcpParam.GetNumPackets()
 
-        'thread to get response from RPI
-        Dim tcpResponseTrd As Thread = New Thread(AddressOf SetTcpCommandToRPI)
-        tcpResponseTrd.Start(aTcpParam)
+        Dim numAttemptsLeft As Integer = aTcpParam.GetPriority() + 1
 
-        'wait 30 sec for the thread to finish
-        'disconnect if no response received
-        Dim timeInSec As Integer = 0
-        While aTcpParam.GetResponse(numPackets - 1) = ""
-            '(aTcpParam.GetResponse(aTcpParam.GetNumPackets() - 1) = "")
-            timeInSec += 1
-            If timeInSec >= 10000 Then
-                tcpResponseTrd.Abort()
+        While numAttemptsLeft > 0
+            'thread to get response from RPI
+            Dim tcpResponseTrd As Thread = New Thread(AddressOf SetTcpCommandToRPI)
+            tcpResponseTrd.Start(aTcpParam)
 
-                If numPackets > 1 Then
-                    'don't disconnect in case of multi-packet tcp parameter
-                    Return "done"
-                End If
+            'wait 5 sec for the thread to finish
+            'try again if no response received
+            Dim timeInSec As Integer = 0
+            While aTcpParam.GetResponse(numPackets - 1) = ""
+                '(aTcpParam.GetResponse(aTcpParam.GetNumPackets() - 1) = "")
+                timeInSec += 1
+                If timeInSec >= 5000 Then
+                    tcpResponseTrd.Abort()
 
-                'dump debug info when disconnected
-                Try
-                    FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
-                    Print(1, "Disconnected due to 10s timeout: " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
-                    FileClose(1)
-                Catch
-                End Try
+                    If numPackets = 1 Then
+                        'dump debug info when disconnected
+                        Try
+                            FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
+                            Print(1, "Missed response for " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+                            FileClose(1)
+                        Catch
+                        End Try
+                    End If
 
-                Return Disconnect(aTcpParam.GetStreamIdx())
-                Exit While
+                    Exit While
+                    End If
+
+                    Thread.Sleep(1)
+            End While
+
+            If aTcpParam.GetResponse() <> "" Then
+                Return aTcpParam.GetResponse()
             End If
 
-            Thread.Sleep(1)
+            numAttemptsLeft -= 1
         End While
 
-        If numPackets = 1 Then
-            Debug.Assert(aTcpParam.GetResponse() <> "")
-            Return aTcpParam.GetResponse()
-        Else
+        If numPackets > 1 Then
+            'don't disconnect in case of multi-packet tcp parameter
             Return "done"
         End If
+
+        'dump debug info when disconnected
+        Try
+            FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
+            Print(1, "Disconnected after attempting " + (aTcpParam.GetPriority() + 1).ToString + " times for " +
+                  aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+            FileClose(1)
+        Catch
+        End Try
+
+        Return Disconnect(aTcpParam.GetStreamIdx())
     End Function
 
     'send tcp command to rpi
@@ -727,7 +742,7 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId, 0)
 
         'thread to get weather data from RPI
         Dim weatherDataTrd As Thread = New Thread(AddressOf GetWeatherInfoTrd)
@@ -763,7 +778,7 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId, 0)
 
         'thread to get weather data from RPI
         Dim aitQualityTrd As Thread = New Thread(AddressOf GetAirQualityInfoTrd)
@@ -814,7 +829,7 @@ Public Class Tcp
                 Continue For
             End If
 
-            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx)
+            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx, 1)
 
             'thread to get touch sensor pressed status from RPI
             Dim connectionCheckTrd As Thread = New Thread(AddressOf CheckConnectionStatusTrd)
@@ -843,9 +858,9 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam1 As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId)
-        Dim tcpParam2 As TcpParameter = New TcpParameter("GetIsDisableVideo", gCameraModuleId)
-        Dim tcpParam3 As TcpParameter = New TcpParameter("GetIsDisableAudio", gCameraModuleId)
+        Dim tcpParam1 As TcpParameter = New TcpParameter("GetIsEnableMotionDetect", gMotionSensorModuleId, 1)
+        Dim tcpParam2 As TcpParameter = New TcpParameter("GetIsDisableVideo", gCameraModuleId, 1)
+        Dim tcpParam3 As TcpParameter = New TcpParameter("GetIsDisableAudio", gCameraModuleId, 1)
 
         Dim tcpParamArr(2) As TcpParameter
         tcpParamArr(0) = tcpParam1
@@ -907,7 +922,7 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", gLightings2ModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("ToggleLED", gLightings2ModuleId, 1)
         GetResponse(tcpParam)
     End Sub
 
@@ -917,7 +932,7 @@ Public Class Tcp
             Return False
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("EnableMotionDetect" + Str(en), gMotionSensorModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("EnableMotionDetect" + Str(en), gMotionSensorModuleId, 1)
         Dim enableMotionDetectFlag As String = GetResponse(tcpParam)
 
         If (enableMotionDetectFlag = "Disconnected") Or (enableMotionDetectFlag = "") Then
@@ -935,7 +950,7 @@ Public Class Tcp
             Return False
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("DisableVideo" + Str(en), gCameraModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("DisableVideo" + Str(en), gCameraModuleId, 1)
         Dim disableVideoFlag As String = GetResponse(tcpParam)
 
         If (disableVideoFlag = "Disconnected") Or (disableVideoFlag = "") Then
@@ -953,7 +968,7 @@ Public Class Tcp
             Return False
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("DisableAudio" + Str(en), gCameraModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("DisableAudio" + Str(en), gCameraModuleId, 1)
         Dim disableAudioFlag As String = GetResponse(tcpParam)
 
         If (disableAudioFlag = "Disconnected") Or (disableAudioFlag = "") Then
@@ -968,9 +983,9 @@ Public Class Tcp
     'get climate data
     Public Sub ClimateData(Optional sensorDate As String = "")
         If mFetching(gWeatherModuleId) Then
-            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
-            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
-            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile " + sensorDate, gWeatherModuleId, mNumPointsInGraph)
+            Dim tcpParam1 As TcpParameter = New TcpParameter("GetTemperatureProfile " + sensorDate, gWeatherModuleId, 0, mNumPointsInGraph)
+            Dim tcpParam2 As TcpParameter = New TcpParameter("GetHumidityProfile " + sensorDate, gWeatherModuleId, 0, mNumPointsInGraph)
+            Dim tcpParam3 As TcpParameter = New TcpParameter("GetPressureProfile " + sensorDate, gWeatherModuleId, 0, mNumPointsInGraph)
 
             Dim tcpParamArr(2) As TcpParameter
             tcpParamArr(0) = tcpParam1

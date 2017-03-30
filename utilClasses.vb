@@ -36,22 +36,26 @@ Public Class TcpParameter
     'stream index
     Private mStreamIdx As Integer
 
+    'number of data packets to be received from rpi
+    Private mNumPackets As Integer
+
+    'priority of packet(s) to be received from rpi
+    Private mPriority As Integer
+
     'tcp responses from rpi
     Private mResponse() As String
 
     'tcp key
     Private mKey As Integer
 
-    'number of data packets to be received from rpi
-    Private mNumPackets As Integer
-
     'check whether all packets are recived
     Private mReceived() As Boolean
 
 
-    Public Sub New(aDataStr As String, aStreamIdx As Integer, Optional numPackets As Integer = 1)
+    Public Sub New(aDataStr As String, aStreamIdx As Integer, priority As Integer, Optional numPackets As Integer = 1)
         mDataStr = aDataStr
         mStreamIdx = aStreamIdx
+        mPriority = priority
         mNumPackets = numPackets
 
         'initilize responses and packet check
@@ -84,6 +88,14 @@ Public Class TcpParameter
         Return mStreamIdx
     End Function
 
+    Public Function GetNumPackets() As Integer
+        Return mNumPackets
+    End Function
+
+    Public Function GetPriority() As Integer
+        Return mPriority
+    End Function
+
     Public Function GetResponse(Optional idx As Integer = 0) As String
         Return mResponse(idx)
     End Function
@@ -99,10 +111,6 @@ Public Class TcpParameter
 
     Public Function GetTcpDataStr() As String
         Return mKey.ToString + "#" + mDataStr + "#"
-    End Function
-
-    Public Function GetNumPackets() As Integer
-        Return mNumPackets
     End Function
 
     Public Function IsAllPacketsReceived() As Boolean

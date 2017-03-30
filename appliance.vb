@@ -184,7 +184,7 @@ Public Class Appliance
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, gLightings1ModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, gLightings1ModuleId, 1)
         Dim profile As String = gTcpMgr.GetResponse(tcpParam)
         If (profile = "Disconnected") Or (profile = "") Then
             Return
@@ -238,7 +238,7 @@ Public Class Appliance
 
         mPowerOn = powerOn
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), gLightings1ModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), gLightings1ModuleId, 1)
         Dim data As String = gTcpMgr.GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return
@@ -255,7 +255,7 @@ Public Class Appliance
         End If
 
         'get on/off status from the RPI
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId, 1)
         Dim data As String = gTcpMgr.GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return

@@ -122,7 +122,7 @@ Public Class homeCtrl
 
     'debug only, incomplete codes here
     Private Sub debug_Click(sender As Object, e As EventArgs) Handles debugButton.Click
-        Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value)
+        Dim tcpParam As TcpParameter = New TcpParameter(Packet.Text, StreamDebugIdx.Value, 0)
         MsgBox(gTcpMgr.GetResponse(tcpParam))
     End Sub
 
@@ -335,7 +335,7 @@ Public Class homeCtrl
 
             If gTcpMgr.IsVideoDisabled() = False Then
                 'start live feed through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartLiveFeed", gCameraModuleId)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartLiveFeed", gCameraModuleId, 1)
                 Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
 
@@ -366,7 +366,7 @@ Public Class homeCtrl
             VideoCheck.Enabled = True
 
             'stop live feed through RPI
-            Dim tcpParam As TcpParameter = New TcpParameter("StopLiveFeed", gCameraModuleId)
+            Dim tcpParam As TcpParameter = New TcpParameter("StopLiveFeed", gCameraModuleId, 1)
             Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
             Debug.Assert(feedStatus = "off")
         End If
@@ -393,14 +393,14 @@ Public Class homeCtrl
 
             If gTcpMgr.IsVideoDisabled() = False Then
                 'start video recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartVideoRec", gCameraModuleId)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartVideoRec", gCameraModuleId, 1)
                 Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "on")
             End If
 
             If gTcpMgr.IsAudioDisabled() = False Then
                 'start audio recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StartAudioRec", gCameraModuleId)
+                Dim tcpParam As TcpParameter = New TcpParameter("StartAudioRec", gCameraModuleId, 1)
                 Dim audioFeedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "on")
             End If
@@ -418,14 +418,14 @@ Public Class homeCtrl
 
             If gTcpMgr.IsVideoDisabled() = False Then
                 'stop video recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StopVideoRec", gCameraModuleId)
+                Dim tcpParam As TcpParameter = New TcpParameter("StopVideoRec", gCameraModuleId, 1)
                 Dim feedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(feedStatus = "off")
             End If
 
             If gTcpMgr.IsAudioDisabled() = False Then
                 'stop audio recording through RPI
-                Dim tcpParam As TcpParameter = New TcpParameter("StopAudioRec", gCameraModuleId)
+                Dim tcpParam As TcpParameter = New TcpParameter("StopAudioRec", gCameraModuleId, 1)
                 Dim audioFeedStatus As String = gTcpMgr.GetResponse(tcpParam)
                 Debug.Assert(audioFeedStatus = "off")
             End If
@@ -437,7 +437,7 @@ Public Class homeCtrl
 
     'set up led flood light
     Private Sub enableLED_Click(sender As Object, e As EventArgs) Handles EnableLED.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", gLircModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", gLircModuleId, 1)
         Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
             Return
@@ -454,7 +454,7 @@ Public Class homeCtrl
 
     'switch off led flood light
     Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId, 1)
         Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
         Debug.Assert(powerStatus = "off")
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
@@ -476,7 +476,7 @@ Public Class homeCtrl
         Dim buttonidx As String = btn.Name
         buttonidx = buttonidx.Substring(9, 2)
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + buttonidx, gLircModuleId)
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + buttonidx, gLircModuleId, 1)
         Dim buttonStatus As String = gTcpMgr.GetResponse(tcpParam)
         If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
             Return
@@ -904,6 +904,8 @@ Public Class homeCtrl
 
     'update form controls
     Private Sub ControlRefreshTimer_Tick(sender As Object, e As EventArgs) Handles ControlRefreshTimer.Tick
+        gLoading = True
+
         'fetch data if it is pending
         gTcpMgr.FetchDataIfPending()
 
@@ -1038,6 +1040,8 @@ Public Class homeCtrl
         gTcpMgr.mBalconyLight.UpdateColor()
         gTcpMgr.mLightBulb.UpdateColor()
         gTcpMgr.mPlug1.UpdateColor()
+
+        gLoading = False
     End Sub
 
     'cimate timer
