@@ -1073,7 +1073,7 @@ Public Class homeCtrl
 
             Dim month As String = params(1)
 
-            If dir.Contains(yr + " - ") = False Then
+            If dir.Contains(yr + "-") = False Then
                 Continue For
             End If
 
@@ -1103,7 +1103,7 @@ Public Class homeCtrl
 
             Dim day As String = params(2)
 
-            If dir.Contains(yr + " - " + month + " - ") = False Then
+            If dir.Contains(yr + "-" + month + "-") = False Then
                 Continue For
             End If
 
@@ -1119,12 +1119,12 @@ Public Class homeCtrl
     Private Sub dayList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dayList.SelectedIndexChanged
         hrList.Items.Clear()
 
-        Dim dayDir As String = gCurSurveillanceDir + " \ " +
-                               yrList.SelectedItem + " - " +
-                               monthList.SelectedItem + " - " +
+        Dim dayDir As String = gCurSurveillanceDir + "\" +
+                               yrList.SelectedItem + "-" +
+                               monthList.SelectedItem + "-" +
                                dayList.SelectedItem
         Dim clipDir As DirectoryInfo = New DirectoryInfo(dayDir)
-        Dim clips() As FileInfo = clipDir.GetFiles(" * .h264")
+        Dim clips() As FileInfo = clipDir.GetFiles("*.h264")
         Dim audioClips() As FileInfo = clipDir.GetFiles("*.wav")
         ReDim Preserve clips(clips.Length + audioClips.Length - 1)
         audioClips.CopyTo(clips, clips.Length - audioClips.Length)
