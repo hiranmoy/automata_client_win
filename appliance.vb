@@ -48,6 +48,9 @@ Public Class Appliance
     'tcp command for setting the status in RPI
     Private mTcpProfileCommand As String
 
+    'module Id
+    Private mModuleId As Integer
+
     'toggle timer value in sec
     Private mTimerVal As Integer
 
@@ -72,6 +75,7 @@ Public Class Appliance
                    tcpGetCommand As String,
                    tcpSetCommand As String,
                    tcpProfileCommand As String,
+                   moduleId As Integer,
                    power As Integer)
         mButton = aButton
         mOnColor = onColor
@@ -79,6 +83,7 @@ Public Class Appliance
         mTcpGetCommand = tcpGetCommand
         mTcpSetCommand = tcpSetCommand
         mTcpProfileCommand = tcpProfileCommand
+        mModuleId = moduleId
         mPowerRequirement = power
 
         'initialization
@@ -184,7 +189,7 @@ Public Class Appliance
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, gLightings1ModuleId, 1)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, mModuleId, 1)
         Dim profile As String = gTcpMgr.GetResponse(tcpParam)
         If (profile = "Disconnected") Or (profile = "") Then
             Return
@@ -232,13 +237,13 @@ Public Class Appliance
 
     'on/off appliance
     Public Sub SetPowerOn(Optional powerOn As Boolean = True)
-        If gTcpMgr.IsConnected(gLightings1ModuleId) = False Then
+        If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
         End If
 
         mPowerOn = powerOn
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), gLightings1ModuleId, 1)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpSetCommand + Str(Int(mPowerOn)), mModuleId, 1)
         Dim data As String = gTcpMgr.GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return
@@ -250,12 +255,12 @@ Public Class Appliance
     End Sub
 
     Public Sub CheckPowerOnStatus()
-        If gTcpMgr.IsConnected(gLightings1ModuleId) = False Then
+        If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
         End If
 
         'get on/off status from the RPI
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, gLightings1ModuleId, 1)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, mModuleId, 1)
         Dim data As String = gTcpMgr.GetResponse(tcpParam)
         If data = "Disconnected" Then
             Return

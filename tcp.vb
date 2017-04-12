@@ -175,6 +175,7 @@ Public Class Tcp
                                   "CheckIfOnFluLight",
                                   "PowerOnFluLight",
                                   "GetFluLightProfile",
+                                  gLightings2ModuleId,
                                   40)
 
         'plug0
@@ -184,6 +185,7 @@ Public Class Tcp
                                "CheckIfOnPlug0",
                                "PowerOnPlug0",
                                "GetPlug0Profile",
+                               gLightings2ModuleId,
                                5)
 
         'fan
@@ -193,6 +195,7 @@ Public Class Tcp
                              "CheckIfOnFan",
                              "PowerOnFan",
                              "GetFanProfile",
+                             gLightings1ModuleId,
                              60)
 
         'balcony light
@@ -202,6 +205,7 @@ Public Class Tcp
                                       "CheckIfOnBalconyLight",
                                       "PowerOnBalconyLight",
                                       "GetBalconyLightProfile",
+                                      gLightings1ModuleId,
                                       100)
 
         'light bulb
@@ -211,6 +215,7 @@ Public Class Tcp
                                    "CheckIfOnBulb0",
                                    "PowerOnBulb0",
                                    "GetBulb0Profile",
+                                   gLightings1ModuleId,
                                    100)
 
         'plug1
@@ -220,6 +225,7 @@ Public Class Tcp
                                "CheckIfOnPlug1",
                                "PowerOnPlug1",
                                "GetPlug1Profile",
+                               gLightings1ModuleId,
                                100)
     End Sub
 
@@ -729,6 +735,7 @@ Public Class Tcp
                 ClimateData()
             Case 2
                 GetAirQualityInfo()
+                GetLightingSettings()
             Case Else
                 Debug.Assert(False)
         End Select
@@ -904,10 +911,6 @@ Public Class Tcp
 
     'gets light settings data
     Public Sub GetLightingSettings()
-        If mFetching(gLightings1ModuleId) = False Then
-            Exit Sub
-        End If
-
         mFluLight.CheckPowerOnStatus()
         mPlug0.CheckPowerOnStatus()
         mFan.CheckPowerOnStatus()
@@ -1087,7 +1090,10 @@ Public Class Tcp
                 Next
 
                 avgVal /= div
-                Debug.Assert(avgVal > 0)
+                If avgVal = 0 Then
+                    'values got updated in between
+                    avgVal = origVal
+                End If
 
                 Dim hr As Double = minIdx * (1440 / mNumPointsInGraph) / 60
 

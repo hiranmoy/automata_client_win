@@ -23,18 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea6 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend6 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea10 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -91,7 +91,6 @@ Partial Class homeCtrl
         Me.min0 = New System.Windows.Forms.NumericUpDown()
         Me.SelectPlug1 = New System.Windows.Forms.RadioButton()
         Me.Plug1 = New System.Windows.Forms.Button()
-        Me.SelectBalconyLight = New System.Windows.Forms.RadioButton()
         Me.SelectPlug0 = New System.Windows.Forms.RadioButton()
         Me.SelectFluLight = New System.Windows.Forms.RadioButton()
         Me.SelectFan = New System.Windows.Forms.RadioButton()
@@ -173,6 +172,7 @@ Partial Class homeCtrl
         Me.Smoke = New System.Windows.Forms.Label()
         Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ClimateTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.SelectBalconyLight = New System.Windows.Forms.RadioButton()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
@@ -622,17 +622,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea5.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea5)
-        Legend5.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend5)
+        ChartArea9.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea9)
+        Legend9.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend9)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series5.ChartArea = "ChartArea1"
-        Series5.Legend = "Legend1"
-        Series5.Name = "Power on Time"
-        Series5.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series5)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Legend = "Legend1"
+        Series9.Name = "Power on Time"
+        Series9.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series9)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -838,17 +838,6 @@ Partial Class homeCtrl
         Me.Plug1.Text = "Laptop" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "outlet"
         Me.Plug1.UseVisualStyleBackColor = False
         '
-        'SelectBalconyLight
-        '
-        Me.SelectBalconyLight.AutoSize = True
-        Me.SelectBalconyLight.Location = New System.Drawing.Point(567, 194)
-        Me.SelectBalconyLight.Name = "SelectBalconyLight"
-        Me.SelectBalconyLight.Size = New System.Drawing.Size(14, 13)
-        Me.SelectBalconyLight.TabIndex = 10
-        Me.SelectBalconyLight.TabStop = True
-        Me.SelectBalconyLight.UseVisualStyleBackColor = True
-        Me.SelectBalconyLight.Visible = False
-        '
         'SelectPlug0
         '
         Me.SelectPlug0.AutoSize = True
@@ -923,7 +912,7 @@ Partial Class homeCtrl
         Me.LightBulb.Name = "LightBulb"
         Me.LightBulb.Size = New System.Drawing.Size(62, 36)
         Me.LightBulb.TabIndex = 3
-        Me.LightBulb.Text = "Light" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Bulb"
+        Me.LightBulb.Text = "Light"
         Me.LightBulb.UseVisualStyleBackColor = False
         '
         'BalconyLight
@@ -936,6 +925,7 @@ Partial Class homeCtrl
         Me.BalconyLight.TabIndex = 2
         Me.BalconyLight.Text = "Balcony" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Light"
         Me.BalconyLight.UseVisualStyleBackColor = False
+        Me.BalconyLight.Visible = False
         '
         'Plug0
         '
@@ -1541,53 +1531,53 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea6.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea6)
-        Legend6.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend6)
+        ChartArea10.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea10)
+        Legend10.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend10)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series6.ChartArea = "ChartArea1"
-        Series6.Legend = "Legend1"
-        Series6.Name = "Air Pressure (Pa)"
-        Series6.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series6)
+        Series10.ChartArea = "ChartArea1"
+        Series10.Legend = "Legend1"
+        Series10.Name = "Air Pressure (Pa)"
+        Series10.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series10)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Power Histogram"
         '
         'HumidityData
         '
-        ChartArea7.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea7)
-        Legend7.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend7)
+        ChartArea11.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea11)
+        Legend11.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend11)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Legend = "Legend1"
-        Series7.Name = "Humidity"
-        Series7.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series7)
+        Series11.ChartArea = "ChartArea1"
+        Series11.Legend = "Legend1"
+        Series11.Name = "Humidity"
+        Series11.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series11)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea8.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea8)
-        Legend8.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend8)
+        ChartArea12.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea12)
+        Legend12.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend12)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series8.ChartArea = "ChartArea1"
-        Series8.Legend = "Legend1"
-        Series8.Name = "Temperature (^C)"
-        Series8.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series8)
+        Series12.ChartArea = "ChartArea1"
+        Series12.Legend = "Legend1"
+        Series12.Name = "Temperature (^C)"
+        Series12.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series12)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Power Histogram"
@@ -1725,6 +1715,17 @@ Partial Class homeCtrl
         Me.ClimateTimer.Enabled = True
         Me.ClimateTimer.Interval = 300000
         '
+        'SelectBalconyLight
+        '
+        Me.SelectBalconyLight.AutoSize = True
+        Me.SelectBalconyLight.Location = New System.Drawing.Point(567, 194)
+        Me.SelectBalconyLight.Name = "SelectBalconyLight"
+        Me.SelectBalconyLight.Size = New System.Drawing.Size(14, 13)
+        Me.SelectBalconyLight.TabIndex = 10
+        Me.SelectBalconyLight.TabStop = True
+        Me.SelectBalconyLight.UseVisualStyleBackColor = True
+        Me.SelectBalconyLight.Visible = False
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1816,7 +1817,6 @@ Partial Class homeCtrl
     Friend WithEvents Fan As Button
     Friend WithEvents LightBulb As Button
     Friend WithEvents BalconyLight As Button
-    Friend WithEvents SelectBalconyLight As RadioButton
     Friend WithEvents SelectPlug0 As RadioButton
     Friend WithEvents SelectFluLight As RadioButton
     Friend WithEvents SelectFan As RadioButton
@@ -1931,4 +1931,5 @@ Partial Class homeCtrl
     Friend WithEvents HumidityData As DataVisualization.Charting.Chart
     Friend WithEvents SensorDateTime As DateTimePicker
     Friend WithEvents LoadSensorData As Button
+    Friend WithEvents SelectBalconyLight As RadioButton
 End Class

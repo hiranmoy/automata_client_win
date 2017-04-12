@@ -801,10 +801,6 @@ Public Class homeCtrl
 
     'check for timer and scheduler for appliances
     Private Sub LightingsTimer_Tick(sender As Object, e As EventArgs) Handles LightingsTimer.Tick
-        If (gTcpMgr.IsConnected(gLightings1ModuleId)) = False Then
-            Return
-        End If
-
         ToggleAppliancesIfNeeded()
         ScheduleAppliances()
     End Sub
@@ -1249,9 +1245,8 @@ Public Class homeCtrl
         Toggleled.Enabled = gTcpMgr.IsConnected(gLightings2ModuleId)
 
         Tabs.TabPages(0).Enabled = gTcpMgr.IsConnected(gMotionSensorModuleId) And gTcpMgr.IsConnected(gCameraModuleId)
-        Tabs.TabPages(1).Enabled = gTcpMgr.IsConnected(gLightings1ModuleId)
+        Tabs.TabPages(1).Enabled = True
         Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
-        'Tabs.TabPages(3).Enabled = gTcpMgr.IsConnected(gAirQualityModuleId)
         Tabs.TabPages(3).Enabled = True
         Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
     End Sub
@@ -1263,7 +1258,7 @@ Public Class homeCtrl
         SelectFan.Visible = True
         SelectFluLight.Visible = True
         SelectPlug0.Visible = True
-        SelectBalconyLight.Visible = True
+        'SelectBalconyLight.Visible = True
     End Sub
 
     'disable and de-select all radio buttons

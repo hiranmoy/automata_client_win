@@ -28,12 +28,6 @@
 
 Module globals
 
-    'tcp client class
-    '------------------------------------------------------------------------------------------------------------------------------------------------
-    Public gTcpMgr As Tcp = New Tcp
-
-
-
     'alarm class
     '------------------------------------------------------------------------------------------------------------------------------------------------
     Public gAlarm As Alarm = New Alarm
@@ -117,5 +111,11 @@ Module globals
 
     'touch sensor rpi tcp stream index
     Public gTouchSensorModuleId As Integer = 2
+
+
+
+    'tcp client class
+    '------------------------------------------------------------------------------------------------------------------------------------------------
+    Public gTcpMgr As Tcp = New Tcp
 
 End Module
