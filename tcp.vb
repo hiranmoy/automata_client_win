@@ -31,22 +31,28 @@ Imports System.Threading
 
 Public Class Tcp
     'tcp client
-    Private mClient(2) As TcpClient
+    Private mClient(gNumModules - 1) As TcpClient
 
     'tcp connection status
-    Private mFetching(2) As Boolean
+    Private mFetching(gNumModules - 1) As Boolean
 
     'tcp ips
-    Private mIPAddress(2) As String
+    Private mIPAddress(gNumModules - 1) As String
 
     'tcp fetch pending
-    Private mFetchPending(2) As Boolean
+    Private mFetchPending(gNumModules - 1) As Boolean
 
     'stores tcp responses
     Private mResposnses As Hashtable
 
     'response thread
-    Private mTcpResponsesTrds(2) As Thread
+    Private mTcpResponsesTrds(gNumModules - 1) As Thread
+
+    'time connected to RPI
+    Private mTcpConnectedTime(gNumModules - 1) As Integer
+
+    'time disconnected to RPI
+    Private mTcpDisconnectedTime(gNumModules - 1) As Integer
 
     'weather data
     Private mTemperature As Double
@@ -106,7 +112,7 @@ Public Class Tcp
 
     Public Sub New()
         'initialize mFetching array
-        For idx = 0 To mFetching.Length - 1
+        For idx = 0 To gNumModules - 1
             mFetching(idx) = False
 
             Select Case idx
@@ -122,6 +128,10 @@ Public Class Tcp
             'thread to get response from RPI
             mTcpResponsesTrds(idx) = New Thread(AddressOf GetTcpResponseToRPI)
             mTcpResponsesTrds(idx).Start(idx)
+
+            'time connected/disconnected
+            mTcpConnectedTime(idx) = 0
+            mTcpDisconnectedTime(idx) = 0
         Next
         mResposnses = New Hashtable()
 
@@ -227,6 +237,28 @@ Public Class Tcp
                                "GetPlug1Profile",
                                gLightings1ModuleId,
                                100)
+    End Sub
+
+    'update connected/disconnected time
+    Public Sub UpdateConnectedTime()
+        For idx = 0 To gNumModules - 1
+            If IsConnected(idx) = True Then
+                mTcpConnectedTime(idx) += 1
+            Else
+                mTcpDisconnectedTime(idx) += 1
+            End If
+
+            Dim connectedRatio As Integer = CInt((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)))
+            Debug.Assert(connectedRatio <= 100)
+
+            Select Case idx
+                Case 0 : homeCtrl.Connection0.Value = connectedRatio
+                Case 1 : homeCtrl.Connection1.Value = connectedRatio
+                Case 2 : homeCtrl.Connection2.Value = connectedRatio
+                Case Else
+                    Debug.Assert(False)
+            End Select
+        Next
     End Sub
 
     'clear climate data

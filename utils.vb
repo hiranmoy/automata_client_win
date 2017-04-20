@@ -79,6 +79,7 @@ Module utils
     'restore enable speech check from a file
     Public Sub RestoreSettings()
         Dim file As String = My.Application.Info.DirectoryPath + "\settings.ini"
+
         If My.Computer.FileSystem.FileExists(file) = False Then
             Return
         End If

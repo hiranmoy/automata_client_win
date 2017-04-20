@@ -891,6 +891,9 @@ Public Class homeCtrl
 
         'dump tcp disconnnection debug info
         gTcpMgr.DumpDebugInfo()
+
+        'update connected time data
+        gTcpMgr.UpdateConnectedTime()
     End Sub
 
     'alarm timer 

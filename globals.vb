@@ -112,6 +112,9 @@ Module globals
     'touch sensor rpi tcp stream index
     Public gTouchSensorModuleId As Integer = 2
 
+    'number of RPIs
+    Public gNumModules As Integer = 3
+
 
 
     'tcp client class
