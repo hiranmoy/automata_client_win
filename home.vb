@@ -448,8 +448,31 @@ Public Class homeCtrl
         'enable led buttons
         LEDButtons.Enabled = True
 
-        'start 1 hr disable led buttons timer
-        LEDTimer.Start()
+        'disable other IR device buttons
+        SpeakerButtons.Enabled = False
+
+        'start 1 hr disable IR timer
+        IRTimer.Start()
+    End Sub
+
+    'set up speaker
+    Private Sub EnableSpeaker_Click(sender As Object, e As EventArgs) Handles EnableSpeaker.Click
+        Dim tcpParam As TcpParameter = New TcpParameter("SetupSpeaker", gLircModuleId, 1)
+        Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
+        If (powerStatus = "Disconnected") Or (powerStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert(powerStatus = "on")
+
+        'enable speaker buttons
+        SpeakerButtons.Enabled = True
+
+        'disable other IR device buttons
+        LEDButtons.Enabled = False
+
+        'start 1 hr disable IR timer
+        IRTimer.Start()
     End Sub
 
     'switch off led flood light
@@ -465,28 +488,59 @@ Public Class homeCtrl
         LEDButtons.Enabled = False
 
         'stop 1 hr disable led buttons timer
-        LEDTimer.Stop()
+        IRTimer.Stop()
     End Sub
 
     'press led flood light buttons
-    Private Sub LEDButtons_Click(sender As Object, e As EventArgs) Handles LEDButton24.Click, LEDButton23.Click, LEDButton22.Click, LEDButton21.Click, LEDButton20.Click, LEDButton19.Click, LEDButton18.Click, LEDButton17.Click, LEDButton16.Click, LEDButton15.Click, LEDButton14.Click, LEDButton13.Click, LEDButton12.Click, LEDButton11.Click, LEDButton10.Click, LEDButton09.Click, LEDButton08.Click, LEDButton07.Click, LEDButton06.Click, LEDButton05.Click, LEDButton04.Click, LEDButton03.Click, LEDButton02.Click, LEDButton01.Click
+    Private Sub LEDButtons_Click(sender As Object, e As EventArgs) Handles LEDButton24.Click, LEDButton23.Click, LEDButton22.Click, LEDButton21.Click, LEDButton20.Click, LEDButton19.Click,
+                                                                           LEDButton18.Click, LEDButton17.Click, LEDButton16.Click, LEDButton15.Click, LEDButton14.Click, LEDButton13.Click,
+                                                                           LEDButton12.Click, LEDButton11.Click, LEDButton10.Click, LEDButton09.Click, LEDButton08.Click, LEDButton07.Click,
+                                                                           LEDButton06.Click, LEDButton05.Click, LEDButton04.Click, LEDButton03.Click, LEDButton02.Click, LEDButton01.Click
         Dim btn As Button = DirectCast(sender, Button)
 
         'extract button idx
         Dim buttonidx As String = btn.Name
         buttonidx = buttonidx.Substring(9, 2)
 
-        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnButton " + buttonidx, gLircModuleId, 1)
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnLEDFloodLight " + buttonidx, gLircModuleId, 1)
         Dim buttonStatus As String = gTcpMgr.GetResponse(tcpParam)
         If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
             Return
         End If
 
-        Debug.Assert(buttonStatus = "button " + buttonidx.ToString + " pressed")
+        Debug.Assert(buttonStatus = "LED Flood Light button " + buttonidx.ToString + " pressed")
 
         'restart 1 hr disable led buttons timer
-        LEDTimer.Stop()
-        LEDTimer.Start()
+        IRTimer.Stop()
+        IRTimer.Start()
+    End Sub
+
+    'press speaker buttons
+    Private Sub SpeakerButtons_Click(sender As Object, e As EventArgs) Handles SpeakerButton32.Click, SpeakerButton31.Click, SpeakerButton30.Click, SpeakerButton29.Click,
+                                                                               SpeakerButton28.Click, SpeakerButton27.Click, SpeakerButton26.Click, SpeakerButton25.Click,
+                                                                               SpeakerButton24.Click, SpeakerButton23.Click, SpeakerButton22.Click, SpeakerButton21.Click,
+                                                                               SpeakerButton20.Click, SpeakerButton19.Click, SpeakerButton18.Click, SpeakerButton17.Click,
+                                                                               SpeakerButton16.Click, SpeakerButton15.Click, SpeakerButton14.Click, SpeakerButton13.Click,
+                                                                               SpeakerButton12.Click, SpeakerButton11.Click, SpeakerButton10.Click, SpeakerButton09.Click,
+                                                                               SpeakerButton08.Click, SpeakerButton07.Click, SpeakerButton06.Click, SpeakerButton05.Click,
+                                                                               SpeakerButton04.Click, SpeakerButton03.Click, SpeakerButton02.Click, SpeakerButton01.Click
+        Dim btn As Button = DirectCast(sender, Button)
+
+        'extract button idx
+        Dim buttonidx As String = btn.Name
+        buttonidx = buttonidx.Substring(13, 2)
+
+        Dim tcpParam As TcpParameter = New TcpParameter("ClickOnSpeaker " + buttonidx, gLircModuleId, 1)
+        Dim buttonStatus As String = gTcpMgr.GetResponse(tcpParam)
+        If (buttonStatus = "Disconnected") Or (buttonStatus = "") Then
+            Return
+        End If
+
+        Debug.Assert(buttonStatus = "Speaker button " + buttonidx.ToString + " pressed")
+
+        'restart 1 hr disable led buttons timer
+        IRTimer.Stop()
+        IRTimer.Start()
     End Sub
 
     'add alarm
@@ -831,8 +885,9 @@ Public Class homeCtrl
     End Sub
 
     'disable led buttons after 1 hr
-    Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles LEDTimer.Tick
+    Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles IRTimer.Tick
         LEDButtons.Enabled = False
+        SpeakerButtons.Enabled = False
     End Sub
 
     'updates current time
@@ -1312,6 +1367,5 @@ Public Class homeCtrl
         Next
         yrList.SelectedItem = yrList.Items(yrList.Items.Count - 1)
     End Sub
-
 
 End Class

@@ -23,18 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea21 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend21 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series21 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea22 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend22 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series22 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea23 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend23 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series23 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea24 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend24 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series24 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea10 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -103,6 +103,40 @@ Partial Class homeCtrl
         Me.Plug0 = New System.Windows.Forms.Button()
         Me.FluLight = New System.Windows.Forms.Button()
         Me.rgb_led = New System.Windows.Forms.TabPage()
+        Me.SpeakerButtons = New System.Windows.Forms.GroupBox()
+        Me.SpeakerButton32 = New System.Windows.Forms.Button()
+        Me.SpeakerButton30 = New System.Windows.Forms.Button()
+        Me.SpeakerButton28 = New System.Windows.Forms.Button()
+        Me.SpeakerButton31 = New System.Windows.Forms.Button()
+        Me.SpeakerButton29 = New System.Windows.Forms.Button()
+        Me.SpeakerButton27 = New System.Windows.Forms.Button()
+        Me.SpeakerButton25 = New System.Windows.Forms.Button()
+        Me.SpeakerButton26 = New System.Windows.Forms.Button()
+        Me.SpeakerButton24 = New System.Windows.Forms.Button()
+        Me.SpeakerButton23 = New System.Windows.Forms.Button()
+        Me.SpeakerButton22 = New System.Windows.Forms.Button()
+        Me.SpeakerButton18 = New System.Windows.Forms.Button()
+        Me.SpeakerButton20 = New System.Windows.Forms.Button()
+        Me.SpeakerButton19 = New System.Windows.Forms.Button()
+        Me.SpeakerButton21 = New System.Windows.Forms.Button()
+        Me.SpeakerButton17 = New System.Windows.Forms.Button()
+        Me.SpeakerButton16 = New System.Windows.Forms.Button()
+        Me.SpeakerButton15 = New System.Windows.Forms.Button()
+        Me.SpeakerButton14 = New System.Windows.Forms.Button()
+        Me.SpeakerButton13 = New System.Windows.Forms.Button()
+        Me.SpeakerButton12 = New System.Windows.Forms.Button()
+        Me.SpeakerButton11 = New System.Windows.Forms.Button()
+        Me.SpeakerButton10 = New System.Windows.Forms.Button()
+        Me.SpeakerButton09 = New System.Windows.Forms.Button()
+        Me.SpeakerButton08 = New System.Windows.Forms.Button()
+        Me.SpeakerButton07 = New System.Windows.Forms.Button()
+        Me.SpeakerButton06 = New System.Windows.Forms.Button()
+        Me.SpeakerButton05 = New System.Windows.Forms.Button()
+        Me.SpeakerButton04 = New System.Windows.Forms.Button()
+        Me.SpeakerButton03 = New System.Windows.Forms.Button()
+        Me.SpeakerButton02 = New System.Windows.Forms.Button()
+        Me.SpeakerButton01 = New System.Windows.Forms.Button()
+        Me.EnableSpeaker = New System.Windows.Forms.Button()
         Me.DisableLED = New System.Windows.Forms.Button()
         Me.LEDButtons = New System.Windows.Forms.GroupBox()
         Me.LEDButton24 = New System.Windows.Forms.Button()
@@ -157,13 +191,16 @@ Partial Class homeCtrl
         Me.MotionDetectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.LightingsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Connection0 = New System.Windows.Forms.ProgressBar()
+        Me.Connection1 = New System.Windows.Forms.ProgressBar()
+        Me.Connection2 = New System.Windows.Forms.ProgressBar()
         Me.SpeechCheck = New System.Windows.Forms.CheckBox()
         Me.SpeechTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ReconnectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.StreamDebugIdx = New System.Windows.Forms.NumericUpDown()
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
         Me.ConnectCheck = New System.Windows.Forms.CheckBox()
-        Me.LEDTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.IRTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Alcohol = New System.Windows.Forms.Label()
         Me.CO = New System.Windows.Forms.Label()
         Me.RealTime = New System.Windows.Forms.Label()
@@ -173,9 +210,6 @@ Partial Class homeCtrl
         Me.Smoke = New System.Windows.Forms.Label()
         Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ClimateTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.Connection0 = New System.Windows.Forms.ProgressBar()
-        Me.Connection1 = New System.Windows.Forms.ProgressBar()
-        Me.Connection2 = New System.Windows.Forms.ProgressBar()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
@@ -197,6 +231,7 @@ Partial Class homeCtrl
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgb_led.SuspendLayout()
+        Me.SpeakerButtons.SuspendLayout()
         Me.LEDButtons.SuspendLayout()
         Me.Alarm.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -626,17 +661,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea21.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea21)
-        Legend21.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend21)
+        ChartArea9.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea9)
+        Legend9.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend9)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series21.ChartArea = "ChartArea1"
-        Series21.Legend = "Legend1"
-        Series21.Name = "Power on Time"
-        Series21.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series21)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Legend = "Legend1"
+        Series9.Name = "Power on Time"
+        Series9.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series9)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -966,6 +1001,8 @@ Partial Class homeCtrl
         '
         'rgb_led
         '
+        Me.rgb_led.Controls.Add(Me.SpeakerButtons)
+        Me.rgb_led.Controls.Add(Me.EnableSpeaker)
         Me.rgb_led.Controls.Add(Me.DisableLED)
         Me.rgb_led.Controls.Add(Me.LEDButtons)
         Me.rgb_led.Controls.Add(Me.EnableLED)
@@ -973,8 +1010,444 @@ Partial Class homeCtrl
         Me.rgb_led.Name = "rgb_led"
         Me.rgb_led.Size = New System.Drawing.Size(1872, 777)
         Me.rgb_led.TabIndex = 3
-        Me.rgb_led.Text = "RGB LED"
+        Me.rgb_led.Text = "RGB LED & Speaker"
         Me.rgb_led.UseVisualStyleBackColor = True
+        '
+        'SpeakerButtons
+        '
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton32)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton30)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton28)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton31)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton29)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton27)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton25)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton26)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton24)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton23)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton22)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton18)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton20)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton19)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton21)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton17)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton16)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton15)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton14)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton13)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton12)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton11)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton10)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton09)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton08)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton07)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton06)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton05)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton04)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton03)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton02)
+        Me.SpeakerButtons.Controls.Add(Me.SpeakerButton01)
+        Me.SpeakerButtons.Enabled = False
+        Me.SpeakerButtons.Location = New System.Drawing.Point(705, 115)
+        Me.SpeakerButtons.Name = "SpeakerButtons"
+        Me.SpeakerButtons.Size = New System.Drawing.Size(174, 553)
+        Me.SpeakerButtons.TabIndex = 21
+        Me.SpeakerButtons.TabStop = False
+        '
+        'SpeakerButton32
+        '
+        Me.SpeakerButton32.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton32.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton32.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton32.Location = New System.Drawing.Point(118, 506)
+        Me.SpeakerButton32.Name = "SpeakerButton32"
+        Me.SpeakerButton32.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton32.TabIndex = 30
+        Me.SpeakerButton32.Text = "Mem"
+        Me.SpeakerButton32.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton30
+        '
+        Me.SpeakerButton30.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton30.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton30.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton30.Location = New System.Drawing.Point(62, 506)
+        Me.SpeakerButton30.Name = "SpeakerButton30"
+        Me.SpeakerButton30.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton30.TabIndex = 30
+        Me.SpeakerButton30.Text = "CH-"
+        Me.SpeakerButton30.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton28
+        '
+        Me.SpeakerButton28.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton28.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton28.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton28.Location = New System.Drawing.Point(6, 506)
+        Me.SpeakerButton28.Name = "SpeakerButton28"
+        Me.SpeakerButton28.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton28.TabIndex = 30
+        Me.SpeakerButton28.Text = "Tune-"
+        Me.SpeakerButton28.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton31
+        '
+        Me.SpeakerButton31.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton31.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton31.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton31.Location = New System.Drawing.Point(118, 462)
+        Me.SpeakerButton31.Name = "SpeakerButton31"
+        Me.SpeakerButton31.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton31.TabIndex = 30
+        Me.SpeakerButton31.Text = "Scan"
+        Me.SpeakerButton31.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton29
+        '
+        Me.SpeakerButton29.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton29.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton29.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton29.Location = New System.Drawing.Point(62, 462)
+        Me.SpeakerButton29.Name = "SpeakerButton29"
+        Me.SpeakerButton29.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton29.TabIndex = 30
+        Me.SpeakerButton29.Text = "CH+"
+        Me.SpeakerButton29.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton27
+        '
+        Me.SpeakerButton27.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton27.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton27.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton27.Location = New System.Drawing.Point(6, 462)
+        Me.SpeakerButton27.Name = "SpeakerButton27"
+        Me.SpeakerButton27.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton27.TabIndex = 30
+        Me.SpeakerButton27.Text = "Tune+"
+        Me.SpeakerButton27.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton25
+        '
+        Me.SpeakerButton25.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton25.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton25.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton25.Location = New System.Drawing.Point(118, 418)
+        Me.SpeakerButton25.Name = "SpeakerButton25"
+        Me.SpeakerButton25.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton25.TabIndex = 30
+        Me.SpeakerButton25.Text = ">>"
+        Me.SpeakerButton25.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton26
+        '
+        Me.SpeakerButton26.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton26.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton26.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton26.Location = New System.Drawing.Point(62, 418)
+        Me.SpeakerButton26.Name = "SpeakerButton26"
+        Me.SpeakerButton26.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton26.TabIndex = 30
+        Me.SpeakerButton26.Text = ">||"
+        Me.SpeakerButton26.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton24
+        '
+        Me.SpeakerButton24.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton24.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton24.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton24.Location = New System.Drawing.Point(6, 418)
+        Me.SpeakerButton24.Name = "SpeakerButton24"
+        Me.SpeakerButton24.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton24.TabIndex = 30
+        Me.SpeakerButton24.Text = "<<"
+        Me.SpeakerButton24.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton23
+        '
+        Me.SpeakerButton23.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton23.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton23.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton23.Location = New System.Drawing.Point(118, 374)
+        Me.SpeakerButton23.Name = "SpeakerButton23"
+        Me.SpeakerButton23.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton23.TabIndex = 30
+        Me.SpeakerButton23.Text = "FM"
+        Me.SpeakerButton23.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton22
+        '
+        Me.SpeakerButton22.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton22.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton22.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton22.Location = New System.Drawing.Point(6, 374)
+        Me.SpeakerButton22.Name = "SpeakerButton22"
+        Me.SpeakerButton22.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton22.TabIndex = 29
+        Me.SpeakerButton22.Text = "AUX"
+        Me.SpeakerButton22.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton18
+        '
+        Me.SpeakerButton18.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton18.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton18.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton18.Location = New System.Drawing.Point(62, 353)
+        Me.SpeakerButton18.Name = "SpeakerButton18"
+        Me.SpeakerButton18.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton18.TabIndex = 31
+        Me.SpeakerButton18.Text = "Folder" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Down"
+        Me.SpeakerButton18.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton20
+        '
+        Me.SpeakerButton20.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton20.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton20.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton20.Location = New System.Drawing.Point(118, 309)
+        Me.SpeakerButton20.Name = "SpeakerButton20"
+        Me.SpeakerButton20.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton20.TabIndex = 31
+        Me.SpeakerButton20.Text = "Vol-"
+        Me.SpeakerButton20.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton19
+        '
+        Me.SpeakerButton19.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton19.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton19.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton19.Location = New System.Drawing.Point(6, 309)
+        Me.SpeakerButton19.Name = "SpeakerButton19"
+        Me.SpeakerButton19.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton19.TabIndex = 31
+        Me.SpeakerButton19.Text = "Vol+"
+        Me.SpeakerButton19.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton21
+        '
+        Me.SpeakerButton21.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton21.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton21.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton21.Location = New System.Drawing.Point(62, 309)
+        Me.SpeakerButton21.Name = "SpeakerButton21"
+        Me.SpeakerButton21.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton21.TabIndex = 31
+        Me.SpeakerButton21.Text = "Enter"
+        Me.SpeakerButton21.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton17
+        '
+        Me.SpeakerButton17.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton17.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton17.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton17.Location = New System.Drawing.Point(62, 265)
+        Me.SpeakerButton17.Name = "SpeakerButton17"
+        Me.SpeakerButton17.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton17.TabIndex = 30
+        Me.SpeakerButton17.Text = "Folder" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Up"
+        Me.SpeakerButton17.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton16
+        '
+        Me.SpeakerButton16.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton16.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton16.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton16.Location = New System.Drawing.Point(118, 248)
+        Me.SpeakerButton16.Name = "SpeakerButton16"
+        Me.SpeakerButton16.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton16.TabIndex = 29
+        Me.SpeakerButton16.Text = "USB"
+        Me.SpeakerButton16.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton15
+        '
+        Me.SpeakerButton15.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton15.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton15.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton15.Location = New System.Drawing.Point(6, 248)
+        Me.SpeakerButton15.Name = "SpeakerButton15"
+        Me.SpeakerButton15.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton15.TabIndex = 28
+        Me.SpeakerButton15.Text = "Blue" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "tooth"
+        Me.SpeakerButton15.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton14
+        '
+        Me.SpeakerButton14.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton14.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton14.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton14.Location = New System.Drawing.Point(118, 204)
+        Me.SpeakerButton14.Name = "SpeakerButton14"
+        Me.SpeakerButton14.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton14.TabIndex = 27
+        Me.SpeakerButton14.Text = "Reset"
+        Me.SpeakerButton14.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton13
+        '
+        Me.SpeakerButton13.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton13.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton13.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton13.Location = New System.Drawing.Point(6, 204)
+        Me.SpeakerButton13.Name = "SpeakerButton13"
+        Me.SpeakerButton13.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton13.TabIndex = 27
+        Me.SpeakerButton13.Text = "Light"
+        Me.SpeakerButton13.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton12
+        '
+        Me.SpeakerButton12.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton12.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton12.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton12.Location = New System.Drawing.Point(62, 189)
+        Me.SpeakerButton12.Name = "SpeakerButton12"
+        Me.SpeakerButton12.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton12.TabIndex = 26
+        Me.SpeakerButton12.Text = "0"
+        Me.SpeakerButton12.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton11
+        '
+        Me.SpeakerButton11.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton11.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton11.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton11.Location = New System.Drawing.Point(118, 145)
+        Me.SpeakerButton11.Name = "SpeakerButton11"
+        Me.SpeakerButton11.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton11.TabIndex = 26
+        Me.SpeakerButton11.Text = "9"
+        Me.SpeakerButton11.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton10
+        '
+        Me.SpeakerButton10.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton10.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton10.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton10.Location = New System.Drawing.Point(62, 145)
+        Me.SpeakerButton10.Name = "SpeakerButton10"
+        Me.SpeakerButton10.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton10.TabIndex = 26
+        Me.SpeakerButton10.Text = "8"
+        Me.SpeakerButton10.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton09
+        '
+        Me.SpeakerButton09.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton09.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton09.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton09.Location = New System.Drawing.Point(6, 145)
+        Me.SpeakerButton09.Name = "SpeakerButton09"
+        Me.SpeakerButton09.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton09.TabIndex = 26
+        Me.SpeakerButton09.Text = "7"
+        Me.SpeakerButton09.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton08
+        '
+        Me.SpeakerButton08.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton08.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton08.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton08.Location = New System.Drawing.Point(118, 101)
+        Me.SpeakerButton08.Name = "SpeakerButton08"
+        Me.SpeakerButton08.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton08.TabIndex = 26
+        Me.SpeakerButton08.Text = "6"
+        Me.SpeakerButton08.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton07
+        '
+        Me.SpeakerButton07.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton07.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton07.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton07.Location = New System.Drawing.Point(62, 101)
+        Me.SpeakerButton07.Name = "SpeakerButton07"
+        Me.SpeakerButton07.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton07.TabIndex = 26
+        Me.SpeakerButton07.Text = "5"
+        Me.SpeakerButton07.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton06
+        '
+        Me.SpeakerButton06.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton06.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton06.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton06.Location = New System.Drawing.Point(6, 101)
+        Me.SpeakerButton06.Name = "SpeakerButton06"
+        Me.SpeakerButton06.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton06.TabIndex = 26
+        Me.SpeakerButton06.Text = "4"
+        Me.SpeakerButton06.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton05
+        '
+        Me.SpeakerButton05.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton05.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton05.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton05.Location = New System.Drawing.Point(118, 57)
+        Me.SpeakerButton05.Name = "SpeakerButton05"
+        Me.SpeakerButton05.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton05.TabIndex = 25
+        Me.SpeakerButton05.Text = "3"
+        Me.SpeakerButton05.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton04
+        '
+        Me.SpeakerButton04.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton04.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton04.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton04.Location = New System.Drawing.Point(62, 57)
+        Me.SpeakerButton04.Name = "SpeakerButton04"
+        Me.SpeakerButton04.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton04.TabIndex = 25
+        Me.SpeakerButton04.Text = "2"
+        Me.SpeakerButton04.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton03
+        '
+        Me.SpeakerButton03.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton03.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton03.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton03.Location = New System.Drawing.Point(6, 57)
+        Me.SpeakerButton03.Name = "SpeakerButton03"
+        Me.SpeakerButton03.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton03.TabIndex = 24
+        Me.SpeakerButton03.Text = "1"
+        Me.SpeakerButton03.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton02
+        '
+        Me.SpeakerButton02.BackColor = System.Drawing.Color.Silver
+        Me.SpeakerButton02.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton02.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton02.Location = New System.Drawing.Point(118, 13)
+        Me.SpeakerButton02.Name = "SpeakerButton02"
+        Me.SpeakerButton02.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton02.TabIndex = 23
+        Me.SpeakerButton02.Text = "Mute"
+        Me.SpeakerButton02.UseVisualStyleBackColor = False
+        '
+        'SpeakerButton01
+        '
+        Me.SpeakerButton01.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.SpeakerButton01.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.SpeakerButton01.ForeColor = System.Drawing.Color.Black
+        Me.SpeakerButton01.Location = New System.Drawing.Point(6, 13)
+        Me.SpeakerButton01.Name = "SpeakerButton01"
+        Me.SpeakerButton01.Size = New System.Drawing.Size(50, 38)
+        Me.SpeakerButton01.TabIndex = 22
+        Me.SpeakerButton01.Text = "On/off"
+        Me.SpeakerButton01.UseVisualStyleBackColor = False
+        '
+        'EnableSpeaker
+        '
+        Me.EnableSpeaker.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.EnableSpeaker.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.EnableSpeaker.Location = New System.Drawing.Point(716, 36)
+        Me.EnableSpeaker.Name = "EnableSpeaker"
+        Me.EnableSpeaker.Size = New System.Drawing.Size(157, 46)
+        Me.EnableSpeaker.TabIndex = 20
+        Me.EnableSpeaker.Text = "Enable Speaker"
+        Me.EnableSpeaker.UseVisualStyleBackColor = False
         '
         'DisableLED
         '
@@ -1546,53 +2019,53 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea22.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea22)
-        Legend22.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend22)
+        ChartArea10.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea10)
+        Legend10.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend10)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series22.ChartArea = "ChartArea1"
-        Series22.Legend = "Legend1"
-        Series22.Name = "Air Pressure (Pa)"
-        Series22.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series22)
+        Series10.ChartArea = "ChartArea1"
+        Series10.Legend = "Legend1"
+        Series10.Name = "Air Pressure (Pa)"
+        Series10.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series10)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Power Histogram"
         '
         'HumidityData
         '
-        ChartArea23.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea23)
-        Legend23.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend23)
+        ChartArea11.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea11)
+        Legend11.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend11)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series23.ChartArea = "ChartArea1"
-        Series23.Legend = "Legend1"
-        Series23.Name = "Humidity"
-        Series23.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series23)
+        Series11.ChartArea = "ChartArea1"
+        Series11.Legend = "Legend1"
+        Series11.Name = "Humidity"
+        Series11.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series11)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea24.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea24)
-        Legend24.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend24)
+        ChartArea12.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea12)
+        Legend12.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend12)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series24.ChartArea = "ChartArea1"
-        Series24.Legend = "Legend1"
-        Series24.Name = "Temperature (^C)"
-        Series24.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series24)
+        Series12.ChartArea = "ChartArea1"
+        Series12.Legend = "Legend1"
+        Series12.Name = "Temperature (^C)"
+        Series12.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series12)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Power Histogram"
@@ -1609,6 +2082,30 @@ Partial Class homeCtrl
         'ToolTip1
         '
         Me.ToolTip1.ToolTipTitle = "Schedule"
+        '
+        'Connection0
+        '
+        Me.Connection0.Location = New System.Drawing.Point(1324, 906)
+        Me.Connection0.Name = "Connection0"
+        Me.Connection0.Size = New System.Drawing.Size(564, 19)
+        Me.Connection0.TabIndex = 41
+        Me.ToolTip1.SetToolTip(Me.Connection0, "RPI2")
+        '
+        'Connection1
+        '
+        Me.Connection1.Location = New System.Drawing.Point(1324, 931)
+        Me.Connection1.Name = "Connection1"
+        Me.Connection1.Size = New System.Drawing.Size(564, 19)
+        Me.Connection1.TabIndex = 42
+        Me.ToolTip1.SetToolTip(Me.Connection1, "RPI3")
+        '
+        'Connection2
+        '
+        Me.Connection2.Location = New System.Drawing.Point(1324, 956)
+        Me.Connection2.Name = "Connection2"
+        Me.Connection2.Size = New System.Drawing.Size(564, 19)
+        Me.Connection2.TabIndex = 43
+        Me.ToolTip1.SetToolTip(Me.Connection2, "RPI32")
         '
         'SpeechCheck
         '
@@ -1659,9 +2156,9 @@ Partial Class homeCtrl
         Me.ConnectCheck.Text = "All"
         Me.ConnectCheck.UseVisualStyleBackColor = True
         '
-        'LEDTimer
+        'IRTimer
         '
-        Me.LEDTimer.Interval = 3600000
+        Me.IRTimer.Interval = 3600000
         '
         'Alcohol
         '
@@ -1730,30 +2227,6 @@ Partial Class homeCtrl
         Me.ClimateTimer.Enabled = True
         Me.ClimateTimer.Interval = 300000
         '
-        'Connection0
-        '
-        Me.Connection0.Location = New System.Drawing.Point(1324, 906)
-        Me.Connection0.Name = "Connection0"
-        Me.Connection0.Size = New System.Drawing.Size(564, 19)
-        Me.Connection0.TabIndex = 41
-        Me.ToolTip1.SetToolTip(Me.Connection0, "RPI2")
-        '
-        'Connection1
-        '
-        Me.Connection1.Location = New System.Drawing.Point(1324, 931)
-        Me.Connection1.Name = "Connection1"
-        Me.Connection1.Size = New System.Drawing.Size(564, 19)
-        Me.Connection1.TabIndex = 42
-        Me.ToolTip1.SetToolTip(Me.Connection1, "RPI3")
-        '
-        'Connection2
-        '
-        Me.Connection2.Location = New System.Drawing.Point(1324, 956)
-        Me.Connection2.Name = "Connection2"
-        Me.Connection2.Size = New System.Drawing.Size(564, 19)
-        Me.Connection2.TabIndex = 43
-        Me.ToolTip1.SetToolTip(Me.Connection2, "RPI32")
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -1819,6 +2292,7 @@ Partial Class homeCtrl
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgb_led.ResumeLayout(False)
+        Me.SpeakerButtons.ResumeLayout(False)
         Me.LEDButtons.ResumeLayout(False)
         Me.Alarm.ResumeLayout(False)
         Me.Alarm.PerformLayout()
@@ -1898,7 +2372,7 @@ Partial Class homeCtrl
     Friend WithEvents rgb_led As TabPage
     Friend WithEvents StreamIdx As NumericUpDown
     Friend WithEvents ConnectCheck As CheckBox
-    Friend WithEvents LEDTimer As Timer
+    Friend WithEvents IRTimer As Timer
     Friend WithEvents Alcohol As Label
     Friend WithEvents CO As Label
     Friend WithEvents Alarm As TabPage
@@ -1979,4 +2453,38 @@ Partial Class homeCtrl
     Friend WithEvents Connection1 As ProgressBar
     Friend WithEvents Connection2 As ProgressBar
     Friend WithEvents Label1 As Label
+    Friend WithEvents SpeakerButtons As GroupBox
+    Friend WithEvents SpeakerButton32 As Button
+    Friend WithEvents SpeakerButton30 As Button
+    Friend WithEvents SpeakerButton28 As Button
+    Friend WithEvents SpeakerButton31 As Button
+    Friend WithEvents SpeakerButton29 As Button
+    Friend WithEvents SpeakerButton27 As Button
+    Friend WithEvents SpeakerButton25 As Button
+    Friend WithEvents SpeakerButton26 As Button
+    Friend WithEvents SpeakerButton24 As Button
+    Friend WithEvents SpeakerButton23 As Button
+    Friend WithEvents SpeakerButton22 As Button
+    Friend WithEvents SpeakerButton18 As Button
+    Friend WithEvents SpeakerButton20 As Button
+    Friend WithEvents SpeakerButton19 As Button
+    Friend WithEvents SpeakerButton21 As Button
+    Friend WithEvents SpeakerButton17 As Button
+    Friend WithEvents SpeakerButton16 As Button
+    Friend WithEvents SpeakerButton15 As Button
+    Friend WithEvents SpeakerButton14 As Button
+    Friend WithEvents SpeakerButton13 As Button
+    Friend WithEvents SpeakerButton12 As Button
+    Friend WithEvents SpeakerButton11 As Button
+    Friend WithEvents SpeakerButton10 As Button
+    Friend WithEvents SpeakerButton09 As Button
+    Friend WithEvents SpeakerButton08 As Button
+    Friend WithEvents SpeakerButton07 As Button
+    Friend WithEvents SpeakerButton06 As Button
+    Friend WithEvents SpeakerButton05 As Button
+    Friend WithEvents SpeakerButton04 As Button
+    Friend WithEvents SpeakerButton03 As Button
+    Friend WithEvents SpeakerButton02 As Button
+    Friend WithEvents SpeakerButton01 As Button
+    Friend WithEvents EnableSpeaker As Button
 End Class

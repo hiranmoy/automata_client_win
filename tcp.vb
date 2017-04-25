@@ -248,13 +248,19 @@ Public Class Tcp
                 mTcpDisconnectedTime(idx) += 1
             End If
 
-            Dim connectedRatio As Integer = CInt((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)))
+            Dim connectedRatio As Integer = Int((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)))
             Debug.Assert(connectedRatio <= 100)
 
             Select Case idx
-                Case 0 : homeCtrl.Connection0.Value = connectedRatio
-                Case 1 : homeCtrl.Connection1.Value = connectedRatio
-                Case 2 : homeCtrl.Connection2.Value = connectedRatio
+                Case 0
+                    homeCtrl.Connection0.Value = connectedRatio
+                    homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection0, connectedRatio)
+                Case 1
+                    homeCtrl.Connection1.Value = connectedRatio
+                    homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection1, connectedRatio)
+                Case 2
+                    homeCtrl.Connection2.Value = connectedRatio
+                    homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection2, connectedRatio)
                 Case Else
                     Debug.Assert(False)
             End Select
