@@ -55,6 +55,12 @@ Public Class homeCtrl
 
         'RestoreSettings
         RestoreSettings()
+
+
+        'select AC cool mode
+        ACCoolMode.Checked = True
+
+
         gLoading = False
 
 
@@ -594,6 +600,11 @@ Public Class homeCtrl
         ClimateTimer.Start()
     End Sub
 
+    'AC on/off button
+    Private Sub ACOnOff_Click(sender As Object, e As EventArgs) Handles ACOnOff.Click
+        gTcpMgr.mAC.ToggleACPower()
+    End Sub
+
 
 
     'TrackBar(s)
@@ -687,6 +698,16 @@ Public Class homeCtrl
 
         gEnableSpeech = SpeechCheck.Checked
         SaveSettings()
+    End Sub
+
+    'AC turbo
+    Private Sub ACTurbo_CheckedChanged(sender As Object, e As EventArgs) Handles ACTurbo.CheckedChanged
+        gTcpMgr.mAC.SetACTurbo(ACTurbo.Checked)
+    End Sub
+
+    'AC swing
+    Private Sub ACSwing_CheckedChanged(sender As Object, e As EventArgs) Handles ACSwing.CheckedChanged
+        gTcpMgr.mAC.SetACSwing(ACSwing.Checked)
     End Sub
 
 
@@ -809,6 +830,21 @@ Public Class homeCtrl
 
     End Sub
 
+    'ac cool mode selected
+    Private Sub ACCoolMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACCoolMode.CheckedChanged
+        gTcpMgr.mAC.SetACMode(ACMode.cACCool)
+    End Sub
+
+    'ac dry mode
+    Private Sub ACDryMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACDryMode.CheckedChanged
+        gTcpMgr.mAC.SetACMode(ACMode.cACDry)
+    End Sub
+
+    'ac fan mode selected
+    Private Sub ACFanMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACFanMode.CheckedChanged
+        gTcpMgr.mAC.SetACMode(ACMode.cACFan)
+    End Sub
+
 
 
     'timers
@@ -881,6 +917,7 @@ Public Class homeCtrl
 
     'If connection is broken, try to reconnect to rpi at every minute
     Private Sub ReconnectTimer_Tick(sender As Object, e As EventArgs) Handles ReconnectTimer.Tick
+        'ReconnectTimer.Interval = 1000
         gTcpMgr.ConnectModules()
     End Sub
 
@@ -1290,6 +1327,21 @@ Public Class homeCtrl
             HourAlarm.Maximum = 12
             HourAlarm.Minimum = 1
         End If
+    End Sub
+
+
+
+    'Numeric UpDown
+    '--------------------------------------------------------------------------------------------------------------------------
+
+    'AC temerature
+    Public Sub ACTemp_ValueChanged(sender As Object, e As EventArgs)
+        gTcpMgr.mAC.SetACTempature(ACTemp.Value)
+    End Sub
+
+    'AC fan speed
+    Public Sub ACFanSpeed_ValueChanged(sender As Object, e As EventArgs)
+        gTcpMgr.mAC.SetACFanSpeed(ACFanSpeed.Value)
     End Sub
 
 

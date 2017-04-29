@@ -92,9 +92,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AC.vb" />
     <Compile Include="alarm.vb" />
     <Compile Include="appliance.vb" />
     <Compile Include="colorFormat.vb" />
+    <Compile Include="enums.vb" />
     <Compile Include="globals.vb" />
     <Compile Include="home.vb">
       <SubType>Form</SubType>

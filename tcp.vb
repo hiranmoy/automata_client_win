@@ -109,6 +109,9 @@ Public Class Tcp
     'plug1 appliance
     Public mPlug1 As Appliance
 
+    'AC
+    Public mAC As AC
+
 
     Public Sub New()
         'initialize mFetching array
@@ -237,6 +240,9 @@ Public Class Tcp
                                "GetPlug1Profile",
                                gLightings1ModuleId,
                                100)
+
+        'AC
+        mAC = New AC()
     End Sub
 
     'update connected/disconnected time
@@ -248,18 +254,18 @@ Public Class Tcp
                 mTcpDisconnectedTime(idx) += 1
             End If
 
-            Dim connectedRatio As Integer = Int((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)))
+            Dim connectedRatio As Double = Math.Round((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)), 2)
             Debug.Assert(connectedRatio <= 100)
 
             Select Case idx
                 Case 0
-                    homeCtrl.Connection0.Value = connectedRatio
+                    homeCtrl.Connection0.Value = Int(connectedRatio)
                     homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection0, connectedRatio)
                 Case 1
-                    homeCtrl.Connection1.Value = connectedRatio
+                    homeCtrl.Connection1.Value = Int(connectedRatio)
                     homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection1, connectedRatio)
                 Case 2
-                    homeCtrl.Connection2.Value = connectedRatio
+                    homeCtrl.Connection2.Value = Int(connectedRatio)
                     homeCtrl.ToolTip1.SetToolTip(homeCtrl.Connection2, connectedRatio)
                 Case Else
                     Debug.Assert(False)
@@ -874,7 +880,7 @@ Public Class Tcp
                 Continue For
             End If
 
-            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx, 1)
+            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx, 3)
 
             'thread to get touch sensor pressed status from RPI
             Dim connectionCheckTrd As Thread = New Thread(AddressOf CheckConnectionStatusTrd)

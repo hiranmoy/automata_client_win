@@ -23,18 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea10 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea13 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend13 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series13 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea14 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend14 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea15 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend15 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series15 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea16 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend16 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series16 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -102,7 +102,20 @@ Partial Class homeCtrl
         Me.BalconyLight = New System.Windows.Forms.Button()
         Me.Plug0 = New System.Windows.Forms.Button()
         Me.FluLight = New System.Windows.Forms.Button()
-        Me.rgb_led = New System.Windows.Forms.TabPage()
+        Me.ir = New System.Windows.Forms.TabPage()
+        Me.ACButtons = New System.Windows.Forms.GroupBox()
+        Me.ACSwing = New System.Windows.Forms.CheckBox()
+        Me.ACTurbo = New System.Windows.Forms.CheckBox()
+        Me.ACFanSpeedLabel = New System.Windows.Forms.Label()
+        Me.ACFanSpeed = New System.Windows.Forms.NumericUpDown()
+        Me.ACOnOff = New System.Windows.Forms.Button()
+        Me.ACTempLabel = New System.Windows.Forms.Label()
+        Me.ACTemp = New System.Windows.Forms.NumericUpDown()
+        Me.ACModes = New System.Windows.Forms.GroupBox()
+        Me.ACFanMode = New System.Windows.Forms.RadioButton()
+        Me.ACDryMode = New System.Windows.Forms.RadioButton()
+        Me.ACCoolMode = New System.Windows.Forms.RadioButton()
+        Me.EnableAC = New System.Windows.Forms.Button()
         Me.SpeakerButtons = New System.Windows.Forms.GroupBox()
         Me.SpeakerButton32 = New System.Windows.Forms.Button()
         Me.SpeakerButton30 = New System.Windows.Forms.Button()
@@ -230,7 +243,11 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.rgb_led.SuspendLayout()
+        Me.ir.SuspendLayout()
+        Me.ACButtons.SuspendLayout()
+        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ACModes.SuspendLayout()
         Me.SpeakerButtons.SuspendLayout()
         Me.LEDButtons.SuspendLayout()
         Me.Alarm.SuspendLayout()
@@ -341,7 +358,7 @@ Partial Class homeCtrl
         '
         Me.Tabs.Controls.Add(Me.settingsPage)
         Me.Tabs.Controls.Add(Me.room)
-        Me.Tabs.Controls.Add(Me.rgb_led)
+        Me.Tabs.Controls.Add(Me.ir)
         Me.Tabs.Controls.Add(Me.Alarm)
         Me.Tabs.Controls.Add(Me.TabPage1)
         Me.Tabs.Location = New System.Drawing.Point(12, 87)
@@ -661,17 +678,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea9.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea9)
-        Legend9.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend9)
+        ChartArea13.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea13)
+        Legend13.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend13)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series9.ChartArea = "ChartArea1"
-        Series9.Legend = "Legend1"
-        Series9.Name = "Power on Time"
-        Series9.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series9)
+        Series13.ChartArea = "ChartArea1"
+        Series13.Legend = "Legend1"
+        Series13.Name = "Power on Time"
+        Series13.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series13)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -999,19 +1016,163 @@ Partial Class homeCtrl
         Me.FluLight.Text = "Fluoroscent Light"
         Me.FluLight.UseVisualStyleBackColor = False
         '
-        'rgb_led
+        'ir
         '
-        Me.rgb_led.Controls.Add(Me.SpeakerButtons)
-        Me.rgb_led.Controls.Add(Me.EnableSpeaker)
-        Me.rgb_led.Controls.Add(Me.DisableLED)
-        Me.rgb_led.Controls.Add(Me.LEDButtons)
-        Me.rgb_led.Controls.Add(Me.EnableLED)
-        Me.rgb_led.Location = New System.Drawing.Point(4, 22)
-        Me.rgb_led.Name = "rgb_led"
-        Me.rgb_led.Size = New System.Drawing.Size(1872, 777)
-        Me.rgb_led.TabIndex = 3
-        Me.rgb_led.Text = "RGB LED & Speaker"
-        Me.rgb_led.UseVisualStyleBackColor = True
+        Me.ir.Controls.Add(Me.ACButtons)
+        Me.ir.Controls.Add(Me.EnableAC)
+        Me.ir.Controls.Add(Me.SpeakerButtons)
+        Me.ir.Controls.Add(Me.EnableSpeaker)
+        Me.ir.Controls.Add(Me.DisableLED)
+        Me.ir.Controls.Add(Me.LEDButtons)
+        Me.ir.Controls.Add(Me.EnableLED)
+        Me.ir.Location = New System.Drawing.Point(4, 22)
+        Me.ir.Name = "ir"
+        Me.ir.Size = New System.Drawing.Size(1872, 777)
+        Me.ir.TabIndex = 3
+        Me.ir.Text = "RGB LED & Speaker & AC"
+        Me.ir.UseVisualStyleBackColor = True
+        '
+        'ACButtons
+        '
+        Me.ACButtons.Controls.Add(Me.ACSwing)
+        Me.ACButtons.Controls.Add(Me.ACTurbo)
+        Me.ACButtons.Controls.Add(Me.ACFanSpeedLabel)
+        Me.ACButtons.Controls.Add(Me.ACFanSpeed)
+        Me.ACButtons.Controls.Add(Me.ACOnOff)
+        Me.ACButtons.Controls.Add(Me.ACTempLabel)
+        Me.ACButtons.Controls.Add(Me.ACTemp)
+        Me.ACButtons.Controls.Add(Me.ACModes)
+        Me.ACButtons.Location = New System.Drawing.Point(1149, 127)
+        Me.ACButtons.Name = "ACButtons"
+        Me.ACButtons.Size = New System.Drawing.Size(477, 184)
+        Me.ACButtons.TabIndex = 23
+        Me.ACButtons.TabStop = False
+        '
+        'ACSwing
+        '
+        Me.ACSwing.AutoSize = True
+        Me.ACSwing.Location = New System.Drawing.Point(301, 110)
+        Me.ACSwing.Name = "ACSwing"
+        Me.ACSwing.Size = New System.Drawing.Size(55, 17)
+        Me.ACSwing.TabIndex = 29
+        Me.ACSwing.Text = "Swing"
+        Me.ACSwing.UseVisualStyleBackColor = True
+        '
+        'ACTurbo
+        '
+        Me.ACTurbo.AutoSize = True
+        Me.ACTurbo.Enabled = False
+        Me.ACTurbo.Location = New System.Drawing.Point(301, 66)
+        Me.ACTurbo.Name = "ACTurbo"
+        Me.ACTurbo.Size = New System.Drawing.Size(54, 17)
+        Me.ACTurbo.TabIndex = 28
+        Me.ACTurbo.Text = "Turbo"
+        Me.ACTurbo.UseVisualStyleBackColor = True
+        '
+        'ACFanSpeedLabel
+        '
+        Me.ACFanSpeedLabel.AutoSize = True
+        Me.ACFanSpeedLabel.Location = New System.Drawing.Point(177, 114)
+        Me.ACFanSpeedLabel.Name = "ACFanSpeedLabel"
+        Me.ACFanSpeedLabel.Size = New System.Drawing.Size(74, 13)
+        Me.ACFanSpeedLabel.TabIndex = 27
+        Me.ACFanSpeedLabel.Text = "AC Fan speed"
+        '
+        'ACFanSpeed
+        '
+        Me.ACFanSpeed.Enabled = False
+        Me.ACFanSpeed.Location = New System.Drawing.Point(180, 133)
+        Me.ACFanSpeed.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.ACFanSpeed.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ACFanSpeed.Name = "ACFanSpeed"
+        Me.ACFanSpeed.Size = New System.Drawing.Size(39, 20)
+        Me.ACFanSpeed.TabIndex = 26
+        Me.ACFanSpeed.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'ACOnOff
+        '
+        Me.ACOnOff.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.ACOnOff.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ACOnOff.ForeColor = System.Drawing.Color.Black
+        Me.ACOnOff.Location = New System.Drawing.Point(409, 28)
+        Me.ACOnOff.Name = "ACOnOff"
+        Me.ACOnOff.Size = New System.Drawing.Size(50, 38)
+        Me.ACOnOff.TabIndex = 25
+        Me.ACOnOff.Text = "On"
+        Me.ACOnOff.UseVisualStyleBackColor = False
+        '
+        'ACTempLabel
+        '
+        Me.ACTempLabel.AutoSize = True
+        Me.ACTempLabel.Location = New System.Drawing.Point(177, 29)
+        Me.ACTempLabel.Name = "ACTempLabel"
+        Me.ACTempLabel.Size = New System.Drawing.Size(74, 13)
+        Me.ACTempLabel.TabIndex = 24
+        Me.ACTempLabel.Text = "AC temerature"
+        '
+        'ACTemp
+        '
+        Me.ACTemp.Enabled = False
+        Me.ACTemp.Location = New System.Drawing.Point(180, 45)
+        Me.ACTemp.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.ACTemp.Minimum = New Decimal(New Integer() {16, 0, 0, 0})
+        Me.ACTemp.Name = "ACTemp"
+        Me.ACTemp.Size = New System.Drawing.Size(50, 20)
+        Me.ACTemp.TabIndex = 1
+        Me.ACTemp.Value = New Decimal(New Integer() {25, 0, 0, 0})
+        '
+        'ACModes
+        '
+        Me.ACModes.Controls.Add(Me.ACFanMode)
+        Me.ACModes.Controls.Add(Me.ACDryMode)
+        Me.ACModes.Controls.Add(Me.ACCoolMode)
+        Me.ACModes.Location = New System.Drawing.Point(28, 28)
+        Me.ACModes.Name = "ACModes"
+        Me.ACModes.Size = New System.Drawing.Size(102, 129)
+        Me.ACModes.TabIndex = 0
+        Me.ACModes.TabStop = False
+        Me.ACModes.Text = "Cooling modes"
+        '
+        'ACFanMode
+        '
+        Me.ACFanMode.AutoSize = True
+        Me.ACFanMode.Location = New System.Drawing.Point(14, 94)
+        Me.ACFanMode.Name = "ACFanMode"
+        Me.ACFanMode.Size = New System.Drawing.Size(43, 17)
+        Me.ACFanMode.TabIndex = 2
+        Me.ACFanMode.Text = "Fan"
+        Me.ACFanMode.UseVisualStyleBackColor = True
+        '
+        'ACDryMode
+        '
+        Me.ACDryMode.AutoSize = True
+        Me.ACDryMode.Location = New System.Drawing.Point(14, 61)
+        Me.ACDryMode.Name = "ACDryMode"
+        Me.ACDryMode.Size = New System.Drawing.Size(41, 17)
+        Me.ACDryMode.TabIndex = 1
+        Me.ACDryMode.Text = "Dry"
+        Me.ACDryMode.UseVisualStyleBackColor = True
+        '
+        'ACCoolMode
+        '
+        Me.ACCoolMode.AutoSize = True
+        Me.ACCoolMode.Location = New System.Drawing.Point(14, 28)
+        Me.ACCoolMode.Name = "ACCoolMode"
+        Me.ACCoolMode.Size = New System.Drawing.Size(46, 17)
+        Me.ACCoolMode.TabIndex = 0
+        Me.ACCoolMode.Text = "Cool"
+        Me.ACCoolMode.UseVisualStyleBackColor = True
+        '
+        'EnableAC
+        '
+        Me.EnableAC.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.EnableAC.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.EnableAC.Location = New System.Drawing.Point(1254, 36)
+        Me.EnableAC.Name = "EnableAC"
+        Me.EnableAC.Size = New System.Drawing.Size(157, 46)
+        Me.EnableAC.TabIndex = 22
+        Me.EnableAC.Text = "Enable Speaker"
+        Me.EnableAC.UseVisualStyleBackColor = False
         '
         'SpeakerButtons
         '
@@ -2019,53 +2180,53 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea10.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea10)
-        Legend10.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend10)
+        ChartArea14.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea14)
+        Legend14.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend14)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series10.ChartArea = "ChartArea1"
-        Series10.Legend = "Legend1"
-        Series10.Name = "Air Pressure (Pa)"
-        Series10.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series10)
+        Series14.ChartArea = "ChartArea1"
+        Series14.Legend = "Legend1"
+        Series14.Name = "Air Pressure (Pa)"
+        Series14.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series14)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Power Histogram"
         '
         'HumidityData
         '
-        ChartArea11.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea11)
-        Legend11.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend11)
+        ChartArea15.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea15)
+        Legend15.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend15)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series11.ChartArea = "ChartArea1"
-        Series11.Legend = "Legend1"
-        Series11.Name = "Humidity"
-        Series11.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series11)
+        Series15.ChartArea = "ChartArea1"
+        Series15.Legend = "Legend1"
+        Series15.Name = "Humidity"
+        Series15.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series15)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea12.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea12)
-        Legend12.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend12)
+        ChartArea16.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea16)
+        Legend16.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend16)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series12.ChartArea = "ChartArea1"
-        Series12.Legend = "Legend1"
-        Series12.Name = "Temperature (^C)"
-        Series12.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series12)
+        Series16.ChartArea = "ChartArea1"
+        Series16.Legend = "Legend1"
+        Series16.Name = "Temperature (^C)"
+        Series16.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series16)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Power Histogram"
@@ -2125,7 +2286,7 @@ Partial Class homeCtrl
         'ReconnectTimer
         '
         Me.ReconnectTimer.Enabled = True
-        Me.ReconnectTimer.Interval = 20000
+        Me.ReconnectTimer.Interval = 10000
         '
         'StreamDebugIdx
         '
@@ -2291,7 +2452,13 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.sec0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.rgb_led.ResumeLayout(False)
+        Me.ir.ResumeLayout(False)
+        Me.ACButtons.ResumeLayout(False)
+        Me.ACButtons.PerformLayout()
+        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ACModes.ResumeLayout(False)
+        Me.ACModes.PerformLayout()
         Me.SpeakerButtons.ResumeLayout(False)
         Me.LEDButtons.ResumeLayout(False)
         Me.Alarm.ResumeLayout(False)
@@ -2369,7 +2536,7 @@ Partial Class homeCtrl
     Friend WithEvents SpeechTimer As Timer
     Friend WithEvents ReconnectTimer As Timer
     Friend WithEvents StreamDebugIdx As NumericUpDown
-    Friend WithEvents rgb_led As TabPage
+    Friend WithEvents ir As TabPage
     Friend WithEvents StreamIdx As NumericUpDown
     Friend WithEvents ConnectCheck As CheckBox
     Friend WithEvents IRTimer As Timer
@@ -2487,4 +2654,17 @@ Partial Class homeCtrl
     Friend WithEvents SpeakerButton02 As Button
     Friend WithEvents SpeakerButton01 As Button
     Friend WithEvents EnableSpeaker As Button
+    Friend WithEvents EnableAC As Button
+    Friend WithEvents ACButtons As GroupBox
+    Friend WithEvents ACSwing As CheckBox
+    Friend WithEvents ACTurbo As CheckBox
+    Friend WithEvents ACFanSpeedLabel As Label
+    Friend WithEvents ACFanSpeed As NumericUpDown
+    Friend WithEvents ACOnOff As Button
+    Friend WithEvents ACTempLabel As Label
+    Friend WithEvents ACTemp As NumericUpDown
+    Friend WithEvents ACModes As GroupBox
+    Friend WithEvents ACFanMode As RadioButton
+    Friend WithEvents ACDryMode As RadioButton
+    Friend WithEvents ACCoolMode As RadioButton
 End Class
