@@ -441,46 +441,6 @@ Public Class homeCtrl
         SurveillanceGrp.Enabled = False
     End Sub
 
-    'set up led flood light
-    Private Sub enableLED_Click(sender As Object, e As EventArgs) Handles EnableLED.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SetupLEDFloodLight", gLircModuleId, 1)
-        Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
-        If (powerStatus = "Disconnected") Or (powerStatus = "") Then
-            Return
-        End If
-
-        Debug.Assert(powerStatus = "on")
-
-        'enable led buttons
-        LEDButtons.Enabled = True
-
-        'disable other IR device buttons
-        SpeakerButtons.Enabled = False
-
-        'start 1 hr disable IR timer
-        IRTimer.Start()
-    End Sub
-
-    'set up speaker
-    Private Sub EnableSpeaker_Click(sender As Object, e As EventArgs) Handles EnableSpeaker.Click
-        Dim tcpParam As TcpParameter = New TcpParameter("SetupSpeaker", gLircModuleId, 1)
-        Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
-        If (powerStatus = "Disconnected") Or (powerStatus = "") Then
-            Return
-        End If
-
-        Debug.Assert(powerStatus = "on")
-
-        'enable speaker buttons
-        SpeakerButtons.Enabled = True
-
-        'disable other IR device buttons
-        LEDButtons.Enabled = False
-
-        'start 1 hr disable IR timer
-        IRTimer.Start()
-    End Sub
-
     'switch off led flood light
     Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
         Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId, 1)
@@ -492,9 +452,6 @@ Public Class homeCtrl
 
         'enable led buttons
         LEDButtons.Enabled = False
-
-        'stop 1 hr disable led buttons timer
-        IRTimer.Stop()
     End Sub
 
     'press led flood light buttons
@@ -515,10 +472,6 @@ Public Class homeCtrl
         End If
 
         Debug.Assert(buttonStatus = "LED Flood Light button " + buttonidx.ToString + " pressed")
-
-        'restart 1 hr disable led buttons timer
-        IRTimer.Stop()
-        IRTimer.Start()
     End Sub
 
     'press speaker buttons
@@ -543,10 +496,6 @@ Public Class homeCtrl
         End If
 
         Debug.Assert(buttonStatus = "Speaker button " + buttonidx.ToString + " pressed")
-
-        'restart 1 hr disable led buttons timer
-        IRTimer.Stop()
-        IRTimer.Start()
     End Sub
 
     'add alarm
@@ -602,7 +551,7 @@ Public Class homeCtrl
 
     'AC on/off button
     Private Sub ACOnOff_Click(sender As Object, e As EventArgs) Handles ACOnOff.Click
-        gTcpMgr.mAC.ToggleACPower()
+        gTcpMgr.mAC.Toggle()
     End Sub
 
 
@@ -922,7 +871,7 @@ Public Class homeCtrl
     End Sub
 
     'disable led buttons after 1 hr
-    Private Sub LEDTimer_Tick(sender As Object, e As EventArgs) Handles IRTimer.Tick
+    Private Sub LEDTimer_Tick(sender As Object, e As EventArgs)
         LEDButtons.Enabled = False
         SpeakerButtons.Enabled = False
     End Sub
@@ -1131,6 +1080,10 @@ Public Class homeCtrl
         gTcpMgr.mBalconyLight.UpdateColor()
         gTcpMgr.mLightBulb.UpdateColor()
         gTcpMgr.mPlug1.UpdateColor()
+
+        'update ac color, controls
+        gTcpMgr.mAC.UpdateColor()
+        gTcpMgr.mAC.UpdateACControls()
 
         gLoading = False
     End Sub

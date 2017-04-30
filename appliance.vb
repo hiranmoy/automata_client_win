@@ -236,7 +236,7 @@ Public Class Appliance
     End Sub
 
     'on/off appliance
-    Public Sub SetPowerOn(Optional powerOn As Boolean = True)
+    Public Overridable Sub SetPowerOn(Optional powerOn As Boolean = True)
         If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
         End If
@@ -254,6 +254,16 @@ Public Class Appliance
         UpdateColor()
     End Sub
 
+    'set mPowerOn
+    Public Sub SetPowerStatus(powerOn As Boolean)
+        mPowerOn = powerOn
+    End Sub
+
+    'return power status
+    Public Function GetPowerStatus() As Boolean
+        Return mPowerOn
+    End Function
+
     Public Sub CheckPowerOnStatus()
         If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
@@ -270,6 +280,11 @@ Public Class Appliance
         'update color depending on the on/off status
         UpdateColor()
     End Sub
+
+    'return rpi module id
+    Public Function GetModuleId() As Integer
+        Return mModuleId
+    End Function
 
     'set toggle timer value
     Public Sub SetTimerVal(timerVal As Integer)

@@ -242,7 +242,11 @@ Public Class Tcp
                                100)
 
         'AC
-        mAC = New AC()
+        mAC = New AC(homeCtrl.ACOnOff,
+                     Color.FromArgb(128, 255, 128),
+                     Color.FromArgb(255, 128, 128),
+                     gLircModuleId,
+                     750)
     End Sub
 
     'update connected/disconnected time
@@ -961,6 +965,8 @@ Public Class Tcp
         mBalconyLight.CheckPowerOnStatus()
         mPlug1.CheckPowerOnStatus()
         mLightBulb.CheckPowerOnStatus()
+
+        mAC.GetSetting()
     End Sub
 
     'toggles LED light

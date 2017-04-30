@@ -23,18 +23,18 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea13 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend13 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series13 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea14 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend14 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea15 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend15 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series15 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea16 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend16 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series16 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea10 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
         Me.Temperature = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
@@ -115,7 +115,6 @@ Partial Class homeCtrl
         Me.ACFanMode = New System.Windows.Forms.RadioButton()
         Me.ACDryMode = New System.Windows.Forms.RadioButton()
         Me.ACCoolMode = New System.Windows.Forms.RadioButton()
-        Me.EnableAC = New System.Windows.Forms.Button()
         Me.SpeakerButtons = New System.Windows.Forms.GroupBox()
         Me.SpeakerButton32 = New System.Windows.Forms.Button()
         Me.SpeakerButton30 = New System.Windows.Forms.Button()
@@ -149,7 +148,6 @@ Partial Class homeCtrl
         Me.SpeakerButton03 = New System.Windows.Forms.Button()
         Me.SpeakerButton02 = New System.Windows.Forms.Button()
         Me.SpeakerButton01 = New System.Windows.Forms.Button()
-        Me.EnableSpeaker = New System.Windows.Forms.Button()
         Me.DisableLED = New System.Windows.Forms.Button()
         Me.LEDButtons = New System.Windows.Forms.GroupBox()
         Me.LEDButton24 = New System.Windows.Forms.Button()
@@ -176,7 +174,6 @@ Partial Class homeCtrl
         Me.LEDButton03 = New System.Windows.Forms.Button()
         Me.LEDButton02 = New System.Windows.Forms.Button()
         Me.LEDButton01 = New System.Windows.Forms.Button()
-        Me.EnableLED = New System.Windows.Forms.Button()
         Me.Alarm = New System.Windows.Forms.TabPage()
         Me.SnoozeLabel = New System.Windows.Forms.Label()
         Me.MusicAlarmLabel = New System.Windows.Forms.Label()
@@ -213,7 +210,6 @@ Partial Class homeCtrl
         Me.StreamDebugIdx = New System.Windows.Forms.NumericUpDown()
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
         Me.ConnectCheck = New System.Windows.Forms.CheckBox()
-        Me.IRTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Alcohol = New System.Windows.Forms.Label()
         Me.CO = New System.Windows.Forms.Label()
         Me.RealTime = New System.Windows.Forms.Label()
@@ -678,17 +674,17 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea13.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea13)
-        Legend13.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend13)
+        ChartArea9.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea9)
+        Legend9.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend9)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
-        Series13.ChartArea = "ChartArea1"
-        Series13.Legend = "Legend1"
-        Series13.Name = "Power on Time"
-        Series13.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series13)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Legend = "Legend1"
+        Series9.Name = "Power on Time"
+        Series9.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series9)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1019,12 +1015,9 @@ Partial Class homeCtrl
         'ir
         '
         Me.ir.Controls.Add(Me.ACButtons)
-        Me.ir.Controls.Add(Me.EnableAC)
         Me.ir.Controls.Add(Me.SpeakerButtons)
-        Me.ir.Controls.Add(Me.EnableSpeaker)
         Me.ir.Controls.Add(Me.DisableLED)
         Me.ir.Controls.Add(Me.LEDButtons)
-        Me.ir.Controls.Add(Me.EnableLED)
         Me.ir.Location = New System.Drawing.Point(4, 22)
         Me.ir.Name = "ir"
         Me.ir.Size = New System.Drawing.Size(1872, 777)
@@ -1098,7 +1091,7 @@ Partial Class homeCtrl
         Me.ACOnOff.Name = "ACOnOff"
         Me.ACOnOff.Size = New System.Drawing.Size(50, 38)
         Me.ACOnOff.TabIndex = 25
-        Me.ACOnOff.Text = "On"
+        Me.ACOnOff.Text = "Power"
         Me.ACOnOff.UseVisualStyleBackColor = False
         '
         'ACTempLabel
@@ -1156,23 +1149,13 @@ Partial Class homeCtrl
         'ACCoolMode
         '
         Me.ACCoolMode.AutoSize = True
+        Me.ACCoolMode.Enabled = False
         Me.ACCoolMode.Location = New System.Drawing.Point(14, 28)
         Me.ACCoolMode.Name = "ACCoolMode"
         Me.ACCoolMode.Size = New System.Drawing.Size(46, 17)
         Me.ACCoolMode.TabIndex = 0
         Me.ACCoolMode.Text = "Cool"
         Me.ACCoolMode.UseVisualStyleBackColor = True
-        '
-        'EnableAC
-        '
-        Me.EnableAC.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.EnableAC.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.EnableAC.Location = New System.Drawing.Point(1254, 36)
-        Me.EnableAC.Name = "EnableAC"
-        Me.EnableAC.Size = New System.Drawing.Size(157, 46)
-        Me.EnableAC.TabIndex = 22
-        Me.EnableAC.Text = "Enable Speaker"
-        Me.EnableAC.UseVisualStyleBackColor = False
         '
         'SpeakerButtons
         '
@@ -1208,8 +1191,7 @@ Partial Class homeCtrl
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton03)
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton02)
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton01)
-        Me.SpeakerButtons.Enabled = False
-        Me.SpeakerButtons.Location = New System.Drawing.Point(705, 115)
+        Me.SpeakerButtons.Location = New System.Drawing.Point(687, 56)
         Me.SpeakerButtons.Name = "SpeakerButtons"
         Me.SpeakerButtons.Size = New System.Drawing.Size(174, 553)
         Me.SpeakerButtons.TabIndex = 21
@@ -1599,17 +1581,6 @@ Partial Class homeCtrl
         Me.SpeakerButton01.Text = "On/off"
         Me.SpeakerButton01.UseVisualStyleBackColor = False
         '
-        'EnableSpeaker
-        '
-        Me.EnableSpeaker.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.EnableSpeaker.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.EnableSpeaker.Location = New System.Drawing.Point(716, 36)
-        Me.EnableSpeaker.Name = "EnableSpeaker"
-        Me.EnableSpeaker.Size = New System.Drawing.Size(157, 46)
-        Me.EnableSpeaker.TabIndex = 20
-        Me.EnableSpeaker.Text = "Enable Speaker"
-        Me.EnableSpeaker.UseVisualStyleBackColor = False
-        '
         'DisableLED
         '
         Me.DisableLED.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
@@ -1648,7 +1619,6 @@ Partial Class homeCtrl
         Me.LEDButtons.Controls.Add(Me.LEDButton03)
         Me.LEDButtons.Controls.Add(Me.LEDButton02)
         Me.LEDButtons.Controls.Add(Me.LEDButton01)
-        Me.LEDButtons.Enabled = False
         Me.LEDButtons.Location = New System.Drawing.Point(87, 115)
         Me.LEDButtons.Name = "LEDButtons"
         Me.LEDButtons.Size = New System.Drawing.Size(257, 281)
@@ -1936,17 +1906,6 @@ Partial Class homeCtrl
         Me.LEDButton01.Text = "+"
         Me.LEDButton01.UseVisualStyleBackColor = False
         '
-        'EnableLED
-        '
-        Me.EnableLED.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.EnableLED.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.EnableLED.Location = New System.Drawing.Point(142, 36)
-        Me.EnableLED.Name = "EnableLED"
-        Me.EnableLED.Size = New System.Drawing.Size(157, 46)
-        Me.EnableLED.TabIndex = 17
-        Me.EnableLED.Text = "Enable RGB LED"
-        Me.EnableLED.UseVisualStyleBackColor = False
-        '
         'Alarm
         '
         Me.Alarm.Controls.Add(Me.SnoozeLabel)
@@ -2180,53 +2139,53 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea14.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea14)
-        Legend14.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend14)
+        ChartArea10.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea10)
+        Legend10.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend10)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series14.ChartArea = "ChartArea1"
-        Series14.Legend = "Legend1"
-        Series14.Name = "Air Pressure (Pa)"
-        Series14.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series14)
+        Series10.ChartArea = "ChartArea1"
+        Series10.Legend = "Legend1"
+        Series10.Name = "Air Pressure (Pa)"
+        Series10.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series10)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Power Histogram"
         '
         'HumidityData
         '
-        ChartArea15.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea15)
-        Legend15.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend15)
+        ChartArea11.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea11)
+        Legend11.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend11)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series15.ChartArea = "ChartArea1"
-        Series15.Legend = "Legend1"
-        Series15.Name = "Humidity"
-        Series15.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series15)
+        Series11.ChartArea = "ChartArea1"
+        Series11.Legend = "Legend1"
+        Series11.Name = "Humidity"
+        Series11.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series11)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea16.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea16)
-        Legend16.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend16)
+        ChartArea12.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea12)
+        Legend12.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend12)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series16.ChartArea = "ChartArea1"
-        Series16.Legend = "Legend1"
-        Series16.Name = "Temperature (^C)"
-        Series16.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series16)
+        Series12.ChartArea = "ChartArea1"
+        Series12.Legend = "Legend1"
+        Series12.Name = "Temperature (^C)"
+        Series12.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series12)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Power Histogram"
@@ -2316,10 +2275,6 @@ Partial Class homeCtrl
         Me.ConnectCheck.TabIndex = 22
         Me.ConnectCheck.Text = "All"
         Me.ConnectCheck.UseVisualStyleBackColor = True
-        '
-        'IRTimer
-        '
-        Me.IRTimer.Interval = 3600000
         '
         'Alcohol
         '
@@ -2539,7 +2494,6 @@ Partial Class homeCtrl
     Friend WithEvents ir As TabPage
     Friend WithEvents StreamIdx As NumericUpDown
     Friend WithEvents ConnectCheck As CheckBox
-    Friend WithEvents IRTimer As Timer
     Friend WithEvents Alcohol As Label
     Friend WithEvents CO As Label
     Friend WithEvents Alarm As TabPage
@@ -2590,7 +2544,6 @@ Partial Class homeCtrl
     Friend WithEvents LEDButton03 As Button
     Friend WithEvents LEDButton02 As Button
     Friend WithEvents LEDButton01 As Button
-    Friend WithEvents EnableLED As Button
     Friend WithEvents Recordings As Button
     Friend WithEvents Record As Button
     Friend WithEvents LiveFeed As Button
@@ -2653,8 +2606,6 @@ Partial Class homeCtrl
     Friend WithEvents SpeakerButton03 As Button
     Friend WithEvents SpeakerButton02 As Button
     Friend WithEvents SpeakerButton01 As Button
-    Friend WithEvents EnableSpeaker As Button
-    Friend WithEvents EnableAC As Button
     Friend WithEvents ACButtons As GroupBox
     Friend WithEvents ACSwing As CheckBox
     Friend WithEvents ACTurbo As CheckBox
