@@ -526,9 +526,9 @@ Public Class Tcp
                     End If
 
                     Exit While
-                    End If
+                End If
 
-                    Thread.Sleep(1)
+                Thread.Sleep(1)
             End While
 
             If aTcpParam.GetResponse() <> "" Then
@@ -719,7 +719,9 @@ Public Class Tcp
                     Continue For
                 End If
 
-                Debug.Assert(mResposnses.Contains(responseKey))
+                If (mResposnses.Contains(responseKey) = False) Then
+                    Continue For
+                End If
 
                 Dim tcpParam As TcpParameter = mResposnses.Item(responseKey)
                 Dim packetId As Integer = 0

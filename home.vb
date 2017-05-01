@@ -483,10 +483,16 @@ Public Class homeCtrl
                                                                                SpeakerButton12.Click, SpeakerButton11.Click, SpeakerButton10.Click, SpeakerButton09.Click,
                                                                                SpeakerButton08.Click, SpeakerButton07.Click, SpeakerButton06.Click, SpeakerButton05.Click,
                                                                                SpeakerButton04.Click, SpeakerButton03.Click, SpeakerButton02.Click, SpeakerButton01.Click
-        Dim btn As Button = DirectCast(sender, Button)
+        Dim buttonidx As String = ""
+        If sender.ToString.Contains("Button, Text:") Then
+            Dim btn As Button = DirectCast(sender, Button)
+            buttonidx = btn.Name
+        Else
+            Dim rdb As RadioButton = DirectCast(sender, RadioButton)
+            buttonidx = rdb.Name
+        End If
 
         'extract button idx
-        Dim buttonidx As String = btn.Name
         buttonidx = buttonidx.Substring(13, 2)
 
         Dim tcpParam As TcpParameter = New TcpParameter("ClickOnSpeaker " + buttonidx, gLircModuleId, 1)
@@ -659,6 +665,11 @@ Public Class homeCtrl
         gTcpMgr.mAC.SetACSwing(ACSwing.Checked)
     End Sub
 
+    'speaker num pad enable/disable
+    Private Sub SpeakerNumPadCheck_CheckedChanged(sender As Object, e As EventArgs) Handles SpeakerNumPadCheck.CheckedChanged
+        SpeakerNumPad.Enabled = SpeakerNumPadCheck.Checked
+    End Sub
+
 
 
     'Radio buttons
@@ -792,6 +803,18 @@ Public Class homeCtrl
     'ac fan mode selected
     Private Sub ACFanMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACFanMode.CheckedChanged
         gTcpMgr.mAC.SetACMode(ACMode.cACFan)
+    End Sub
+
+    'speaker fm
+    Private Sub SpeckerFMEnable_CheckedChanged(sender As Object, e As EventArgs) Handles SpeakerButton23.CheckedChanged
+        SpeakerFMButtons.Enabled = SpeakerButton23.Checked
+    End Sub
+
+    'speaker bluetooth, usb, memory card
+    Private Sub SpeakerModes_CheckedChanged(sender As Object, e As EventArgs) Handles SpeakerButton32.CheckedChanged, SpeakerButton16.CheckedChanged, SpeakerButton15.CheckedChanged
+        SpeakerFolderButtons.Enabled = SpeakerButton32.Checked Or SpeakerButton16.Checked
+
+        SpeakerTrackCtrlButtons.Enabled = SpeakerButton32.Checked Or SpeakerButton16.Checked Or SpeakerButton15.Checked
     End Sub
 
 
@@ -1309,7 +1332,8 @@ Public Class homeCtrl
 
         Tabs.TabPages(0).Enabled = gTcpMgr.IsConnected(gMotionSensorModuleId) And gTcpMgr.IsConnected(gCameraModuleId)
         Tabs.TabPages(1).Enabled = True
-        Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
+        'Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
+        Tabs.TabPages(2).Enabled = True
         Tabs.TabPages(3).Enabled = True
         Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
     End Sub
