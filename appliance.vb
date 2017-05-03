@@ -25,6 +25,9 @@
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
 
 
+Imports System.Threading
+
+
 Public Class Appliance
 
     'button associated the appliance
@@ -264,21 +267,32 @@ Public Class Appliance
         Return mPowerOn
     End Function
 
+    'check power on/off status from rpi
     Public Sub CheckPowerOnStatus()
         If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
         End If
 
-        'get on/off status from the RPI
+        'on/off status command from the RPI
         Dim tcpParam As TcpParameter = New TcpParameter(mTcpGetCommand, mModuleId, 1)
-        Dim data As String = gTcpMgr.GetResponse(tcpParam)
-        If data = "Disconnected" Then
+
+        'thread to get touch sensor pressed status from RPI
+        Dim powerOnStatusTrd As Thread = New Thread(AddressOf CheckPowerOnStatusTrd)
+        powerOnStatusTrd.Start(tcpParam)
+    End Sub
+
+    'check power on/off status from rpi
+    Private Sub CheckPowerOnStatusTrd(atcpParam As TcpParameter)
+        If gTcpMgr.IsConnected(mModuleId) = False Then
+            Exit Sub
+        End If
+
+        Dim data As String = gTcpMgr.GetResponse(atcpParam)
+        If (data = "Disconnected") Or (data = "") Then
             Return
         End If
-        mPowerOn = CBool(Int(data))
 
-        'update color depending on the on/off status
-        UpdateColor()
+        mPowerOn = CBool(Int(data))
     End Sub
 
     'return rpi module id

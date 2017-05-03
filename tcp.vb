@@ -498,8 +498,8 @@ Public Class Tcp
         mResposnses.Add(aTcpParam.GetKey(), aTcpParam)
 
         Dim numPackets As Integer = aTcpParam.GetNumPackets()
-
         Dim numAttemptsLeft As Integer = aTcpParam.GetPriority() + 1
+        Dim maybeDisconnected As Boolean = (aTcpParam.GetDataStr() <> "Handshake")
 
         While numAttemptsLeft > 0
             'thread to get response from RPI
@@ -528,7 +528,14 @@ Public Class Tcp
                     Exit While
                 End If
 
-                Thread.Sleep(1)
+                maybeDisconnected = maybeDisconnected And (Not IsConnected(aTcpParam.GetStreamIdx()))
+                If maybeDisconnected = True Then
+                    numAttemptsLeft = 0
+                    Exit While
+                Else
+                    Thread.Sleep(1)
+                End If
+
             End While
 
             If aTcpParam.GetResponse() <> "" Then

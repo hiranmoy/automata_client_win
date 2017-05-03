@@ -445,13 +445,11 @@ Public Class homeCtrl
     Private Sub DisableLED_Click(sender As Object, e As EventArgs) Handles DisableLED.Click
         Dim tcpParam As TcpParameter = New TcpParameter("SwitchOffLEDFloodLight", gLircModuleId, 1)
         Dim powerStatus As String = gTcpMgr.GetResponse(tcpParam)
-        Debug.Assert(powerStatus = "off")
+
         If (powerStatus = "Disconnected") Or (powerStatus = "") Then
             Return
         End If
-
-        'enable led buttons
-        LEDButtons.Enabled = False
+        Debug.Assert(powerStatus = "off")
     End Sub
 
     'press led flood light buttons
@@ -823,7 +821,7 @@ Public Class homeCtrl
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
     'fetch weather and motion detection status
-    Private Sub TimerData_Tick(sender As Object, e As EventArgs) Handles Timer60s.Tick
+    Private Sub TimerData_Tick(sender As Object, e As EventArgs) Handles TimerData.Tick
         gTcpMgr.CheckConnectionStatus()
 
         gTcpMgr.GetWeatherInfo()
