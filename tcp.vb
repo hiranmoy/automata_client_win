@@ -519,7 +519,7 @@ Public Class Tcp
                         'dump debug info when disconnected
                         Try
                             FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
-                            Print(1, "Missed response for " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+                            Print(1, "Missed response for " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                             FileClose(1)
                         Catch
                         End Try
@@ -547,7 +547,7 @@ Public Class Tcp
         Try
             FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
             Print(1, "Disconnected after attempting " + (aTcpParam.GetPriority() + 1).ToString + " times for " +
-                  aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ")" + Environment.NewLine)
+                  aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
             FileClose(1)
         Catch
         End Try
@@ -567,7 +567,7 @@ Public Class Tcp
             'dump debug info when disconnected
             Try
                 FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                Print(1, "Disconnected for not getting the stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                Print(1, "Disconnected for not getting the stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                 FileClose(1)
             Catch
             End Try
@@ -584,7 +584,7 @@ Public Class Tcp
             'dump debug info when disconnected
             Try
                 FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                Print(1, "Disconnected for not being able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ")" + Environment.NewLine)
+                Print(1, "Disconnected for not being able to write in stream : " + aTcpParam.GetDataStr() + " (" + streamIdx.ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                 FileClose(1)
             Catch
             End Try
@@ -615,7 +615,7 @@ Public Class Tcp
                     'dump debug info when disconnected
                     Try
                         FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                        Print(1, "Disconnected for not getting the stream (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        Print(1, "Disconnected for not getting the stream (" + streamIdx.ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                         FileClose(1)
                     Catch
                     End Try
@@ -632,7 +632,7 @@ Public Class Tcp
                     'dump debug info when disconnected
                     Try
                         FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                        Print(1, "Disconnected for not being able to read from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        Print(1, "Disconnected for not being able to read from stream : (" + streamIdx.ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                         FileClose(1)
                     Catch
                     End Try
@@ -691,7 +691,7 @@ Public Class Tcp
                 If response = "Unknown command" Then
                     Try
                         FileOpen(1, gDebugFolder + "\DisconnectStatus" + streamIdx.ToString + ".txt", OpenMode.Append)
-                        Print(1, "Received 'Unknown command' from stream : (" + streamIdx.ToString + ")" + Environment.NewLine)
+                        Print(1, "Received 'Unknown command' from stream : (" + streamIdx.ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
                         FileClose(1)
                     Catch
                     End Try
@@ -886,7 +886,7 @@ Public Class Tcp
                 Continue For
             End If
 
-            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx, 3)
+            Dim tcpParam As TcpParameter = New TcpParameter("IsConnected", idx, 1)
 
             'thread to get touch sensor pressed status from RPI
             Dim connectionCheckTrd As Thread = New Thread(AddressOf CheckConnectionStatusTrd)

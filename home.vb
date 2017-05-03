@@ -823,7 +823,7 @@ Public Class homeCtrl
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
     'fetch weather and motion detection status
-    Private Sub Timer30s_Tick(sender As Object, e As EventArgs) Handles Timer30s.Tick
+    Private Sub TimerData_Tick(sender As Object, e As EventArgs) Handles Timer60s.Tick
         gTcpMgr.CheckConnectionStatus()
 
         gTcpMgr.GetWeatherInfo()
@@ -1332,8 +1332,7 @@ Public Class homeCtrl
 
         Tabs.TabPages(0).Enabled = gTcpMgr.IsConnected(gMotionSensorModuleId) And gTcpMgr.IsConnected(gCameraModuleId)
         Tabs.TabPages(1).Enabled = True
-        'Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
-        Tabs.TabPages(2).Enabled = True
+        Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
         Tabs.TabPages(3).Enabled = True
         Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
     End Sub

@@ -55,7 +55,7 @@ Public Class TcpParameter
     Public Sub New(aDataStr As String, aStreamIdx As Integer, priority As Integer, Optional numPackets As Integer = 1)
         mDataStr = aDataStr
         mStreamIdx = aStreamIdx
-        mPriority = priority
+        mPriority = 10 * priority
         mNumPackets = numPackets
 
         'initilize responses and packet check

@@ -192,6 +192,10 @@ Public Class AC
         End If
 
         Debug.Assert(buttonStatus = "AC button " + settings + " pressed")
+
+        If (settings <> "0") Then
+            SetPowerStatus(True)
+        End If
     End Sub
 
     'get setting from rpi
