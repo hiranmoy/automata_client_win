@@ -25,6 +25,9 @@
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
 
 
+Imports System.Threading
+
+
 Public Class AC
     Inherits Appliance
 
@@ -206,7 +209,19 @@ Public Class AC
 
         'get on/off status from the RPI
         Dim tcpParam As TcpParameter = New TcpParameter("GetACSetting", GetModuleId(), 1)
-        Dim data As String = gTcpMgr.GetResponse(tcpParam)
+
+        'thread to get touch sensor pressed status from RPI
+        Dim settingTrd As Thread = New Thread(AddressOf GetSettingTrd)
+        settingTrd.Start(tcpParam)
+    End Sub
+
+    'get setting from rpi
+    Private Sub GetSettingTrd(atcpParam As TcpParameter)
+        If gTcpMgr.IsConnected(GetModuleId()) = False Then
+            Exit Sub
+        End If
+
+        Dim data As String = gTcpMgr.GetResponse(atcpParam)
         If (data = "Disconnected") Or (data = "") Then
             Return
         End If
