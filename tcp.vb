@@ -183,6 +183,7 @@ Public Class Tcp
 
         'fluorescent light data
         mFluLight = New Appliance(homeCtrl.FluLight,
+                                  homeCtrl.SelectFluLight,
                                   Color.White,
                                   Color.DarkGray,
                                   "CheckIfOnFluLight",
@@ -193,6 +194,7 @@ Public Class Tcp
 
         'plug0
         mPlug0 = New Appliance(homeCtrl.Plug0,
+                               homeCtrl.SelectPlug0,
                                Color.FromArgb(255, 192, 192),
                                Color.FromArgb(192, 255, 255),
                                "CheckIfOnPlug0",
@@ -203,6 +205,7 @@ Public Class Tcp
 
         'fan
         mFan = New Appliance(homeCtrl.Fan,
+                             homeCtrl.SelectFan,
                              Color.FromArgb(128, 128, 255),
                              Color.White,
                              "CheckIfOnFan",
@@ -213,6 +216,7 @@ Public Class Tcp
 
         'balcony light
         mBalconyLight = New Appliance(homeCtrl.BalconyLight,
+                                      homeCtrl.SelectBalconyLight,
                                       Color.FromArgb(255, 255, 192),
                                       Color.FromArgb(224, 224, 224),
                                       "CheckIfOnBalconyLight",
@@ -223,6 +227,7 @@ Public Class Tcp
 
         'light bulb
         mLightBulb = New Appliance(homeCtrl.LightBulb,
+                                   homeCtrl.SelectLightBulb,
                                    Color.FromArgb(255, 255, 192),
                                    Color.FromArgb(224, 224, 224),
                                    "CheckIfOnBulb0",
@@ -233,6 +238,7 @@ Public Class Tcp
 
         'plug1
         mPlug1 = New Appliance(homeCtrl.Plug1,
+                               homeCtrl.SelectPlug1,
                                Color.FromArgb(192, 255, 192),
                                Color.FromArgb(255, 192, 192),
                                "CheckIfOnPlug1",
@@ -241,8 +247,10 @@ Public Class Tcp
                                gLightings1ModuleId,
                                100)
 
+        Dim rd As RadioButton
         'AC
         mAC = New AC(homeCtrl.ACOnOff,
+                     rd,
                      Color.FromArgb(128, 255, 128),
                      Color.FromArgb(255, 128, 128),
                      gLircModuleId,

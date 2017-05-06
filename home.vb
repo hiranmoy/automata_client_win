@@ -196,14 +196,14 @@ Public Class homeCtrl
 
             If EnableLightSchedule.Checked = True Then
                 'set schduling interval
-                SetApplianceSchedule(((hr0.Value * 3600) + (min0.Value * 60) + sec0.Value),
-                                     ((hr1.Value * 3600) + (min1.Value * 60) + sec1.Value),
+                SetApplianceSchedule(((hr0.Value * 60) + min0.Value),
+                                     ((hr1.Value * 60) + min1.Value),
                                      DisableLightSchedule.Checked)
             End If
 
             If ToggleLightings.Checked = True Then
                 'set toggle timer
-                SetApplianceTimer((hr2.Value * 3600) + (min2.Value * 60) + sec2.Value)
+                SetApplianceTimer((hr2.Value * 60) + min2.Value)
             End If
 
             'uncheck scheduling and timer checks
@@ -784,17 +784,17 @@ Public Class homeCtrl
     End Sub
 
     'ac cool mode selected
-    Private Sub ACCoolMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACCoolMode.CheckedChanged
+    Public Sub ACCoolMode_CheckedChanged(sender As Object, e As EventArgs)
         gTcpMgr.mAC.SetACMode(ACMode.cACCool)
     End Sub
 
     'ac dry mode
-    Private Sub ACDryMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACDryMode.CheckedChanged
+    Public Sub ACDryMode_CheckedChanged(sender As Object, e As EventArgs)
         gTcpMgr.mAC.SetACMode(ACMode.cACDry)
     End Sub
 
     'ac fan mode selected
-    Private Sub ACFanMode_CheckedChanged(sender As Object, e As EventArgs) Handles ACFanMode.CheckedChanged
+    Public Sub ACFanMode_CheckedChanged(sender As Object, e As EventArgs)
         gTcpMgr.mAC.SetACMode(ACMode.cACFan)
     End Sub
 

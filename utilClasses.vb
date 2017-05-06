@@ -110,7 +110,7 @@ Public Class TcpParameter
     End Function
 
     Public Function GetTcpDataStr() As String
-        Return mKey.ToString + "#" + mDataStr + "#"
+        Return "#" + mKey.ToString + "=" + mDataStr + "~"
     End Function
 
     Public Function IsAllPacketsReceived() As Boolean
@@ -122,9 +122,5 @@ Public Class TcpParameter
 
         Return True
     End Function
-
-    ' Public Sub SetPacketReceived(idx As Integer)
-    '    mReceived(idx) = True
-    'End Sub
 
 End Class

@@ -48,11 +48,12 @@ Public Class AC
 
 
     Public Sub New(aButton As Button,
+                   aRadioButton As RadioButton,
                    onColor As Color,
                    offColor As Color,
                    moduleId As Integer,
                    power As Integer)
-        MyBase.New(aButton, onColor, offColor, "", "", "", moduleId, power)
+        MyBase.New(aButton, aRadioButton, onColor, offColor, "", "", "", moduleId, power)
 
         mMode = ACMode.cACCool
         mTemperature = 25
@@ -62,6 +63,9 @@ Public Class AC
         'add event handlers
         AddHandler homeCtrl.ACTemp.ValueChanged, AddressOf homeCtrl.ACTemp_ValueChanged
         AddHandler homeCtrl.ACFanSpeed.ValueChanged, AddressOf homeCtrl.ACFanSpeed_ValueChanged
+        AddHandler homeCtrl.ACCoolMode.CheckedChanged, AddressOf homeCtrl.ACCoolMode_CheckedChanged
+        AddHandler homeCtrl.ACDryMode.CheckedChanged, AddressOf homeCtrl.ACDryMode_CheckedChanged
+        AddHandler homeCtrl.ACFanMode.CheckedChanged, AddressOf homeCtrl.ACFanMode_CheckedChanged
     End Sub
 
     'set AC mode

@@ -33,6 +33,9 @@ Public Class Appliance
     'button associated the appliance
     Private mButton As Button
 
+    'radio button associated the appliance
+    Private mSelect As RadioButton
+
     'on color
     Private mOnColor As Color
 
@@ -63,16 +66,16 @@ Public Class Appliance
     'off time value in sec
     Private mStopTime As Integer
 
-    'check whether scheduling is disabled next time
-    Private mDisableSwitchOnScheduler As Boolean
-    Private mDisableSwitchOffScheduler As Boolean
+    'check whether scheduling is disabled
+    Private mDisableScheduler As Boolean
 
-    'average power requirement in W
+    'average power requirement in Watts
     Private mPowerRequirement As Integer
 
 
     'constructor
     Public Sub New(aButton As Button,
+                   aSelect As RadioButton,
                    onColor As Color,
                    offColor As Color,
                    tcpGetCommand As String,
@@ -81,6 +84,7 @@ Public Class Appliance
                    moduleId As Integer,
                    power As Integer)
         mButton = aButton
+        mSelect = aSelect
         mOnColor = onColor
         mOffColor = offColor
         mTcpGetCommand = tcpGetCommand
@@ -91,8 +95,9 @@ Public Class Appliance
 
         'initialization
         mTimerVal = -1
-        mStartTime = 86400
+        mStartTime = 1440
         mStopTime = -1
+        mDisableScheduler = False
 
         'load schedule
         RestoreSchedule()
@@ -125,7 +130,12 @@ Public Class Appliance
         data = LineInput(1)
         mStopTime = Int(data.Substring(0, 7))
 
+        data = LineInput(1)
+        mDisableScheduler = CBool(Int(data.Substring(0, 7)))
+
         FileClose(1)
+
+        SetTooltipOnButton()
     End Sub
 
     'set toggle timer and scheduler information as tool tip
@@ -133,19 +143,23 @@ Public Class Appliance
         Dim toolTipTxt As String = ""
 
         'convert sec to hh:mm:ss
-        If ((mStartTime >= 0) And (mStartTime < 86400) And
-            (mStopTime >= 0) And (mStopTime < 86400)) Then
-            Dim hr0 As Integer = Int(mStartTime / 3600)
-            Dim min0 As Integer = Int((mStartTime / 60) Mod 60)
-            Dim sec0 As Integer = Int(mStartTime Mod 60)
-            Dim startTime As String = hr0.ToString + ":" + min0.ToString + ":" + sec0.ToString
+        If ((mStartTime >= 0) And (mStartTime < 1440) And
+            (mStopTime >= 0) And (mStopTime < 1440)) Then
+            Dim hr0 As Integer = Int(mStartTime / 60)
+            Dim min0 As Integer = Int(mStartTime Mod 60)
 
-            Dim hr1 As Integer = Int(mStopTime / 3600)
-            Dim min1 As Integer = Int((mStopTime / 60) Mod 60)
-            Dim sec1 As Integer = Int(mStopTime Mod 60)
-            Dim stopTime As String = hr1.ToString + ":" + min1.ToString + ":" + sec1.ToString
+            Dim startTime As String = hr0.ToString + ":" + min0.ToString + ":0"
+
+            Dim hr1 As Integer = Int(mStopTime / 60)
+            Dim min1 As Integer = Int(mStopTime Mod 60)
+
+            Dim stopTime As String = hr1.ToString + ":" + min1.ToString + ":0"
 
             toolTipTxt = startTime + "-" + stopTime
+
+            If mDisableScheduler = True Then
+                toolTipTxt = toolTipTxt + " (disabled)"
+            End If
         End If
 
         'convert sec to hh:mm:ss
@@ -154,9 +168,8 @@ Public Class Appliance
                 toolTipTxt = toolTipTxt + Environment.NewLine
             End If
 
-            Dim hr As Integer = Int(mTimerVal / 3600)
-            Dim min As Integer = Int((mTimerVal / 60) Mod 60)
-            Dim sec As Integer = Int(mTimerVal Mod 60)
+            Dim hr As Integer = Int(mTimerVal / 60)
+            Dim min As Integer = Int(mTimerVal Mod 60)
 
             Dim timerVal As String = "Toggling after "
             If hr > 0 Then
@@ -164,9 +177,6 @@ Public Class Appliance
             End If
             If min > 0 Then
                 timerVal = timerVal + min.ToString + " mins "
-            End If
-            If sec > 0 Then
-                timerVal = timerVal + sec.ToString + " secs"
             End If
 
             toolTipTxt = toolTipTxt + timerVal
@@ -302,14 +312,24 @@ Public Class Appliance
 
     'set toggle timer value
     Public Sub SetTimerVal(timerVal As Integer)
+        If mSelect.Checked = False Then
+            Exit Sub
+        End If
+
         Debug.Assert(timerVal >= 0)
         mTimerVal = timerVal
+
+        SetTooltipOnButton()
     End Sub
 
     'save scheduler data
     Public Sub SaveSchedule(startTime As Integer, endTime As Integer, disabled As Boolean)
-        Debug.Assert((startTime >= 0) And (startTime < 86400) And
-                     (endTime >= 0) And (endTime < 86400))
+        If mSelect.Checked = False Then
+            Exit Sub
+        End If
+
+        Debug.Assert((startTime >= 0) And (startTime < 1440) And
+                     (endTime >= 0) And (endTime < 1440))
 
         If startTime = endTime Then
             MsgBox("Start time and end time are equal")
@@ -318,6 +338,7 @@ Public Class Appliance
 
         mStartTime = startTime
         mStopTime = endTime
+        mDisableScheduler = disabled
 
         'create the folder if doesn't exist
         Dim folder As String = My.Application.Info.DirectoryPath + "\" + mButton.Name
@@ -330,11 +351,11 @@ Public Class Appliance
 
         Print(1, mStartTime.ToString + "        : on time" + Environment.NewLine)
         Print(1, mStopTime.ToString + "        : off time" + Environment.NewLine)
+        Print(1, Int(mDisableScheduler).ToString + "        : scheduling enabled/disabled" + Environment.NewLine)
 
         FileClose(1)
 
-        mDisableSwitchOnScheduler = disabled
-        mDisableSwitchOffScheduler = disabled
+        SetTooltipOnButton()
     End Sub
 
     'clear scheduler
@@ -345,8 +366,9 @@ Public Class Appliance
                 My.Computer.FileSystem.DeleteFile(file)
             End If
 
-            mStartTime = 86400
+            mStartTime = 1440
             mStopTime = -1
+            mDisableScheduler = False
         End If
 
         If homeCtrl.ToggleLightings.Checked = True Then
@@ -360,22 +382,23 @@ Public Class Appliance
         homeCtrl.EnableLightSchedule.Enabled = True
         homeCtrl.ToggleLightings.Enabled = True
 
-        If (mStartTime < 0) Or (mStartTime >= 86400) Then
+        If (mStartTime < 0) Or (mStartTime >= 1440) Then
             Return False
         End If
-        If (mStopTime < 0) Or (mStopTime >= 86400) Then
+        If (mStopTime < 0) Or (mStopTime >= 1440) Then
             Return False
         End If
 
         'convert hh:mm:ss to sec
-        homeCtrl.hr0.Value = Int(mStartTime / 3600)
-        homeCtrl.min0.Value = Int((mStartTime / 60) Mod 60)
-        homeCtrl.sec0.Value = Int(mStartTime Mod 60)
+        homeCtrl.hr0.Value = Int(mStartTime / 60)
+        homeCtrl.min0.Value = Int(mStartTime Mod 60)
 
         'convert hh:mm:ss to sec
-        homeCtrl.hr1.Value = Int(mStopTime / 3600)
-        homeCtrl.min1.Value = Int((mStopTime / 60) Mod 60)
-        homeCtrl.sec1.Value = Int(mStopTime Mod 60)
+        homeCtrl.hr1.Value = Int(mStopTime / 60)
+        homeCtrl.min1.Value = Int(mStopTime Mod 60)
+
+        'disabled check
+        homeCtrl.DisableLightSchedule.Checked = mDisableScheduler
 
         Return True
     End Function
@@ -399,34 +422,28 @@ Public Class Appliance
     End Sub
 
     'set scheduler data
-    Public Sub SetSchedule()
-        If (mStartTime < 0) Or (mStartTime >= 86400) Then
-            Return
+    Public Sub CheckSchedule()
+        If mDisableScheduler = True Then
+            Exit Sub
         End If
-        If (mStopTime < 0) Or (mStopTime >= 86400) Then
-            Return
+        If (mStartTime < 0) Or (mStartTime >= 1440) Then
+            Exit Sub
+        End If
+        If (mStopTime < 0) Or (mStopTime >= 1440) Then
+            Exit Sub
         End If
 
-        Dim curTime As Integer = DateAndTime.Now.Hour * 3600 +
-                                 DateAndTime.Now.Minute * 60 +
-                                 DateAndTime.Now.Second
+        Dim curTime As Integer = DateAndTime.Now.Hour * 60 +
+                                 DateAndTime.Now.Minute
 
         If (curTime >= mStartTime) And (curTime < mStartTime + 1) Then
             If mPowerOn = False Then
-                If mDisableSwitchOnScheduler = True Then
-                    mDisableSwitchOnScheduler = False
-                Else
-                    SetPowerOn()
-                End If
+                SetPowerOn()
             End If
         End If
         If (curTime >= mStopTime) And (curTime < mStopTime + 1) Then
             If mPowerOn = True Then
-                If mDisableSwitchOffScheduler = True Then
-                    mDisableSwitchOffScheduler = False
-                Else
-                    SetPowerOn(False)
-                End If
+                SetPowerOn(False)
             End If
         End If
     End Sub

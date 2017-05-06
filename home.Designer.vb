@@ -77,17 +77,14 @@ Partial Class homeCtrl
         Me.ResetSchedule = New System.Windows.Forms.Button()
         Me.TimerGrp = New System.Windows.Forms.GroupBox()
         Me.hr2 = New System.Windows.Forms.NumericUpDown()
-        Me.sec2 = New System.Windows.Forms.NumericUpDown()
         Me.min2 = New System.Windows.Forms.NumericUpDown()
         Me.ToggleLightings = New System.Windows.Forms.CheckBox()
         Me.EnableLightSchedule = New System.Windows.Forms.CheckBox()
         Me.EndTimeGrp = New System.Windows.Forms.GroupBox()
         Me.hr1 = New System.Windows.Forms.NumericUpDown()
-        Me.sec1 = New System.Windows.Forms.NumericUpDown()
         Me.min1 = New System.Windows.Forms.NumericUpDown()
         Me.StartTimeGrp = New System.Windows.Forms.GroupBox()
         Me.hr0 = New System.Windows.Forms.NumericUpDown()
-        Me.sec0 = New System.Windows.Forms.NumericUpDown()
         Me.min0 = New System.Windows.Forms.NumericUpDown()
         Me.SelectPlug1 = New System.Windows.Forms.RadioButton()
         Me.Plug1 = New System.Windows.Forms.Button()
@@ -234,15 +231,12 @@ Partial Class homeCtrl
         Me.SettingsGrp.SuspendLayout()
         Me.TimerGrp.SuspendLayout()
         CType(Me.hr2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.sec2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.EndTimeGrp.SuspendLayout()
         CType(Me.hr1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.sec1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StartTimeGrp.SuspendLayout()
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.sec0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ir.SuspendLayout()
         Me.ACButtons.SuspendLayout()
@@ -720,7 +714,7 @@ Partial Class homeCtrl
         Me.DisableLightSchedule.AutoSize = True
         Me.DisableLightSchedule.Enabled = False
         Me.DisableLightSchedule.ForeColor = System.Drawing.Color.Maroon
-        Me.DisableLightSchedule.Location = New System.Drawing.Point(490, 36)
+        Me.DisableLightSchedule.Location = New System.Drawing.Point(673, 121)
         Me.DisableLightSchedule.Name = "DisableLightSchedule"
         Me.DisableLightSchedule.Size = New System.Drawing.Size(117, 17)
         Me.DisableLightSchedule.TabIndex = 20
@@ -731,7 +725,7 @@ Partial Class homeCtrl
         '
         Me.ResetSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.ResetSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ResetSchedule.Location = New System.Drawing.Point(739, 17)
+        Me.ResetSchedule.Location = New System.Drawing.Point(733, 27)
         Me.ResetSchedule.Name = "ResetSchedule"
         Me.ResetSchedule.Size = New System.Drawing.Size(57, 26)
         Me.ResetSchedule.TabIndex = 19
@@ -742,13 +736,12 @@ Partial Class homeCtrl
         '
         Me.TimerGrp.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.TimerGrp.Controls.Add(Me.hr2)
-        Me.TimerGrp.Controls.Add(Me.sec2)
         Me.TimerGrp.Controls.Add(Me.min2)
         Me.TimerGrp.Enabled = False
         Me.TimerGrp.ForeColor = System.Drawing.Color.Blue
-        Me.TimerGrp.Location = New System.Drawing.Point(120, 86)
+        Me.TimerGrp.Location = New System.Drawing.Point(120, 320)
         Me.TimerGrp.Name = "TimerGrp"
-        Me.TimerGrp.Size = New System.Drawing.Size(170, 49)
+        Me.TimerGrp.Size = New System.Drawing.Size(122, 49)
         Me.TimerGrp.TabIndex = 18
         Me.TimerGrp.TabStop = False
         Me.TimerGrp.Text = "Timer"
@@ -759,14 +752,6 @@ Partial Class homeCtrl
         Me.hr2.Name = "hr2"
         Me.hr2.Size = New System.Drawing.Size(48, 20)
         Me.hr2.TabIndex = 11
-        '
-        'sec2
-        '
-        Me.sec2.Location = New System.Drawing.Point(114, 19)
-        Me.sec2.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
-        Me.sec2.Name = "sec2"
-        Me.sec2.Size = New System.Drawing.Size(48, 20)
-        Me.sec2.TabIndex = 13
         '
         'min2
         '
@@ -781,7 +766,7 @@ Partial Class homeCtrl
         Me.ToggleLightings.AutoSize = True
         Me.ToggleLightings.Enabled = False
         Me.ToggleLightings.ForeColor = System.Drawing.Color.Maroon
-        Me.ToggleLightings.Location = New System.Drawing.Point(6, 99)
+        Me.ToggleLightings.Location = New System.Drawing.Point(6, 333)
         Me.ToggleLightings.Name = "ToggleLightings"
         Me.ToggleLightings.Size = New System.Drawing.Size(91, 17)
         Me.ToggleLightings.TabIndex = 17
@@ -804,13 +789,12 @@ Partial Class homeCtrl
         '
         Me.EndTimeGrp.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.EndTimeGrp.Controls.Add(Me.hr1)
-        Me.EndTimeGrp.Controls.Add(Me.sec1)
         Me.EndTimeGrp.Controls.Add(Me.min1)
         Me.EndTimeGrp.Enabled = False
         Me.EndTimeGrp.ForeColor = System.Drawing.Color.Blue
-        Me.EndTimeGrp.Location = New System.Drawing.Point(299, 17)
+        Me.EndTimeGrp.Location = New System.Drawing.Point(120, 89)
         Me.EndTimeGrp.Name = "EndTimeGrp"
-        Me.EndTimeGrp.Size = New System.Drawing.Size(170, 49)
+        Me.EndTimeGrp.Size = New System.Drawing.Size(125, 49)
         Me.EndTimeGrp.TabIndex = 15
         Me.EndTimeGrp.TabStop = False
         Me.EndTimeGrp.Text = "End Time"
@@ -822,14 +806,6 @@ Partial Class homeCtrl
         Me.hr1.Name = "hr1"
         Me.hr1.Size = New System.Drawing.Size(48, 20)
         Me.hr1.TabIndex = 11
-        '
-        'sec1
-        '
-        Me.sec1.Location = New System.Drawing.Point(114, 19)
-        Me.sec1.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
-        Me.sec1.Name = "sec1"
-        Me.sec1.Size = New System.Drawing.Size(48, 20)
-        Me.sec1.TabIndex = 13
         '
         'min1
         '
@@ -843,13 +819,12 @@ Partial Class homeCtrl
         '
         Me.StartTimeGrp.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.StartTimeGrp.Controls.Add(Me.hr0)
-        Me.StartTimeGrp.Controls.Add(Me.sec0)
         Me.StartTimeGrp.Controls.Add(Me.min0)
         Me.StartTimeGrp.Enabled = False
         Me.StartTimeGrp.ForeColor = System.Drawing.Color.Blue
         Me.StartTimeGrp.Location = New System.Drawing.Point(120, 17)
         Me.StartTimeGrp.Name = "StartTimeGrp"
-        Me.StartTimeGrp.Size = New System.Drawing.Size(170, 49)
+        Me.StartTimeGrp.Size = New System.Drawing.Size(122, 49)
         Me.StartTimeGrp.TabIndex = 14
         Me.StartTimeGrp.TabStop = False
         Me.StartTimeGrp.Text = "Start Time"
@@ -861,14 +836,6 @@ Partial Class homeCtrl
         Me.hr0.Name = "hr0"
         Me.hr0.Size = New System.Drawing.Size(48, 20)
         Me.hr0.TabIndex = 11
-        '
-        'sec0
-        '
-        Me.sec0.Location = New System.Drawing.Point(114, 19)
-        Me.sec0.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
-        Me.sec0.Name = "sec0"
-        Me.sec0.Size = New System.Drawing.Size(48, 20)
-        Me.sec0.TabIndex = 13
         '
         'min0
         '
@@ -2239,7 +2206,7 @@ Partial Class homeCtrl
         'LightingsTimer
         '
         Me.LightingsTimer.Enabled = True
-        Me.LightingsTimer.Interval = 1000
+        Me.LightingsTimer.Interval = 60000
         '
         'ToolTip1
         '
@@ -2439,15 +2406,12 @@ Partial Class homeCtrl
         Me.SettingsGrp.PerformLayout()
         Me.TimerGrp.ResumeLayout(False)
         CType(Me.hr2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.sec2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.EndTimeGrp.ResumeLayout(False)
         CType(Me.hr1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.sec1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StartTimeGrp.ResumeLayout(False)
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.sec0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ir.ResumeLayout(False)
         Me.ACButtons.ResumeLayout(False)
@@ -2511,15 +2475,12 @@ Partial Class homeCtrl
     Friend WithEvents LightingSettings As Button
     Friend WithEvents StartTimeGrp As GroupBox
     Friend WithEvents hr0 As NumericUpDown
-    Friend WithEvents sec0 As NumericUpDown
     Friend WithEvents min0 As NumericUpDown
     Friend WithEvents EndTimeGrp As GroupBox
     Friend WithEvents hr1 As NumericUpDown
-    Friend WithEvents sec1 As NumericUpDown
     Friend WithEvents min1 As NumericUpDown
     Friend WithEvents TimerGrp As GroupBox
     Friend WithEvents hr2 As NumericUpDown
-    Friend WithEvents sec2 As NumericUpDown
     Friend WithEvents min2 As NumericUpDown
     Friend WithEvents ToggleLightings As CheckBox
     Friend WithEvents EnableLightSchedule As CheckBox

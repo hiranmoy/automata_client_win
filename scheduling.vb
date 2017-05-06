@@ -23,98 +23,58 @@
 ' makes no claims about any material contained in this file.
 ' 
 ' Author: Hiranmoy Basak (hiranmoy.iitkgp@gmail.com)
+
+
 Module Scheduling
 
     'set appliance toggle timer depending on the checked radio button
     Public Sub SetApplianceTimer(timerVal As Integer)
-        If homeCtrl.SelectFluLight.Checked = True Then
-            gTcpMgr.mFluLight.SetTimerVal(timerVal)
-        End If
-        If homeCtrl.SelectPlug0.Checked = True Then
-            gTcpMgr.mPlug0.SetTimerVal(timerVal)
-        End If
-        If homeCtrl.SelectFan.Checked = True Then
-            gTcpMgr.mFan.SetTimerVal(timerVal)
-        End If
-        If homeCtrl.SelectBalconyLight.Checked = True Then
-            gTcpMgr.mBalconyLight.SetTimerVal(timerVal)
-        End If
-        If homeCtrl.SelectLightBulb.Checked = True Then
-            gTcpMgr.mLightBulb.SetTimerVal(timerVal)
-        End If
-        If homeCtrl.SelectPlug1.Checked = True Then
-            gTcpMgr.mPlug1.SetTimerVal(timerVal)
-        End If
+        gTcpMgr.mFluLight.SetTimerVal(timerVal)
+        gTcpMgr.mPlug0.SetTimerVal(timerVal)
+        gTcpMgr.mFan.SetTimerVal(timerVal)
+        gTcpMgr.mBalconyLight.SetTimerVal(timerVal)
+        gTcpMgr.mLightBulb.SetTimerVal(timerVal)
+        gTcpMgr.mPlug1.SetTimerVal(timerVal)
     End Sub
 
     'toggle appliances
     Public Sub ToggleAppliancesIfNeeded()
-        Try
-            gTcpMgr.mFluLight.TimerToggle()
-            gTcpMgr.mPlug0.TimerToggle()
-            gTcpMgr.mFan.TimerToggle()
-            gTcpMgr.mBalconyLight.TimerToggle()
-            gTcpMgr.mLightBulb.TimerToggle()
-            gTcpMgr.mPlug1.TimerToggle()
-        Catch
-        End Try
+        gTcpMgr.mFluLight.TimerToggle()
+        gTcpMgr.mPlug0.TimerToggle()
+        gTcpMgr.mFan.TimerToggle()
+        gTcpMgr.mBalconyLight.TimerToggle()
+        gTcpMgr.mLightBulb.TimerToggle()
+        gTcpMgr.mPlug1.TimerToggle()
     End Sub
 
     'set appliance scheduler depending on the checked radio button
     Public Sub SetApplianceSchedule(startTime As Integer, endTime As Integer, disabled As Boolean)
-        If homeCtrl.SelectFluLight.Checked = True Then
-            gTcpMgr.mFluLight.SaveSchedule(startTime, endTime, disabled)
-        End If
-        If homeCtrl.SelectPlug0.Checked = True Then
-            gTcpMgr.mPlug0.SaveSchedule(startTime, endTime, disabled)
-        End If
-        If homeCtrl.SelectFan.Checked = True Then
-            gTcpMgr.mFan.SaveSchedule(startTime, endTime, disabled)
-        End If
-        If homeCtrl.SelectBalconyLight.Checked = True Then
-            gTcpMgr.mBalconyLight.SaveSchedule(startTime, endTime, disabled)
-        End If
-        If homeCtrl.SelectLightBulb.Checked = True Then
-            gTcpMgr.mLightBulb.SaveSchedule(startTime, endTime, disabled)
-        End If
-        If homeCtrl.SelectPlug1.Checked = True Then
-            gTcpMgr.mPlug1.SaveSchedule(startTime, endTime, disabled)
-        End If
+        gTcpMgr.mFluLight.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mPlug0.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mFan.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mBalconyLight.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mLightBulb.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mPlug1.SaveSchedule(startTime, endTime, disabled)
     End Sub
 
     'check scheduler of the appliances
     Public Sub ScheduleAppliances()
-        Try
-            gTcpMgr.mFluLight.SetSchedule()
-            gTcpMgr.mPlug0.SetSchedule()
-            gTcpMgr.mFan.SetSchedule()
-            gTcpMgr.mBalconyLight.SetSchedule()
-            gTcpMgr.mLightBulb.SetSchedule()
-            gTcpMgr.mPlug1.SetSchedule()
-        Catch
-        End Try
+        gTcpMgr.mFluLight.CheckSchedule()
+        gTcpMgr.mPlug0.CheckSchedule()
+        gTcpMgr.mFan.CheckSchedule()
+        gTcpMgr.mBalconyLight.CheckSchedule()
+        gTcpMgr.mLightBulb.CheckSchedule()
+        gTcpMgr.mPlug1.CheckSchedule()
     End Sub
 
     'reset scheduler of the appliances depending on the checked radio button
     Public Sub ResetScheduleAppliances()
-        If homeCtrl.SelectFluLight.Checked = True Then
-            gTcpMgr.mFluLight.ResetSchedule()
-        End If
-        If homeCtrl.SelectPlug0.Checked = True Then
-            gTcpMgr.mPlug0.ResetSchedule()
-        End If
-        If homeCtrl.SelectFan.Checked = True Then
-            gTcpMgr.mFan.ResetSchedule()
-        End If
-        If homeCtrl.SelectBalconyLight.Checked = True Then
-            gTcpMgr.mBalconyLight.ResetSchedule()
-        End If
-        If homeCtrl.SelectLightBulb.Checked = True Then
-            gTcpMgr.mLightBulb.ResetSchedule()
-        End If
-        If homeCtrl.SelectPlug1.Checked = True Then
-            gTcpMgr.mPlug1.ResetSchedule()
-        End If
+        gTcpMgr.mFluLight.ResetSchedule()
+        gTcpMgr.mPlug0.ResetSchedule()
+        gTcpMgr.mFan.ResetSchedule()
+        gTcpMgr.mBalconyLight.ResetSchedule()
+        gTcpMgr.mLightBulb.ResetSchedule()
+        gTcpMgr.mPlug1.ResetSchedule()
 
         'uncheck scheduler and timer checkbox
         homeCtrl.EnableLightSchedule.Checked = False
