@@ -43,9 +43,6 @@ Public Class AC
     'swing
     Private mSwing As Boolean
 
-    'turbo
-    Private mTurbo As Boolean
-
     'update controls
     Private mUpdateControls As Boolean
 
@@ -61,7 +58,6 @@ Public Class AC
         mTemperature = 25
         mFanSpeed = 3
         mSwing = False
-        mTurbo = False
 
         'add event handlers
         AddHandler homeCtrl.ACTemp.ValueChanged, AddressOf homeCtrl.ACTemp_ValueChanged
@@ -81,16 +77,13 @@ Public Class AC
                 homeCtrl.ACTemp.Enabled = True
                 homeCtrl.ACFanSpeed.Enabled = True
                 homeCtrl.ACFanSpeed.Maximum = 4
-                homeCtrl.ACTurbo.Enabled = True
             Case ACMode.cACDry
                 homeCtrl.ACTemp.Enabled = True
                 homeCtrl.ACFanSpeed.Enabled = False
-                homeCtrl.ACTurbo.Enabled = False
             Case ACMode.cACFan
                 homeCtrl.ACTemp.Enabled = False
                 homeCtrl.ACFanSpeed.Enabled = True
                 homeCtrl.ACFanSpeed.Maximum = 3
-                homeCtrl.ACTurbo.Enabled = False
             Case Else
                 Debug.Assert(False)
         End Select
@@ -139,19 +132,6 @@ Public Class AC
         End If
     End Sub
 
-    'set AC turbo mode
-    Public Sub SetACTurbo(turbo As Boolean, Optional sendACSignalFlag As Boolean = True)
-        If mUpdateControls = True Then
-            Return
-        End If
-
-        mTurbo = turbo
-
-        If sendACSignalFlag = True Then
-            SendACSignal()
-        End If
-    End Sub
-
     'update AC controls
     Public Sub UpdateACControls()
         If mUpdateControls = False Then
@@ -173,7 +153,6 @@ Public Class AC
         homeCtrl.ACTemp.Value = mTemperature
         homeCtrl.ACFanSpeed.Value = mFanSpeed
         homeCtrl.ACSwing.Checked = mSwing
-        homeCtrl.ACTurbo.Checked = mTurbo
 
         mUpdateControls = False
     End Sub
@@ -185,7 +164,7 @@ Public Class AC
         End If
 
         If settings = "" Then
-            settings = Int(mMode).ToString + "-" + mTemperature.ToString + "-" + mFanSpeed.ToString + "-" + Int(mSwing).ToString + "-" + Int(mTurbo).ToString
+            settings = Int(mMode).ToString + "-" + mTemperature.ToString + "-" + mFanSpeed.ToString + "-" + Int(mSwing).ToString
         End If
 
         Dim tcpParam As TcpParameter = New TcpParameter("ClickOnAC " + settings, GetModuleId(), 1)
@@ -238,18 +217,16 @@ Public Class AC
 
         ' Split string based on ',' character
         Dim params As String() = data.Split(New Char() {"-"c})
-        Debug.Assert(params.Length() = 5)
+        Debug.Assert(params.Length() = 4)
         Debug.Assert(IsNumeric(params(0)))
         Debug.Assert(IsNumeric(params(1)))
         Debug.Assert(IsNumeric(params(2)))
         Debug.Assert(IsNumeric(params(3)))
-        Debug.Assert(IsNumeric(params(4)))
 
         SetACMode(params(0), False)
         SetACTempature(params(1), False)
         SetACFanSpeed(params(2), False)
         SetACSwing(params(3), False)
-        SetACTurbo(params(4), False)
 
         mUpdateControls = True
     End Sub

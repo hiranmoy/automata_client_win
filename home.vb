@@ -46,7 +46,7 @@ Public Class homeCtrl
         'Me.Top = Screen.PrimaryScreen.WorkingArea.Height / 2 - Me.Height / 2
 
         'disable maximize button
-        Me.MaximizeBox = False
+        'Me.MaximizeBox = False
 
 
         'set main thread name
@@ -651,11 +651,6 @@ Public Class homeCtrl
 
         gEnableSpeech = SpeechCheck.Checked
         SaveSettings()
-    End Sub
-
-    'AC turbo
-    Private Sub ACTurbo_CheckedChanged(sender As Object, e As EventArgs) Handles ACTurbo.CheckedChanged
-        gTcpMgr.mAC.SetACTurbo(ACTurbo.Checked)
     End Sub
 
     'AC swing
