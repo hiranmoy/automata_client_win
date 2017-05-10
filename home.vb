@@ -173,7 +173,7 @@ Public Class homeCtrl
     End Sub
 
     'power on scheduling settings
-    Private Sub LightingSettings_Click(sender As Object, e As EventArgs) Handles LightingSettings.Click
+    Private Sub LightingSettings_Click(sender As Object, e As EventArgs) Handles ApplianceSchedular.Click
         'toggle light settings flag
         gLightSettingsMode = Not gLightSettingsMode
 
@@ -183,7 +183,7 @@ Public Class homeCtrl
             SettingsGrp.Enabled = True
 
             'change settings button text to "Apply"
-            LightingSettings.Text = "Apply"
+            ApplianceSchedular.Text = "Apply"
 
             'disable power profile button 
             ShowPowerHist.Enabled = False
@@ -192,7 +192,7 @@ Public Class homeCtrl
             SettingsGrp.Enabled = False
 
             'change settings button text back to "Settings"
-            LightingSettings.Text = "Settings"
+            ApplianceSchedular.Text = "Settings"
 
             If EnableLightSchedule.Checked = True Then
                 'set schduling interval
@@ -230,31 +230,39 @@ Public Class homeCtrl
 
     'display power profile
     Private Sub ShowPowerHist_Click(sender As Object, e As EventArgs) Handles ShowPowerHist.Click
-        'TODO
-        MsgBox("This feature is disabled for now")
-        Return
-
         'toggle power profile mode
         gPowerHistSelectMode = Not gPowerHistSelectMode
 
         If gPowerHistSelectMode = True Then
             'disable power settings button
-            LightingSettings.Enabled = False
+            ApplianceSchedular.Enabled = False
 
             'change power profile button text to "Finish"
             ShowPowerHist.Text = "Finish"
 
             'enable all radio buttons
             EnableAllRadioButtons()
+
+            'enable date and time picker
+            ApplianceDateTime.Enabled = True
+
+            'enable load button
+            LoadApplianceData.Enabled = True
         Else
             'enable power settings button
-            LightingSettings.Enabled = True
+            ApplianceSchedular.Enabled = True
 
             'change power profile button text back to "Power Profile"
             ShowPowerHist.Text = "Power" + Environment.NewLine + "Profile"
 
             'disable all radio buttons
             DisableAllRadioButtons()
+
+            'enable date and time picker
+            ApplianceDateTime.Enabled = False
+
+            'enable load button
+            LoadApplianceData.Enabled = False
         End If
     End Sub
 
@@ -971,7 +979,9 @@ Public Class homeCtrl
 
 
         'refresh climate data once
-        gTcpMgr.ShowClimateData()
+        gTcpMgr.DisplayGraph(TemperatureData, Color.Crimson, Color.Green, 0, gTcpMgr.GetTemperatureReadings())
+        gTcpMgr.DisplayGraph(HumidityData, Color.Brown, Color.Green, 1, gTcpMgr.GetHumidityReadings())
+        gTcpMgr.DisplayGraph(PressureData, Color.Blue, Color.Green, 2, gTcpMgr.GetPressureReadings())
 
 
         'refresh weather data

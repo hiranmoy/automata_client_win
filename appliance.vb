@@ -69,8 +69,11 @@ Public Class Appliance
     'check whether scheduling is disabled
     Private mDisableScheduler As Boolean
 
-    'average power requirement in Watts
-    Private mPowerRequirement As Integer
+    'number of points in a graph
+    Public mNumPointsInGraph As Integer
+
+    'power consumption data
+    Private mPowerConsumpton() As Double
 
 
     'constructor
@@ -91,7 +94,6 @@ Public Class Appliance
         mTcpSetCommand = tcpSetCommand
         mTcpProfileCommand = tcpProfileCommand
         mModuleId = moduleId
-        mPowerRequirement = power
 
         'initialization
         mTimerVal = -1
@@ -104,6 +106,15 @@ Public Class Appliance
 
         'pwr on status
         mPowerOn = False
+
+        'initilize number of points
+        mNumPointsInGraph = 480
+
+        'initilize power consumption data
+        ReDim mPowerConsumpton(mNumPointsInGraph - 1)
+        For idx = 0 To mPowerConsumpton.Length - 1
+            mPowerConsumpton(idx) = 0
+        Next
     End Sub
 
     'updates background color of the button depending on the on/off status
@@ -187,6 +198,26 @@ Public Class Appliance
 
     'populate power profile graph
     Public Sub GetPowerHistogram()
+        If gTcpMgr.IsConnected(mModuleId) = False Then
+            Exit Sub
+        End If
+
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, mModuleId, 0, 480)
+        Dim profile As String = gTcpMgr.GetResponse(tcpParam)
+        If (profile = "Disconnected") Or (profile = "") Then
+            Return
+        End If
+
+        For idx = 0 To tcpParam.GetNumPackets() - 1
+            If tcpParam.GetResponse(idx) = "" Then
+                mPowerConsumpton(idx) = 0
+                Continue For
+            End If
+
+            Debug.Assert(IsNumeric(tcpParam.GetResponse(idx)))
+            mPowerConsumpton(idx) = CDbl(tcpParam.GetResponse(idx))
+        Next
+
         'clear power profile graph
         homeCtrl.pwHist.Series.Clear()
 
@@ -194,58 +225,14 @@ Public Class Appliance
                             "in (kWh)" + Environment.NewLine +
                             "of" + Environment.NewLine +
                             mButton.Text + Environment.NewLine +
-                            "at" + Environment.NewLine +
+                            "on" + Environment.NewLine +
                             DateAndTime.Now.ToString
         homeCtrl.pwHist.Series.Add(col)
 
-        If gTcpMgr.IsConnected(gWeatherModuleId) = False Then
-            Exit Sub
-        End If
+        'set chart type
+        homeCtrl.pwHist.Series(0).ChartType = DataVisualization.Charting.SeriesChartType.Line
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, mModuleId, 1)
-        Dim profile As String = gTcpMgr.GetResponse(tcpParam)
-        If (profile = "Disconnected") Or (profile = "") Then
-            Return
-        End If
-
-        ' Split string based on ',' character
-        Dim params As String() = profile.Split(New Char() {","c})
-        Debug.Assert(params.Length() = 24)
-
-        Dim minVal As Double = 1000000
-        Dim maxVal As Double = -1
-        For hrIdx = 0 To 23
-            Debug.Assert(IsNumeric(params(hrIdx)))
-
-            Dim val As Double = CDbl(params(hrIdx))
-
-            'convert switched on time to kWh
-            val = (val / 60) * mPowerRequirement / 1000
-            val = Math.Round(val, 3)
-
-            'add points in the graph
-            homeCtrl.pwHist.Series(col).Points.AddXY(hrIdx, val)
-
-            'set minimum value
-            If minVal > val Then
-                minVal = val
-            End If
-
-            'set maximum value
-            If maxVal < val Then
-                maxVal = val
-            End If
-        Next
-
-        Debug.Assert((minVal >= 0) And (maxVal >= minVal))
-        If maxVal = minVal Then
-            maxVal += 1
-        End If
-
-        'y-axis: interval = (max - min)/5
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Minimum = minVal
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Maximum = maxVal
-        homeCtrl.pwHist.ChartAreas.Min.AxisY.Interval = (maxVal - minVal) / 5
+        gTcpMgr.DisplayGraph(homeCtrl.pwHist, Color.DarkBlue, Color.Green, 3, mPowerConsumpton)
     End Sub
 
     'on/off appliance

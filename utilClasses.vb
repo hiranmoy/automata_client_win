@@ -58,6 +58,11 @@ Public Class TcpParameter
         mPriority = 10 * priority
         mNumPackets = numPackets
 
+        'only multi-packet queries can have 0 priority
+        If priority = 0 Then
+            Debug.Assert(numPackets > 1)
+        End If
+
         'initilize responses and packet check
         ReDim mResponse(numPackets - 1)
         ReDim mReceived(numPackets - 1)

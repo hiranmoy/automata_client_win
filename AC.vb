@@ -205,7 +205,7 @@ Public Class AC
         End If
 
         Dim data As String = gTcpMgr.GetResponse(atcpParam)
-        If (data = "Disconnected") Or (data = "") Then
+        If (data = "Disconnected") Or (data = "") Or (data = " ") Then
             Return
         End If
 

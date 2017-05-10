@@ -69,6 +69,8 @@ Partial Class homeCtrl
         Me.MotionActDelayLabel = New System.Windows.Forms.Label()
         Me.MonitorStatus = New System.Windows.Forms.TextBox()
         Me.room = New System.Windows.Forms.TabPage()
+        Me.LoadApplianceData = New System.Windows.Forms.Button()
+        Me.ApplianceDateTime = New System.Windows.Forms.DateTimePicker()
         Me.ClearHist = New System.Windows.Forms.Button()
         Me.ShowPowerHist = New System.Windows.Forms.Button()
         Me.pwHist = New System.Windows.Forms.DataVisualization.Charting.Chart()
@@ -93,7 +95,7 @@ Partial Class homeCtrl
         Me.SelectFluLight = New System.Windows.Forms.RadioButton()
         Me.SelectFan = New System.Windows.Forms.RadioButton()
         Me.SelectLightBulb = New System.Windows.Forms.RadioButton()
-        Me.LightingSettings = New System.Windows.Forms.Button()
+        Me.ApplianceSchedular = New System.Windows.Forms.Button()
         Me.Fan = New System.Windows.Forms.Button()
         Me.LightBulb = New System.Windows.Forms.Button()
         Me.BalconyLight = New System.Windows.Forms.Button()
@@ -630,6 +632,8 @@ Partial Class homeCtrl
         'room
         '
         Me.room.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.room.Controls.Add(Me.LoadApplianceData)
+        Me.room.Controls.Add(Me.ApplianceDateTime)
         Me.room.Controls.Add(Me.ClearHist)
         Me.room.Controls.Add(Me.ShowPowerHist)
         Me.room.Controls.Add(Me.pwHist)
@@ -641,7 +645,7 @@ Partial Class homeCtrl
         Me.room.Controls.Add(Me.SelectFluLight)
         Me.room.Controls.Add(Me.SelectFan)
         Me.room.Controls.Add(Me.SelectLightBulb)
-        Me.room.Controls.Add(Me.LightingSettings)
+        Me.room.Controls.Add(Me.ApplianceSchedular)
         Me.room.Controls.Add(Me.Fan)
         Me.room.Controls.Add(Me.LightBulb)
         Me.room.Controls.Add(Me.BalconyLight)
@@ -654,11 +658,31 @@ Partial Class homeCtrl
         Me.room.TabIndex = 1
         Me.room.Text = "Lightings"
         '
+        'LoadApplianceData
+        '
+        Me.LoadApplianceData.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.LoadApplianceData.Enabled = False
+        Me.LoadApplianceData.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.LoadApplianceData.Location = New System.Drawing.Point(1806, 712)
+        Me.LoadApplianceData.Name = "LoadApplianceData"
+        Me.LoadApplianceData.Size = New System.Drawing.Size(60, 33)
+        Me.LoadApplianceData.TabIndex = 43
+        Me.LoadApplianceData.Text = "Load"
+        Me.LoadApplianceData.UseVisualStyleBackColor = False
+        '
+        'ApplianceDateTime
+        '
+        Me.ApplianceDateTime.Enabled = False
+        Me.ApplianceDateTime.Location = New System.Drawing.Point(1669, 751)
+        Me.ApplianceDateTime.Name = "ApplianceDateTime"
+        Me.ApplianceDateTime.Size = New System.Drawing.Size(200, 20)
+        Me.ApplianceDateTime.TabIndex = 44
+        '
         'ClearHist
         '
         Me.ClearHist.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.ClearHist.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ClearHist.Location = New System.Drawing.Point(1793, 720)
+        Me.ClearHist.Location = New System.Drawing.Point(1812, 3)
         Me.ClearHist.Name = "ClearHist"
         Me.ClearHist.Size = New System.Drawing.Size(57, 26)
         Me.ClearHist.TabIndex = 20
@@ -684,6 +708,7 @@ Partial Class homeCtrl
         Me.pwHist.Legends.Add(Legend1)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
+        Me.pwHist.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
         Series1.ChartArea = "ChartArea1"
         Series1.Legend = "Legend1"
         Series1.Name = "Power on Time"
@@ -714,7 +739,7 @@ Partial Class homeCtrl
         Me.DisableLightSchedule.AutoSize = True
         Me.DisableLightSchedule.Enabled = False
         Me.DisableLightSchedule.ForeColor = System.Drawing.Color.Maroon
-        Me.DisableLightSchedule.Location = New System.Drawing.Point(673, 121)
+        Me.DisableLightSchedule.Location = New System.Drawing.Point(12, 334)
         Me.DisableLightSchedule.Name = "DisableLightSchedule"
         Me.DisableLightSchedule.Size = New System.Drawing.Size(117, 17)
         Me.DisableLightSchedule.TabIndex = 20
@@ -725,7 +750,7 @@ Partial Class homeCtrl
         '
         Me.ResetSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.ResetSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ResetSchedule.Location = New System.Drawing.Point(733, 27)
+        Me.ResetSchedule.Location = New System.Drawing.Point(12, 378)
         Me.ResetSchedule.Name = "ResetSchedule"
         Me.ResetSchedule.Size = New System.Drawing.Size(57, 26)
         Me.ResetSchedule.TabIndex = 19
@@ -739,7 +764,7 @@ Partial Class homeCtrl
         Me.TimerGrp.Controls.Add(Me.min2)
         Me.TimerGrp.Enabled = False
         Me.TimerGrp.ForeColor = System.Drawing.Color.Blue
-        Me.TimerGrp.Location = New System.Drawing.Point(120, 320)
+        Me.TimerGrp.Location = New System.Drawing.Point(120, 191)
         Me.TimerGrp.Name = "TimerGrp"
         Me.TimerGrp.Size = New System.Drawing.Size(122, 49)
         Me.TimerGrp.TabIndex = 18
@@ -766,7 +791,7 @@ Partial Class homeCtrl
         Me.ToggleLightings.AutoSize = True
         Me.ToggleLightings.Enabled = False
         Me.ToggleLightings.ForeColor = System.Drawing.Color.Maroon
-        Me.ToggleLightings.Location = New System.Drawing.Point(6, 333)
+        Me.ToggleLightings.Location = New System.Drawing.Point(6, 203)
         Me.ToggleLightings.Name = "ToggleLightings"
         Me.ToggleLightings.Size = New System.Drawing.Size(91, 17)
         Me.ToggleLightings.TabIndex = 17
@@ -922,16 +947,16 @@ Partial Class homeCtrl
         Me.SelectLightBulb.UseVisualStyleBackColor = True
         Me.SelectLightBulb.Visible = False
         '
-        'LightingSettings
+        'ApplianceSchedular
         '
-        Me.LightingSettings.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.LightingSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.LightingSettings.Location = New System.Drawing.Point(4, 299)
-        Me.LightingSettings.Name = "LightingSettings"
-        Me.LightingSettings.Size = New System.Drawing.Size(802, 27)
-        Me.LightingSettings.TabIndex = 5
-        Me.LightingSettings.Text = "Scheduler"
-        Me.LightingSettings.UseVisualStyleBackColor = False
+        Me.ApplianceSchedular.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ApplianceSchedular.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ApplianceSchedular.Location = New System.Drawing.Point(4, 299)
+        Me.ApplianceSchedular.Name = "ApplianceSchedular"
+        Me.ApplianceSchedular.Size = New System.Drawing.Size(802, 27)
+        Me.ApplianceSchedular.TabIndex = 5
+        Me.ApplianceSchedular.Text = "Scheduler"
+        Me.ApplianceSchedular.UseVisualStyleBackColor = False
         '
         'Fan
         '
@@ -2162,7 +2187,7 @@ Partial Class homeCtrl
         Me.PressureData.Series.Add(Series2)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
-        Me.PressureData.Text = "Power Histogram"
+        Me.PressureData.Text = "Pressure"
         '
         'HumidityData
         '
@@ -2197,7 +2222,7 @@ Partial Class homeCtrl
         Me.TemperatureData.Series.Add(Series4)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
-        Me.TemperatureData.Text = "Power Histogram"
+        Me.TemperatureData.Text = "Temerature"
         '
         'MotionDetectTimer
         '
@@ -2472,7 +2497,7 @@ Partial Class homeCtrl
     Friend WithEvents SelectFluLight As RadioButton
     Friend WithEvents SelectFan As RadioButton
     Friend WithEvents SelectLightBulb As RadioButton
-    Friend WithEvents LightingSettings As Button
+    Friend WithEvents ApplianceSchedular As Button
     Friend WithEvents StartTimeGrp As GroupBox
     Friend WithEvents hr0 As NumericUpDown
     Friend WithEvents min0 As NumericUpDown
@@ -2632,4 +2657,6 @@ Partial Class homeCtrl
     Friend WithEvents SpeakerButton22 As RadioButton
     Friend WithEvents SpeakerButton16 As RadioButton
     Friend WithEvents SpeakerButton15 As RadioButton
+    Friend WithEvents LoadApplianceData As Button
+    Friend WithEvents ApplianceDateTime As DateTimePicker
 End Class

@@ -68,7 +68,9 @@ Public Class Tcp
     Public mNumPointsInGraph As Integer
 
     'climate data
-    Private mClimate(2, 0) As Double
+    Private mTemperatureReadings() As Double
+    Private mHumidityReadings() As Double
+    Private mPressureReadings() As Double
 
     'update climate data
     Private mUpdateClimate(2) As Boolean
@@ -155,7 +157,9 @@ Public Class Tcp
         '0: temperature
         '1: humidity
         '2: air pressure
-        ReDim mClimate(2, mNumPointsInGraph - 1)
+        ReDim mTemperatureReadings(mNumPointsInGraph - 1)
+        ReDim mHumidityReadings(mNumPointsInGraph - 1)
+        ReDim mPressureReadings(mNumPointsInGraph - 1)
         ClearClimateData()
 
         For idx = 0 To mUpdateClimate.Length - 1
@@ -293,7 +297,13 @@ Public Class Tcp
             End If
 
             For minIdx = 0 To mNumPointsInGraph - 1
-                mClimate(idx, minIdx) = 0
+                Select Case idx
+                    Case 0 : mTemperatureReadings(minIdx) = 0
+                    Case 1 : mHumidityReadings(minIdx) = 0
+                    Case 2 : mPressureReadings(minIdx) = 0
+                    Case Else
+                        Debug.Assert(False)
+                End Select
             Next
         Next
     End Sub
@@ -316,8 +326,18 @@ Public Class Tcp
     End Function
 
     'returns temperature at a particular minute
-    Public Function GetClimateReading(idx As Integer, min As Integer)
-        Return mClimate(idx, min)
+    Public Function GetTemperatureReadings()
+        Return mTemperatureReadings
+    End Function
+
+    'returns humidity at a particular minute
+    Public Function GetHumidityReadings()
+        Return mHumidityReadings
+    End Function
+
+    'returns pressure at a particular minute
+    Public Function GetPressureReadings()
+        Return mPressureReadings
     End Function
 
     'returns humidity
@@ -520,14 +540,15 @@ Public Class Tcp
             While aTcpParam.GetResponse(numPackets - 1) = ""
                 '(aTcpParam.GetResponse(aTcpParam.GetNumPackets() - 1) = "")
                 timeInSec += 1
-                If timeInSec >= 5000 Then
+                If timeInSec >= 2000 Then
                     tcpResponseTrd.Abort()
 
                     If numPackets = 1 Then
                         'dump debug info when disconnected
                         Try
                             FileOpen(1, gDebugFolder + "\DisconnectStatus" + aTcpParam.GetStreamIdx().ToString + ".txt", OpenMode.Append)
-                            Print(1, "Missed response for " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ") at " + DateAndTime.Now.ToString + Environment.NewLine)
+                            Print(1, "Missed response for " + aTcpParam.GetDataStr() + " (" + aTcpParam.GetStreamIdx().ToString + ") at {" + numAttemptsLeft.ToString + "}" +
+                                      DateAndTime.Now.ToString + Environment.NewLine)
                             FileClose(1)
                         Catch
                         End Try
@@ -762,6 +783,7 @@ Public Class Tcp
 
     'sets to disconnected mode
     Private Function Disconnect(aStreamIdx As Integer) As String
+
         mFetching(aStreamIdx) = False
         Try
             mClient(aStreamIdx).Close()
@@ -814,7 +836,7 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId, 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("Weather", gWeatherModuleId, 1)
 
         'thread to get weather data from RPI
         Dim weatherDataTrd As Thread = New Thread(AddressOf GetWeatherInfoTrd)
@@ -850,7 +872,7 @@ Public Class Tcp
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId, 0)
+        Dim tcpParam As TcpParameter = New TcpParameter("AirQuality", gAirQualityModuleId, 1)
 
         'thread to get weather data from RPI
         Dim aitQualityTrd As Thread = New Thread(AddressOf GetAirQualityInfoTrd)
@@ -1074,11 +1096,11 @@ Public Class Tcp
             Return
         End If
 
-        If aTcpParamArr(0).GetDataStr().Contains("-") = False Then
-            'wait for 10 sec so that important and small data can be captured properly
-            'don't in case of a specific date input
-            Thread.Sleep(10000)
-        End If
+        'If aTcpParamArr(0).GetDataStr().Contains("-") = False Then
+        'wait for 10 sec so that important and small data can be captured properly
+        'don't in case of a specific date input
+        'Thread.Sleep(10000)
+        'End If
 
         For idx = 0 To 2
             gTcpMgr.GetResponse(aTcpParamArr(idx))
@@ -1091,123 +1113,99 @@ Public Class Tcp
                 End If
 
                 Debug.Assert(IsNumeric(aTcpParamArr(idx).GetResponse(minIdx)))
-                mClimate(idx, minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
+                Select Case idx
+                    Case 0 : mTemperatureReadings(minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
+                    Case 1 : mHumidityReadings(minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
+                    Case 2 : mPressureReadings(minIdx) = CDbl(aTcpParamArr(idx).GetResponse(minIdx))
+                    Case Else
+                        Debug.Assert(False)
+                End Select
             Next
         Next
     End Sub
 
     'show chart data
-    Public Sub ShowClimateData()
-        If mFetching(gWeatherModuleId) = False Then
-            Return
-        End If
+    'updateIdx:
+    '   0-2: weather
+    '   3: appliance power
+    Public Sub DisplayGraph(chart As DataVisualization.Charting.Chart, colorOfTodaysReading As Color, colorOfYesterdaysReading As Color, updateIdx As Integer, dataArr() As Double)
+        Dim graph As DataVisualization.Charting.Series = chart.Series(0)
 
-        Dim graph As DataVisualization.Charting.Series
-        Dim colorOfTodaysReading, colorOfYesterdaysReading As Color
-
-        For idx = 0 To 2
-            Select Case idx
-                Case 0
-                    graph = homeCtrl.TemperatureData.Series(0)
-                    colorOfTodaysReading = Color.Crimson
-                    colorOfYesterdaysReading = Color.Green
-                Case 1 : graph = homeCtrl.HumidityData.Series(0)
-                    colorOfTodaysReading = Color.Brown
-                    colorOfYesterdaysReading = Color.Green
-                Case 2 : graph = homeCtrl.PressureData.Series(0)
-                    colorOfTodaysReading = Color.Blue
-                    colorOfYesterdaysReading = Color.Green
-                Case Else
-                    Debug.Assert(False)
-            End Select
-
-            If mUpdateClimate(idx) = True Then
+        If updateIdx < 3 Then
+            If mUpdateClimate(updateIdx) = True Then
                 'clear the graph
                 graph.Points.Clear()
 
-                If idx = 2 Then
+                If updateIdx = 2 Then
                     homeCtrl.LoadSensorData.Enabled = True
                     homeCtrl.SensorDateTime.Enabled = True
                 End If
             Else
+                Exit Sub
+            End If
+        End If
+
+        Dim minVal As Double = 1000000
+        Dim maxVal As Double = -1
+        For minIdx = 0 To mNumPointsInGraph - 1
+            Dim origVal As Double = dataArr(minIdx)
+
+            If origVal = 0 Then
                 Continue For
             End If
 
+            'apply moving average filter of order 5
+            Dim avgVal As Double = 0
+            Dim div As Integer = 0
 
-            Dim minVal As Double = 1000000
-            Dim maxVal As Double = -1
-            For minIdx = 0 To mNumPointsInGraph - 1
-                Dim origVal As Double = GetClimateReading(idx, minIdx)
-
-                If origVal = 0 Then
+            For filterIdx = Math.Max(0, minIdx - 2) To Math.Min(minIdx + 2, mNumPointsInGraph - 1)
+                If dataArr(filterIdx) = 0 Then
                     Continue For
                 End If
 
-                'apply moving average filter of order 5
-                Dim avgVal As Double = 0
-                Dim div As Integer = 0
-
-                For filterIdx = Math.Max(0, minIdx - 2) To Math.Min(minIdx + 2, mNumPointsInGraph - 1)
-                    If GetClimateReading(idx, filterIdx) = 0 Then
-                        Continue For
-                    End If
-
-                    avgVal += GetClimateReading(idx, filterIdx)
-                    div += 1
-                Next
-
-                avgVal /= div
-                If avgVal = 0 Then
-                    'values got updated in between
-                    avgVal = origVal
-                End If
-
-                Dim hr As Double = minIdx * (1440 / mNumPointsInGraph) / 60
-
-                'add points in the graph
-                Dim point As Integer = graph.Points.AddXY(hr, avgVal)
-
-                'set color
-                If hr < DateAndTime.Now.Hour + DateAndTime.Now.Minute / 60 Then
-                    graph.Points(point).Color = colorOfTodaysReading
-                Else
-                    graph.Points(point).Color = colorOfYesterdaysReading
-                End If
-
-                'set minimum value
-                If minVal > avgVal Then
-                    minVal = avgVal
-                End If
-
-                'set maximum value
-                If maxVal < avgVal Then
-                    maxVal = avgVal
-                End If
+                avgVal += dataArr(filterIdx)
+                div += 1
             Next
 
-            If maxVal = minVal Then
-                maxVal += 1
+            avgVal /= div
+            If avgVal = 0 Then
+                'values got updated in between
+                avgVal = origVal
             End If
-            Dim chartMin As Integer = Int(minVal)
-            Dim chartMax As Integer = Int(maxVal + 0.99)
 
-            'y-axis: interval = (max - min)/5
-            Select Case idx
-                Case 0
-                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Minimum = chartMin
-                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Maximum = chartMax
-                    homeCtrl.TemperatureData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
-                Case 1
-                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Minimum = chartMin
-                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Maximum = chartMax
-                    homeCtrl.HumidityData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
-                Case 2
-                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Minimum = chartMin
-                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Maximum = chartMax
-                    homeCtrl.PressureData.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
-                Case Else
-            End Select
+            Dim hr As Double = minIdx * (1440 / mNumPointsInGraph) / 60
+
+            'add points in the graph
+            Dim point As Integer = graph.Points.AddXY(hr, avgVal)
+
+            'set color
+            If hr < DateAndTime.Now.Hour + DateAndTime.Now.Minute / 60 Then
+                graph.Points(point).Color = colorOfTodaysReading
+            Else
+                graph.Points(point).Color = colorOfYesterdaysReading
+            End If
+
+            'set minimum value
+            If minVal > avgVal Then
+                minVal = avgVal
+            End If
+
+            'set maximum value
+            If maxVal < avgVal Then
+                maxVal = avgVal
+            End If
         Next
+
+        If maxVal = minVal Then
+            maxVal += 1
+        End If
+        Dim chartMin As Integer = Int(minVal)
+        Dim chartMax As Integer = Int(maxVal + 0.99)
+
+        'y-axis: interval = (max - min)/5
+        chart.ChartAreas.Min.AxisY.Minimum = chartMin
+        chart.ChartAreas.Min.AxisY.Maximum = chartMax
+        chart.ChartAreas.Min.AxisY.Interval = (chartMax - chartMin) / 5
     End Sub
 
 End Class
