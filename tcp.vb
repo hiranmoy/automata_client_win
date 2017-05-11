@@ -1202,6 +1202,11 @@ Public Class Tcp
         Dim chartMin As Integer = Int(minVal)
         Dim chartMax As Integer = Int(maxVal + 0.99)
 
+        'no need to approximate to integer axis
+        If updateIdx > 2 Then
+            Exit Sub
+        End If
+
         'y-axis: interval = (max - min)/5
         chart.ChartAreas.Min.AxisY.Minimum = chartMin
         chart.ChartAreas.Min.AxisY.Maximum = chartMax

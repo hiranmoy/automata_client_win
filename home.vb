@@ -96,6 +96,10 @@ Public Class homeCtrl
         PressureData.ChartAreas.Min.AxisX.Maximum = 24
         PressureData.ChartAreas.Min.AxisX.Interval = 2
 
+        pwHist.ChartAreas.Min.AxisX.Minimum = 0
+        pwHist.ChartAreas.Min.AxisX.Maximum = 24
+        pwHist.ChartAreas.Min.AxisX.Interval = 2
+
         'set chart type
         TemperatureData.Series("Temperature (^C)").ChartType = DataVisualization.Charting.SeriesChartType.Line
         HumidityData.Series("Humidity").ChartType = DataVisualization.Charting.SeriesChartType.Line
@@ -564,6 +568,41 @@ Public Class homeCtrl
     'AC on/off button
     Private Sub ACOnOff_Click(sender As Object, e As EventArgs) Handles ACOnOff.Click
         gTcpMgr.mAC.Toggle()
+    End Sub
+
+    'load appliance data
+    Private Sub LoadApplianceData_Click(sender As Object, e As EventArgs) Handles LoadApplianceData.Click
+        Dim applianceDate As String = " " + ApplianceDateTime.Value.Month.ToString + "-" + ApplianceDateTime.Value.Day.ToString
+
+        'plug0 select
+        If SelectPlug0.Checked = True Then
+            gTcpMgr.mPlug0.GetPowerHistogram(applianceDate)
+        End If
+
+        'fluorescent light select
+        If SelectFluLight.Checked = True Then
+            gTcpMgr.mFluLight.GetPowerHistogram(applianceDate)
+        End If
+
+        'balcony light select
+        If SelectBalconyLight.Checked = True Then
+            gTcpMgr.mBalconyLight.GetPowerHistogram(applianceDate)
+        End If
+
+        'fan select
+        If SelectFan.Checked = True Then
+            gTcpMgr.mFan.GetPowerHistogram(applianceDate)
+        End If
+
+        'light bulb select
+        If SelectLightBulb.Checked = True Then
+            gTcpMgr.mLightBulb.GetPowerHistogram(applianceDate)
+        End If
+
+        'plug1 select
+        If SelectPlug1.Checked = True Then
+            gTcpMgr.mPlug1.GetPowerHistogram(applianceDate)
+        End If
     End Sub
 
 

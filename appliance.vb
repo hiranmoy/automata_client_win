@@ -197,12 +197,12 @@ Public Class Appliance
     End Sub
 
     'populate power profile graph
-    Public Sub GetPowerHistogram()
+    Public Sub GetPowerHistogram(Optional applianceData As String = " ")
         If gTcpMgr.IsConnected(mModuleId) = False Then
             Exit Sub
         End If
 
-        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand, mModuleId, 0, 480)
+        Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand + applianceData, mModuleId, 0, 480)
         Dim profile As String = gTcpMgr.GetResponse(tcpParam)
         If (profile = "Disconnected") Or (profile = "") Then
             Return
@@ -221,16 +221,29 @@ Public Class Appliance
         'clear power profile graph
         homeCtrl.pwHist.Series.Clear()
 
+        'set date for column
+        Dim powerDate As String = ""
+        If applianceData = " " Then
+            powerDate = " " + DateAndTime.Now.Day.ToString + "/" + DateAndTime.Now.Month.ToString
+        Else
+            ' Split string based on '-' character
+            Dim params As String() = applianceData.Split(New Char() {"-"c})
+            Debug.Assert(params.Length() = 2)
+            Debug.Assert(IsNumeric(params(0)))
+            Debug.Assert(IsNumeric(params(1)))
+
+            powerDate = " " + params(1) + "/" + params(0)
+        End If
+
         Dim col As String = "Power consumption" + Environment.NewLine +
                             "in (kWh)" + Environment.NewLine +
                             "of" + Environment.NewLine +
                             mButton.Text + Environment.NewLine +
-                            "on" + Environment.NewLine +
-                            DateAndTime.Now.ToString
+                            "on" + powerDate
         homeCtrl.pwHist.Series.Add(col)
 
         'set chart type
-        homeCtrl.pwHist.Series(0).ChartType = DataVisualization.Charting.SeriesChartType.Line
+        homeCtrl.pwHist.Series(0).ChartType = DataVisualization.Charting.SeriesChartType.Column
 
         gTcpMgr.DisplayGraph(homeCtrl.pwHist, Color.DarkBlue, Color.Green, 3, mPowerConsumpton)
     End Sub
