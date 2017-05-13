@@ -23,26 +23,26 @@ Partial Class homeCtrl
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea6 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend6 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea10 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.Fetch = New System.Windows.Forms.Button()
-        Me.Temperature = New System.Windows.Forms.Label()
+        Me.TemperatureDisplay = New System.Windows.Forms.Label()
         Me.Packet = New System.Windows.Forms.TextBox()
         Me.debugButton = New System.Windows.Forms.Button()
         Me.Connect = New System.Windows.Forms.Button()
         Me.TimerData = New System.Windows.Forms.Timer(Me.components)
-        Me.Pressure = New System.Windows.Forms.Label()
-        Me.Humidity = New System.Windows.Forms.Label()
+        Me.PressureDisplay = New System.Windows.Forms.Label()
+        Me.HumidityDisplay = New System.Windows.Forms.Label()
         Me.Toggleled = New System.Windows.Forms.Button()
         Me.Tabs = New System.Windows.Forms.TabControl()
         Me.settingsPage = New System.Windows.Forms.TabPage()
@@ -102,17 +102,6 @@ Partial Class homeCtrl
         Me.Plug0 = New System.Windows.Forms.Button()
         Me.FluLight = New System.Windows.Forms.Button()
         Me.ir = New System.Windows.Forms.TabPage()
-        Me.ACButtons = New System.Windows.Forms.GroupBox()
-        Me.ACSwing = New System.Windows.Forms.CheckBox()
-        Me.ACFanSpeedLabel = New System.Windows.Forms.Label()
-        Me.ACFanSpeed = New System.Windows.Forms.NumericUpDown()
-        Me.ACOnOff = New System.Windows.Forms.Button()
-        Me.ACTempLabel = New System.Windows.Forms.Label()
-        Me.ACTemp = New System.Windows.Forms.NumericUpDown()
-        Me.ACModes = New System.Windows.Forms.GroupBox()
-        Me.ACFanMode = New System.Windows.Forms.RadioButton()
-        Me.ACDryMode = New System.Windows.Forms.RadioButton()
-        Me.ACCoolMode = New System.Windows.Forms.RadioButton()
         Me.SpeakerButtons = New System.Windows.Forms.GroupBox()
         Me.SpeakerButton15 = New System.Windows.Forms.RadioButton()
         Me.SpeakerButton16 = New System.Windows.Forms.RadioButton()
@@ -196,12 +185,74 @@ Partial Class homeCtrl
         Me.AmPmAlarm = New System.Windows.Forms.ComboBox()
         Me.AddAlarm = New System.Windows.Forms.Button()
         Me.TestAlarm = New System.Windows.Forms.Button()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Climate = New System.Windows.Forms.TabPage()
         Me.LoadSensorData = New System.Windows.Forms.Button()
         Me.SensorDateTime = New System.Windows.Forms.DateTimePicker()
         Me.PressureData = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.HumidityData = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TemperatureData = New System.Windows.Forms.DataVisualization.Charting.Chart()
+        Me.ACTempTrackBars = New System.Windows.Forms.TabPage()
+        Me.ACButtons = New System.Windows.Forms.GroupBox()
+        Me.ACTemperatureGrp = New System.Windows.Forms.GroupBox()
+        Me.Temp23hr = New System.Windows.Forms.TrackBar()
+        Me.Temp20hr = New System.Windows.Forms.TrackBar()
+        Me.Temp22hr = New System.Windows.Forms.TrackBar()
+        Me.Temp19hr = New System.Windows.Forms.TrackBar()
+        Me.Temp23hrLabel = New System.Windows.Forms.Label()
+        Me.Temp20hrLabel = New System.Windows.Forms.Label()
+        Me.Temp22hrLabel = New System.Windows.Forms.Label()
+        Me.Temp19hrLabel = New System.Windows.Forms.Label()
+        Me.Temp21hrLabel = New System.Windows.Forms.Label()
+        Me.Temp18hrLabel = New System.Windows.Forms.Label()
+        Me.Temp21hr = New System.Windows.Forms.TrackBar()
+        Me.Temp18hr = New System.Windows.Forms.TrackBar()
+        Me.Temp17hr = New System.Windows.Forms.TrackBar()
+        Me.Temp16hr = New System.Windows.Forms.TrackBar()
+        Me.Temp17hrLabel = New System.Windows.Forms.Label()
+        Me.Temp16hrLabel = New System.Windows.Forms.Label()
+        Me.Temp15hrLabel = New System.Windows.Forms.Label()
+        Me.Temp15hr = New System.Windows.Forms.TrackBar()
+        Me.Temp14hr = New System.Windows.Forms.TrackBar()
+        Me.Temp13hr = New System.Windows.Forms.TrackBar()
+        Me.Temp14hrLabel = New System.Windows.Forms.Label()
+        Me.Temp13hrLabel = New System.Windows.Forms.Label()
+        Me.Temp12hrLabel = New System.Windows.Forms.Label()
+        Me.Temp12hr = New System.Windows.Forms.TrackBar()
+        Me.Temp11hr = New System.Windows.Forms.TrackBar()
+        Me.Temp10hr = New System.Windows.Forms.TrackBar()
+        Me.Temp11hrLabel = New System.Windows.Forms.Label()
+        Me.Temp10hrLabel = New System.Windows.Forms.Label()
+        Me.Temp09hrLabel = New System.Windows.Forms.Label()
+        Me.Temp09hr = New System.Windows.Forms.TrackBar()
+        Me.Temp08hrLabel = New System.Windows.Forms.Label()
+        Me.Temp08hr = New System.Windows.Forms.TrackBar()
+        Me.Temp07hrLabel = New System.Windows.Forms.Label()
+        Me.Temp07hr = New System.Windows.Forms.TrackBar()
+        Me.Temp06hrLabel = New System.Windows.Forms.Label()
+        Me.Temp06hr = New System.Windows.Forms.TrackBar()
+        Me.Temp05hrLabel = New System.Windows.Forms.Label()
+        Me.Temp05hr = New System.Windows.Forms.TrackBar()
+        Me.Temp04hrLabel = New System.Windows.Forms.Label()
+        Me.Temp04hr = New System.Windows.Forms.TrackBar()
+        Me.Temp03hrLabel = New System.Windows.Forms.Label()
+        Me.Temp03hr = New System.Windows.Forms.TrackBar()
+        Me.Temp02hrLabel = New System.Windows.Forms.Label()
+        Me.Temp02hr = New System.Windows.Forms.TrackBar()
+        Me.Temp01hrLabel = New System.Windows.Forms.Label()
+        Me.Temp01hr = New System.Windows.Forms.TrackBar()
+        Me.Temp00hrLabel = New System.Windows.Forms.Label()
+        Me.Temp00hr = New System.Windows.Forms.TrackBar()
+        Me.ACAdjustment = New System.Windows.Forms.CheckBox()
+        Me.ACSwing = New System.Windows.Forms.CheckBox()
+        Me.ACFanSpeedLabel = New System.Windows.Forms.Label()
+        Me.ACFanSpeed = New System.Windows.Forms.NumericUpDown()
+        Me.ACOnOff = New System.Windows.Forms.Button()
+        Me.ACTempLabel = New System.Windows.Forms.Label()
+        Me.ACTemp = New System.Windows.Forms.NumericUpDown()
+        Me.ACModes = New System.Windows.Forms.GroupBox()
+        Me.ACFanMode = New System.Windows.Forms.RadioButton()
+        Me.ACDryMode = New System.Windows.Forms.RadioButton()
+        Me.ACCoolMode = New System.Windows.Forms.RadioButton()
         Me.MotionDetectTimer = New System.Windows.Forms.Timer(Me.components)
         Me.LightingsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -214,16 +265,18 @@ Partial Class homeCtrl
         Me.StreamDebugIdx = New System.Windows.Forms.NumericUpDown()
         Me.StreamIdx = New System.Windows.Forms.NumericUpDown()
         Me.ConnectCheck = New System.Windows.Forms.CheckBox()
-        Me.Alcohol = New System.Windows.Forms.Label()
-        Me.CO = New System.Windows.Forms.Label()
+        Me.AlcoholDisplay = New System.Windows.Forms.Label()
+        Me.CODisplay = New System.Windows.Forms.Label()
         Me.RealTime = New System.Windows.Forms.Label()
         Me.Timer500ms = New System.Windows.Forms.Timer(Me.components)
         Me.TimerAlarm = New System.Windows.Forms.Timer(Me.components)
         Me.MusicFileBrowse = New System.Windows.Forms.OpenFileDialog()
-        Me.Smoke = New System.Windows.Forms.Label()
+        Me.SmokeDisplay = New System.Windows.Forms.Label()
         Me.ControlRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ClimateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Timer1secDelay = New System.Windows.Forms.Timer(Me.components)
+        Me.TimerACAdjust = New System.Windows.Forms.Timer(Me.components)
         Me.Tabs.SuspendLayout()
         Me.settingsPage.SuspendLayout()
         Me.SurveillanceGrp.SuspendLayout()
@@ -241,10 +294,6 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ir.SuspendLayout()
-        Me.ACButtons.SuspendLayout()
-        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ACModes.SuspendLayout()
         Me.SpeakerButtons.SuspendLayout()
         Me.SpeakerFolderButtons.SuspendLayout()
         Me.SpeakerTrackCtrlButtons.SuspendLayout()
@@ -257,10 +306,40 @@ Partial Class homeCtrl
         CType(Me.HourAlarm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MinAlarm, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
+        Me.Climate.SuspendLayout()
         CType(Me.PressureData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.HumidityData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TemperatureData, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ACTempTrackBars.SuspendLayout()
+        Me.ACButtons.SuspendLayout()
+        Me.ACTemperatureGrp.SuspendLayout()
+        CType(Me.Temp23hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp20hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp22hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp19hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp21hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp18hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp17hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp16hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp15hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp14hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp13hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp12hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp11hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp10hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp09hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp08hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp07hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp06hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp05hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp04hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp03hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp02hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp01hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Temp00hr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ACModes.SuspendLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -277,16 +356,16 @@ Partial Class homeCtrl
         Me.Fetch.Text = "Fetch data"
         Me.Fetch.UseVisualStyleBackColor = False
         '
-        'Temperature
+        'TemperatureDisplay
         '
-        Me.Temperature.AutoSize = True
-        Me.Temperature.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Temperature.Location = New System.Drawing.Point(12, 9)
-        Me.Temperature.Name = "Temperature"
-        Me.Temperature.Padding = New System.Windows.Forms.Padding(10)
-        Me.Temperature.Size = New System.Drawing.Size(96, 33)
-        Me.Temperature.TabIndex = 19
-        Me.Temperature.Text = "Temperature : "
+        Me.TemperatureDisplay.AutoSize = True
+        Me.TemperatureDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.TemperatureDisplay.Location = New System.Drawing.Point(12, 9)
+        Me.TemperatureDisplay.Name = "TemperatureDisplay"
+        Me.TemperatureDisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.TemperatureDisplay.Size = New System.Drawing.Size(96, 33)
+        Me.TemperatureDisplay.TabIndex = 19
+        Me.TemperatureDisplay.Text = "Temperature : "
         '
         'Packet
         '
@@ -322,27 +401,27 @@ Partial Class homeCtrl
         Me.TimerData.Enabled = True
         Me.TimerData.Interval = 60000
         '
-        'Pressure
+        'PressureDisplay
         '
-        Me.Pressure.AutoSize = True
-        Me.Pressure.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Pressure.Location = New System.Drawing.Point(321, 9)
-        Me.Pressure.Name = "Pressure"
-        Me.Pressure.Padding = New System.Windows.Forms.Padding(10)
-        Me.Pressure.Size = New System.Drawing.Size(138, 33)
-        Me.Pressure.TabIndex = 29
-        Me.Pressure.Text = "Atmospheric Pressure : "
+        Me.PressureDisplay.AutoSize = True
+        Me.PressureDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.PressureDisplay.Location = New System.Drawing.Point(321, 9)
+        Me.PressureDisplay.Name = "PressureDisplay"
+        Me.PressureDisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.PressureDisplay.Size = New System.Drawing.Size(138, 33)
+        Me.PressureDisplay.TabIndex = 29
+        Me.PressureDisplay.Text = "Atmospheric Pressure : "
         '
-        'Humidity
+        'HumidityDisplay
         '
-        Me.Humidity.AutoSize = True
-        Me.Humidity.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Humidity.Location = New System.Drawing.Point(186, 9)
-        Me.Humidity.Name = "Humidity"
-        Me.Humidity.Padding = New System.Windows.Forms.Padding(10)
-        Me.Humidity.Size = New System.Drawing.Size(76, 33)
-        Me.Humidity.TabIndex = 28
-        Me.Humidity.Text = "Humidity : "
+        Me.HumidityDisplay.AutoSize = True
+        Me.HumidityDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.HumidityDisplay.Location = New System.Drawing.Point(186, 9)
+        Me.HumidityDisplay.Name = "HumidityDisplay"
+        Me.HumidityDisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.HumidityDisplay.Size = New System.Drawing.Size(76, 33)
+        Me.HumidityDisplay.TabIndex = 28
+        Me.HumidityDisplay.Text = "Humidity : "
         '
         'Toggleled
         '
@@ -362,7 +441,8 @@ Partial Class homeCtrl
         Me.Tabs.Controls.Add(Me.room)
         Me.Tabs.Controls.Add(Me.ir)
         Me.Tabs.Controls.Add(Me.Alarm)
-        Me.Tabs.Controls.Add(Me.TabPage1)
+        Me.Tabs.Controls.Add(Me.Climate)
+        Me.Tabs.Controls.Add(Me.ACTempTrackBars)
         Me.Tabs.Location = New System.Drawing.Point(12, 87)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
@@ -702,18 +782,18 @@ Partial Class homeCtrl
         '
         'pwHist
         '
-        ChartArea5.Name = "ChartArea1"
-        Me.pwHist.ChartAreas.Add(ChartArea5)
-        Legend5.Name = "Legend1"
-        Me.pwHist.Legends.Add(Legend5)
+        ChartArea9.Name = "ChartArea1"
+        Me.pwHist.ChartAreas.Add(ChartArea9)
+        Legend9.Name = "Legend1"
+        Me.pwHist.Legends.Add(Legend9)
         Me.pwHist.Location = New System.Drawing.Point(903, 18)
         Me.pwHist.Name = "pwHist"
         Me.pwHist.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series5.ChartArea = "ChartArea1"
-        Series5.Legend = "Legend1"
-        Series5.Name = "Power on Time"
-        Series5.YValuesPerPoint = 4
-        Me.pwHist.Series.Add(Series5)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Legend = "Legend1"
+        Series9.Name = "Power on Time"
+        Series9.YValuesPerPoint = 4
+        Me.pwHist.Series.Add(Series9)
         Me.pwHist.Size = New System.Drawing.Size(963, 753)
         Me.pwHist.TabIndex = 33
         Me.pwHist.Text = "Power Histogram"
@@ -1016,7 +1096,6 @@ Partial Class homeCtrl
         '
         'ir
         '
-        Me.ir.Controls.Add(Me.ACButtons)
         Me.ir.Controls.Add(Me.SpeakerButtons)
         Me.ir.Controls.Add(Me.DisableLED)
         Me.ir.Controls.Add(Me.LEDButtons)
@@ -1024,127 +1103,8 @@ Partial Class homeCtrl
         Me.ir.Name = "ir"
         Me.ir.Size = New System.Drawing.Size(1872, 777)
         Me.ir.TabIndex = 3
-        Me.ir.Text = "RGB LED & Speaker & AC"
+        Me.ir.Text = "RGB LED & Speaker"
         Me.ir.UseVisualStyleBackColor = True
-        '
-        'ACButtons
-        '
-        Me.ACButtons.Controls.Add(Me.ACSwing)
-        Me.ACButtons.Controls.Add(Me.ACFanSpeedLabel)
-        Me.ACButtons.Controls.Add(Me.ACFanSpeed)
-        Me.ACButtons.Controls.Add(Me.ACOnOff)
-        Me.ACButtons.Controls.Add(Me.ACTempLabel)
-        Me.ACButtons.Controls.Add(Me.ACTemp)
-        Me.ACButtons.Controls.Add(Me.ACModes)
-        Me.ACButtons.Location = New System.Drawing.Point(1351, 153)
-        Me.ACButtons.Name = "ACButtons"
-        Me.ACButtons.Size = New System.Drawing.Size(477, 184)
-        Me.ACButtons.TabIndex = 23
-        Me.ACButtons.TabStop = False
-        '
-        'ACSwing
-        '
-        Me.ACSwing.AutoSize = True
-        Me.ACSwing.Location = New System.Drawing.Point(300, 89)
-        Me.ACSwing.Name = "ACSwing"
-        Me.ACSwing.Size = New System.Drawing.Size(55, 17)
-        Me.ACSwing.TabIndex = 29
-        Me.ACSwing.Text = "Swing"
-        Me.ACSwing.UseVisualStyleBackColor = True
-        '
-        'ACFanSpeedLabel
-        '
-        Me.ACFanSpeedLabel.AutoSize = True
-        Me.ACFanSpeedLabel.Location = New System.Drawing.Point(177, 114)
-        Me.ACFanSpeedLabel.Name = "ACFanSpeedLabel"
-        Me.ACFanSpeedLabel.Size = New System.Drawing.Size(74, 13)
-        Me.ACFanSpeedLabel.TabIndex = 27
-        Me.ACFanSpeedLabel.Text = "AC Fan speed"
-        '
-        'ACFanSpeed
-        '
-        Me.ACFanSpeed.Enabled = False
-        Me.ACFanSpeed.Location = New System.Drawing.Point(180, 133)
-        Me.ACFanSpeed.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.ACFanSpeed.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.ACFanSpeed.Name = "ACFanSpeed"
-        Me.ACFanSpeed.Size = New System.Drawing.Size(39, 20)
-        Me.ACFanSpeed.TabIndex = 26
-        Me.ACFanSpeed.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'ACOnOff
-        '
-        Me.ACOnOff.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.ACOnOff.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ACOnOff.ForeColor = System.Drawing.Color.Black
-        Me.ACOnOff.Location = New System.Drawing.Point(409, 28)
-        Me.ACOnOff.Name = "ACOnOff"
-        Me.ACOnOff.Size = New System.Drawing.Size(50, 38)
-        Me.ACOnOff.TabIndex = 25
-        Me.ACOnOff.Text = "Power"
-        Me.ACOnOff.UseVisualStyleBackColor = False
-        '
-        'ACTempLabel
-        '
-        Me.ACTempLabel.AutoSize = True
-        Me.ACTempLabel.Location = New System.Drawing.Point(177, 29)
-        Me.ACTempLabel.Name = "ACTempLabel"
-        Me.ACTempLabel.Size = New System.Drawing.Size(74, 13)
-        Me.ACTempLabel.TabIndex = 24
-        Me.ACTempLabel.Text = "AC temerature"
-        '
-        'ACTemp
-        '
-        Me.ACTemp.Enabled = False
-        Me.ACTemp.Location = New System.Drawing.Point(180, 45)
-        Me.ACTemp.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
-        Me.ACTemp.Minimum = New Decimal(New Integer() {16, 0, 0, 0})
-        Me.ACTemp.Name = "ACTemp"
-        Me.ACTemp.Size = New System.Drawing.Size(50, 20)
-        Me.ACTemp.TabIndex = 1
-        Me.ACTemp.Value = New Decimal(New Integer() {25, 0, 0, 0})
-        '
-        'ACModes
-        '
-        Me.ACModes.Controls.Add(Me.ACFanMode)
-        Me.ACModes.Controls.Add(Me.ACDryMode)
-        Me.ACModes.Controls.Add(Me.ACCoolMode)
-        Me.ACModes.Location = New System.Drawing.Point(28, 28)
-        Me.ACModes.Name = "ACModes"
-        Me.ACModes.Size = New System.Drawing.Size(102, 129)
-        Me.ACModes.TabIndex = 0
-        Me.ACModes.TabStop = False
-        Me.ACModes.Text = "Cooling modes"
-        '
-        'ACFanMode
-        '
-        Me.ACFanMode.AutoSize = True
-        Me.ACFanMode.Location = New System.Drawing.Point(14, 94)
-        Me.ACFanMode.Name = "ACFanMode"
-        Me.ACFanMode.Size = New System.Drawing.Size(43, 17)
-        Me.ACFanMode.TabIndex = 2
-        Me.ACFanMode.Text = "Fan"
-        Me.ACFanMode.UseVisualStyleBackColor = True
-        '
-        'ACDryMode
-        '
-        Me.ACDryMode.AutoSize = True
-        Me.ACDryMode.Location = New System.Drawing.Point(14, 61)
-        Me.ACDryMode.Name = "ACDryMode"
-        Me.ACDryMode.Size = New System.Drawing.Size(41, 17)
-        Me.ACDryMode.TabIndex = 1
-        Me.ACDryMode.Text = "Dry"
-        Me.ACDryMode.UseVisualStyleBackColor = True
-        '
-        'ACCoolMode
-        '
-        Me.ACCoolMode.AutoSize = True
-        Me.ACCoolMode.Location = New System.Drawing.Point(14, 28)
-        Me.ACCoolMode.Name = "ACCoolMode"
-        Me.ACCoolMode.Size = New System.Drawing.Size(46, 17)
-        Me.ACCoolMode.TabIndex = 0
-        Me.ACCoolMode.Text = "Cool"
-        Me.ACCoolMode.UseVisualStyleBackColor = True
         '
         'SpeakerButtons
         '
@@ -1162,7 +1122,7 @@ Partial Class homeCtrl
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton14)
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton13)
         Me.SpeakerButtons.Controls.Add(Me.SpeakerButton01)
-        Me.SpeakerButtons.Location = New System.Drawing.Point(664, 60)
+        Me.SpeakerButtons.Location = New System.Drawing.Point(935, 78)
         Me.SpeakerButtons.Name = "SpeakerButtons"
         Me.SpeakerButtons.Size = New System.Drawing.Size(519, 607)
         Me.SpeakerButtons.TabIndex = 21
@@ -2139,19 +2099,19 @@ Partial Class homeCtrl
         Me.TestAlarm.Text = "Test"
         Me.TestAlarm.UseVisualStyleBackColor = False
         '
-        'TabPage1
+        'Climate
         '
-        Me.TabPage1.Controls.Add(Me.LoadSensorData)
-        Me.TabPage1.Controls.Add(Me.SensorDateTime)
-        Me.TabPage1.Controls.Add(Me.PressureData)
-        Me.TabPage1.Controls.Add(Me.HumidityData)
-        Me.TabPage1.Controls.Add(Me.TemperatureData)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(1872, 777)
-        Me.TabPage1.TabIndex = 5
-        Me.TabPage1.Text = "Climate"
-        Me.TabPage1.UseVisualStyleBackColor = True
+        Me.Climate.Controls.Add(Me.LoadSensorData)
+        Me.Climate.Controls.Add(Me.SensorDateTime)
+        Me.Climate.Controls.Add(Me.PressureData)
+        Me.Climate.Controls.Add(Me.HumidityData)
+        Me.Climate.Controls.Add(Me.TemperatureData)
+        Me.Climate.Location = New System.Drawing.Point(4, 22)
+        Me.Climate.Name = "Climate"
+        Me.Climate.Size = New System.Drawing.Size(1872, 777)
+        Me.Climate.TabIndex = 5
+        Me.Climate.Text = "Climate"
+        Me.Climate.UseVisualStyleBackColor = True
         '
         'LoadSensorData
         '
@@ -2173,56 +2133,757 @@ Partial Class homeCtrl
         '
         'PressureData
         '
-        ChartArea6.Name = "ChartArea1"
-        Me.PressureData.ChartAreas.Add(ChartArea6)
-        Legend6.Name = "Legend1"
-        Me.PressureData.Legends.Add(Legend6)
+        ChartArea10.Name = "ChartArea1"
+        Me.PressureData.ChartAreas.Add(ChartArea10)
+        Legend10.Name = "Legend1"
+        Me.PressureData.Legends.Add(Legend10)
         Me.PressureData.Location = New System.Drawing.Point(969, 12)
         Me.PressureData.Name = "PressureData"
         Me.PressureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel
-        Series6.ChartArea = "ChartArea1"
-        Series6.Legend = "Legend1"
-        Series6.Name = "Air Pressure (Pa)"
-        Series6.YValuesPerPoint = 4
-        Me.PressureData.Series.Add(Series6)
+        Series10.ChartArea = "ChartArea1"
+        Series10.Legend = "Legend1"
+        Series10.Name = "Air Pressure (Pa)"
+        Series10.YValuesPerPoint = 4
+        Me.PressureData.Series.Add(Series10)
         Me.PressureData.Size = New System.Drawing.Size(900, 350)
         Me.PressureData.TabIndex = 36
         Me.PressureData.Text = "Pressure"
         '
         'HumidityData
         '
-        ChartArea7.Name = "ChartArea1"
-        Me.HumidityData.ChartAreas.Add(ChartArea7)
-        Legend7.Name = "Legend1"
-        Me.HumidityData.Legends.Add(Legend7)
+        ChartArea11.Name = "ChartArea1"
+        Me.HumidityData.ChartAreas.Add(ChartArea11)
+        Legend11.Name = "Legend1"
+        Me.HumidityData.Legends.Add(Legend11)
         Me.HumidityData.Location = New System.Drawing.Point(14, 414)
         Me.HumidityData.Name = "HumidityData"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Legend = "Legend1"
-        Series7.Name = "Humidity"
-        Series7.YValuesPerPoint = 4
-        Me.HumidityData.Series.Add(Series7)
+        Series11.ChartArea = "ChartArea1"
+        Series11.Legend = "Legend1"
+        Series11.Name = "Humidity"
+        Series11.YValuesPerPoint = 4
+        Me.HumidityData.Series.Add(Series11)
         Me.HumidityData.Size = New System.Drawing.Size(900, 350)
         Me.HumidityData.TabIndex = 35
         Me.HumidityData.Text = "Power Histogram"
         '
         'TemperatureData
         '
-        ChartArea8.Name = "ChartArea1"
-        Me.TemperatureData.ChartAreas.Add(ChartArea8)
-        Legend8.Name = "Legend1"
-        Me.TemperatureData.Legends.Add(Legend8)
+        ChartArea12.Name = "ChartArea1"
+        Me.TemperatureData.ChartAreas.Add(ChartArea12)
+        Legend12.Name = "Legend1"
+        Me.TemperatureData.Legends.Add(Legend12)
         Me.TemperatureData.Location = New System.Drawing.Point(14, 12)
         Me.TemperatureData.Name = "TemperatureData"
         Me.TemperatureData.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones
-        Series8.ChartArea = "ChartArea1"
-        Series8.Legend = "Legend1"
-        Series8.Name = "Temperature (^C)"
-        Series8.YValuesPerPoint = 4
-        Me.TemperatureData.Series.Add(Series8)
+        Series12.ChartArea = "ChartArea1"
+        Series12.Legend = "Legend1"
+        Series12.Name = "Temperature (^C)"
+        Series12.YValuesPerPoint = 4
+        Me.TemperatureData.Series.Add(Series12)
         Me.TemperatureData.Size = New System.Drawing.Size(900, 350)
         Me.TemperatureData.TabIndex = 34
         Me.TemperatureData.Text = "Temerature"
+        '
+        'ACTempTrackBars
+        '
+        Me.ACTempTrackBars.Controls.Add(Me.ACButtons)
+        Me.ACTempTrackBars.Location = New System.Drawing.Point(4, 22)
+        Me.ACTempTrackBars.Name = "ACTempTrackBars"
+        Me.ACTempTrackBars.Size = New System.Drawing.Size(1872, 777)
+        Me.ACTempTrackBars.TabIndex = 6
+        Me.ACTempTrackBars.Text = "AC"
+        Me.ACTempTrackBars.UseVisualStyleBackColor = True
+        '
+        'ACButtons
+        '
+        Me.ACButtons.Controls.Add(Me.ACTemperatureGrp)
+        Me.ACButtons.Controls.Add(Me.ACAdjustment)
+        Me.ACButtons.Controls.Add(Me.ACSwing)
+        Me.ACButtons.Controls.Add(Me.ACFanSpeedLabel)
+        Me.ACButtons.Controls.Add(Me.ACFanSpeed)
+        Me.ACButtons.Controls.Add(Me.ACOnOff)
+        Me.ACButtons.Controls.Add(Me.ACTempLabel)
+        Me.ACButtons.Controls.Add(Me.ACTemp)
+        Me.ACButtons.Controls.Add(Me.ACModes)
+        Me.ACButtons.Location = New System.Drawing.Point(69, 63)
+        Me.ACButtons.Name = "ACButtons"
+        Me.ACButtons.Size = New System.Drawing.Size(996, 536)
+        Me.ACButtons.TabIndex = 23
+        Me.ACButtons.TabStop = False
+        '
+        'ACTemperatureGrp
+        '
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp23hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp20hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp22hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp19hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp23hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp20hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp22hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp19hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp21hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp18hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp21hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp18hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp17hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp16hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp17hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp16hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp15hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp15hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp14hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp13hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp14hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp13hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp12hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp12hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp11hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp10hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp11hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp10hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp09hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp09hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp08hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp08hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp07hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp07hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp06hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp06hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp05hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp05hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp04hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp04hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp03hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp03hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp02hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp02hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp01hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp01hr)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp00hrLabel)
+        Me.ACTemperatureGrp.Controls.Add(Me.Temp00hr)
+        Me.ACTemperatureGrp.Location = New System.Drawing.Point(12, 252)
+        Me.ACTemperatureGrp.Name = "ACTemperatureGrp"
+        Me.ACTemperatureGrp.Size = New System.Drawing.Size(971, 270)
+        Me.ACTemperatureGrp.TabIndex = 72
+        Me.ACTemperatureGrp.TabStop = False
+        '
+        'Temp23hr
+        '
+        Me.Temp23hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp23hr.Location = New System.Drawing.Point(925, 10)
+        Me.Temp23hr.Maximum = 32
+        Me.Temp23hr.Minimum = 22
+        Me.Temp23hr.Name = "Temp23hr"
+        Me.Temp23hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp23hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp23hr.TabIndex = 58
+        Me.Temp23hr.Value = 28
+        '
+        'Temp20hr
+        '
+        Me.Temp20hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp20hr.Location = New System.Drawing.Point(805, 10)
+        Me.Temp20hr.Maximum = 32
+        Me.Temp20hr.Minimum = 22
+        Me.Temp20hr.Name = "Temp20hr"
+        Me.Temp20hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp20hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp20hr.TabIndex = 70
+        Me.Temp20hr.Value = 28
+        '
+        'Temp22hr
+        '
+        Me.Temp22hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp22hr.Location = New System.Drawing.Point(885, 10)
+        Me.Temp22hr.Maximum = 32
+        Me.Temp22hr.Minimum = 22
+        Me.Temp22hr.Name = "Temp22hr"
+        Me.Temp22hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp22hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp22hr.TabIndex = 57
+        Me.Temp22hr.Value = 28
+        '
+        'Temp19hr
+        '
+        Me.Temp19hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp19hr.Location = New System.Drawing.Point(765, 10)
+        Me.Temp19hr.Maximum = 32
+        Me.Temp19hr.Minimum = 22
+        Me.Temp19hr.Name = "Temp19hr"
+        Me.Temp19hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp19hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp19hr.TabIndex = 69
+        Me.Temp19hr.Value = 28
+        '
+        'Temp23hrLabel
+        '
+        Me.Temp23hrLabel.AutoSize = True
+        Me.Temp23hrLabel.Location = New System.Drawing.Point(925, 233)
+        Me.Temp23hrLabel.Name = "Temp23hrLabel"
+        Me.Temp23hrLabel.Size = New System.Drawing.Size(42, 26)
+        Me.Temp23hrLabel.TabIndex = 56
+        Me.Temp23hrLabel.Text = "11 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp20hrLabel
+        '
+        Me.Temp20hrLabel.AutoSize = True
+        Me.Temp20hrLabel.Location = New System.Drawing.Point(805, 233)
+        Me.Temp20hrLabel.Name = "Temp20hrLabel"
+        Me.Temp20hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp20hrLabel.TabIndex = 68
+        Me.Temp20hrLabel.Text = "8 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp22hrLabel
+        '
+        Me.Temp22hrLabel.AutoSize = True
+        Me.Temp22hrLabel.Location = New System.Drawing.Point(885, 233)
+        Me.Temp22hrLabel.Name = "Temp22hrLabel"
+        Me.Temp22hrLabel.Size = New System.Drawing.Size(42, 26)
+        Me.Temp22hrLabel.TabIndex = 55
+        Me.Temp22hrLabel.Text = "10 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp19hrLabel
+        '
+        Me.Temp19hrLabel.AutoSize = True
+        Me.Temp19hrLabel.Location = New System.Drawing.Point(765, 233)
+        Me.Temp19hrLabel.Name = "Temp19hrLabel"
+        Me.Temp19hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp19hrLabel.TabIndex = 67
+        Me.Temp19hrLabel.Text = "7 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp21hrLabel
+        '
+        Me.Temp21hrLabel.AutoSize = True
+        Me.Temp21hrLabel.Location = New System.Drawing.Point(845, 233)
+        Me.Temp21hrLabel.Name = "Temp21hrLabel"
+        Me.Temp21hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp21hrLabel.TabIndex = 54
+        Me.Temp21hrLabel.Text = "9 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp18hrLabel
+        '
+        Me.Temp18hrLabel.AutoSize = True
+        Me.Temp18hrLabel.Location = New System.Drawing.Point(725, 233)
+        Me.Temp18hrLabel.Name = "Temp18hrLabel"
+        Me.Temp18hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp18hrLabel.TabIndex = 66
+        Me.Temp18hrLabel.Text = "6 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp21hr
+        '
+        Me.Temp21hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp21hr.Location = New System.Drawing.Point(845, 10)
+        Me.Temp21hr.Maximum = 32
+        Me.Temp21hr.Minimum = 22
+        Me.Temp21hr.Name = "Temp21hr"
+        Me.Temp21hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp21hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp21hr.TabIndex = 53
+        Me.Temp21hr.Value = 28
+        '
+        'Temp18hr
+        '
+        Me.Temp18hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp18hr.Location = New System.Drawing.Point(725, 10)
+        Me.Temp18hr.Maximum = 32
+        Me.Temp18hr.Minimum = 22
+        Me.Temp18hr.Name = "Temp18hr"
+        Me.Temp18hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp18hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp18hr.TabIndex = 65
+        Me.Temp18hr.Value = 28
+        '
+        'Temp17hr
+        '
+        Me.Temp17hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp17hr.Location = New System.Drawing.Point(685, 10)
+        Me.Temp17hr.Maximum = 32
+        Me.Temp17hr.Minimum = 22
+        Me.Temp17hr.Name = "Temp17hr"
+        Me.Temp17hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp17hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp17hr.TabIndex = 64
+        Me.Temp17hr.Value = 28
+        '
+        'Temp16hr
+        '
+        Me.Temp16hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp16hr.Location = New System.Drawing.Point(645, 10)
+        Me.Temp16hr.Maximum = 32
+        Me.Temp16hr.Minimum = 22
+        Me.Temp16hr.Name = "Temp16hr"
+        Me.Temp16hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp16hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp16hr.TabIndex = 63
+        Me.Temp16hr.Value = 28
+        '
+        'Temp17hrLabel
+        '
+        Me.Temp17hrLabel.AutoSize = True
+        Me.Temp17hrLabel.Location = New System.Drawing.Point(685, 233)
+        Me.Temp17hrLabel.Name = "Temp17hrLabel"
+        Me.Temp17hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp17hrLabel.TabIndex = 62
+        Me.Temp17hrLabel.Text = "5 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp16hrLabel
+        '
+        Me.Temp16hrLabel.AutoSize = True
+        Me.Temp16hrLabel.Location = New System.Drawing.Point(645, 233)
+        Me.Temp16hrLabel.Name = "Temp16hrLabel"
+        Me.Temp16hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp16hrLabel.TabIndex = 61
+        Me.Temp16hrLabel.Text = "4 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp15hrLabel
+        '
+        Me.Temp15hrLabel.AutoSize = True
+        Me.Temp15hrLabel.Location = New System.Drawing.Point(605, 233)
+        Me.Temp15hrLabel.Name = "Temp15hrLabel"
+        Me.Temp15hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp15hrLabel.TabIndex = 60
+        Me.Temp15hrLabel.Text = "3 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp15hr
+        '
+        Me.Temp15hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp15hr.Location = New System.Drawing.Point(605, 10)
+        Me.Temp15hr.Maximum = 32
+        Me.Temp15hr.Minimum = 22
+        Me.Temp15hr.Name = "Temp15hr"
+        Me.Temp15hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp15hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp15hr.TabIndex = 59
+        Me.Temp15hr.Value = 28
+        '
+        'Temp14hr
+        '
+        Me.Temp14hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp14hr.Location = New System.Drawing.Point(565, 10)
+        Me.Temp14hr.Maximum = 32
+        Me.Temp14hr.Minimum = 22
+        Me.Temp14hr.Name = "Temp14hr"
+        Me.Temp14hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp14hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp14hr.TabIndex = 58
+        Me.Temp14hr.Value = 28
+        '
+        'Temp13hr
+        '
+        Me.Temp13hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp13hr.Location = New System.Drawing.Point(525, 10)
+        Me.Temp13hr.Maximum = 32
+        Me.Temp13hr.Minimum = 22
+        Me.Temp13hr.Name = "Temp13hr"
+        Me.Temp13hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp13hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp13hr.TabIndex = 57
+        Me.Temp13hr.Value = 28
+        '
+        'Temp14hrLabel
+        '
+        Me.Temp14hrLabel.AutoSize = True
+        Me.Temp14hrLabel.Location = New System.Drawing.Point(565, 233)
+        Me.Temp14hrLabel.Name = "Temp14hrLabel"
+        Me.Temp14hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp14hrLabel.TabIndex = 56
+        Me.Temp14hrLabel.Text = "2 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp13hrLabel
+        '
+        Me.Temp13hrLabel.AutoSize = True
+        Me.Temp13hrLabel.Location = New System.Drawing.Point(525, 233)
+        Me.Temp13hrLabel.Name = "Temp13hrLabel"
+        Me.Temp13hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp13hrLabel.TabIndex = 55
+        Me.Temp13hrLabel.Text = "1 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp12hrLabel
+        '
+        Me.Temp12hrLabel.AutoSize = True
+        Me.Temp12hrLabel.Location = New System.Drawing.Point(485, 233)
+        Me.Temp12hrLabel.Name = "Temp12hrLabel"
+        Me.Temp12hrLabel.Size = New System.Drawing.Size(42, 26)
+        Me.Temp12hrLabel.TabIndex = 54
+        Me.Temp12hrLabel.Text = "12 pm :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp12hr
+        '
+        Me.Temp12hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp12hr.Location = New System.Drawing.Point(485, 10)
+        Me.Temp12hr.Maximum = 32
+        Me.Temp12hr.Minimum = 22
+        Me.Temp12hr.Name = "Temp12hr"
+        Me.Temp12hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp12hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp12hr.TabIndex = 53
+        Me.Temp12hr.Value = 28
+        '
+        'Temp11hr
+        '
+        Me.Temp11hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp11hr.Location = New System.Drawing.Point(445, 10)
+        Me.Temp11hr.Maximum = 32
+        Me.Temp11hr.Minimum = 22
+        Me.Temp11hr.Name = "Temp11hr"
+        Me.Temp11hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp11hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp11hr.TabIndex = 52
+        Me.Temp11hr.Value = 28
+        '
+        'Temp10hr
+        '
+        Me.Temp10hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp10hr.Location = New System.Drawing.Point(405, 10)
+        Me.Temp10hr.Maximum = 32
+        Me.Temp10hr.Minimum = 22
+        Me.Temp10hr.Name = "Temp10hr"
+        Me.Temp10hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp10hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp10hr.TabIndex = 51
+        Me.Temp10hr.Value = 28
+        '
+        'Temp11hrLabel
+        '
+        Me.Temp11hrLabel.AutoSize = True
+        Me.Temp11hrLabel.Location = New System.Drawing.Point(445, 233)
+        Me.Temp11hrLabel.Name = "Temp11hrLabel"
+        Me.Temp11hrLabel.Size = New System.Drawing.Size(42, 26)
+        Me.Temp11hrLabel.TabIndex = 50
+        Me.Temp11hrLabel.Text = "11 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp10hrLabel
+        '
+        Me.Temp10hrLabel.AutoSize = True
+        Me.Temp10hrLabel.Location = New System.Drawing.Point(405, 233)
+        Me.Temp10hrLabel.Name = "Temp10hrLabel"
+        Me.Temp10hrLabel.Size = New System.Drawing.Size(42, 26)
+        Me.Temp10hrLabel.TabIndex = 49
+        Me.Temp10hrLabel.Text = "10 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp09hrLabel
+        '
+        Me.Temp09hrLabel.AutoSize = True
+        Me.Temp09hrLabel.Location = New System.Drawing.Point(365, 233)
+        Me.Temp09hrLabel.Name = "Temp09hrLabel"
+        Me.Temp09hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp09hrLabel.TabIndex = 48
+        Me.Temp09hrLabel.Text = "9 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp09hr
+        '
+        Me.Temp09hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp09hr.Location = New System.Drawing.Point(365, 10)
+        Me.Temp09hr.Maximum = 32
+        Me.Temp09hr.Minimum = 22
+        Me.Temp09hr.Name = "Temp09hr"
+        Me.Temp09hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp09hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp09hr.TabIndex = 47
+        Me.Temp09hr.Value = 28
+        '
+        'Temp08hrLabel
+        '
+        Me.Temp08hrLabel.AutoSize = True
+        Me.Temp08hrLabel.Location = New System.Drawing.Point(325, 233)
+        Me.Temp08hrLabel.Name = "Temp08hrLabel"
+        Me.Temp08hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp08hrLabel.TabIndex = 46
+        Me.Temp08hrLabel.Text = "8 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp08hr
+        '
+        Me.Temp08hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp08hr.Location = New System.Drawing.Point(325, 10)
+        Me.Temp08hr.Maximum = 32
+        Me.Temp08hr.Minimum = 22
+        Me.Temp08hr.Name = "Temp08hr"
+        Me.Temp08hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp08hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp08hr.TabIndex = 45
+        Me.Temp08hr.Value = 28
+        '
+        'Temp07hrLabel
+        '
+        Me.Temp07hrLabel.AutoSize = True
+        Me.Temp07hrLabel.Location = New System.Drawing.Point(285, 233)
+        Me.Temp07hrLabel.Name = "Temp07hrLabel"
+        Me.Temp07hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp07hrLabel.TabIndex = 44
+        Me.Temp07hrLabel.Text = "7 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp07hr
+        '
+        Me.Temp07hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp07hr.Location = New System.Drawing.Point(285, 10)
+        Me.Temp07hr.Maximum = 32
+        Me.Temp07hr.Minimum = 22
+        Me.Temp07hr.Name = "Temp07hr"
+        Me.Temp07hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp07hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp07hr.TabIndex = 43
+        Me.Temp07hr.Value = 28
+        '
+        'Temp06hrLabel
+        '
+        Me.Temp06hrLabel.AutoSize = True
+        Me.Temp06hrLabel.Location = New System.Drawing.Point(245, 233)
+        Me.Temp06hrLabel.Name = "Temp06hrLabel"
+        Me.Temp06hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp06hrLabel.TabIndex = 42
+        Me.Temp06hrLabel.Text = "6 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp06hr
+        '
+        Me.Temp06hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp06hr.Location = New System.Drawing.Point(245, 10)
+        Me.Temp06hr.Maximum = 32
+        Me.Temp06hr.Minimum = 22
+        Me.Temp06hr.Name = "Temp06hr"
+        Me.Temp06hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp06hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp06hr.TabIndex = 41
+        Me.Temp06hr.Value = 28
+        '
+        'Temp05hrLabel
+        '
+        Me.Temp05hrLabel.AutoSize = True
+        Me.Temp05hrLabel.Location = New System.Drawing.Point(205, 233)
+        Me.Temp05hrLabel.Name = "Temp05hrLabel"
+        Me.Temp05hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp05hrLabel.TabIndex = 40
+        Me.Temp05hrLabel.Text = "5 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp05hr
+        '
+        Me.Temp05hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp05hr.Location = New System.Drawing.Point(205, 10)
+        Me.Temp05hr.Maximum = 32
+        Me.Temp05hr.Minimum = 22
+        Me.Temp05hr.Name = "Temp05hr"
+        Me.Temp05hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp05hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp05hr.TabIndex = 39
+        Me.Temp05hr.Value = 28
+        '
+        'Temp04hrLabel
+        '
+        Me.Temp04hrLabel.AutoSize = True
+        Me.Temp04hrLabel.Location = New System.Drawing.Point(165, 233)
+        Me.Temp04hrLabel.Name = "Temp04hrLabel"
+        Me.Temp04hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp04hrLabel.TabIndex = 38
+        Me.Temp04hrLabel.Text = "4 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp04hr
+        '
+        Me.Temp04hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp04hr.Location = New System.Drawing.Point(165, 10)
+        Me.Temp04hr.Maximum = 32
+        Me.Temp04hr.Minimum = 22
+        Me.Temp04hr.Name = "Temp04hr"
+        Me.Temp04hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp04hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp04hr.TabIndex = 37
+        Me.Temp04hr.Value = 28
+        '
+        'Temp03hrLabel
+        '
+        Me.Temp03hrLabel.AutoSize = True
+        Me.Temp03hrLabel.Location = New System.Drawing.Point(125, 233)
+        Me.Temp03hrLabel.Name = "Temp03hrLabel"
+        Me.Temp03hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp03hrLabel.TabIndex = 36
+        Me.Temp03hrLabel.Text = "3 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp03hr
+        '
+        Me.Temp03hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp03hr.Location = New System.Drawing.Point(125, 10)
+        Me.Temp03hr.Maximum = 32
+        Me.Temp03hr.Minimum = 22
+        Me.Temp03hr.Name = "Temp03hr"
+        Me.Temp03hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp03hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp03hr.TabIndex = 35
+        Me.Temp03hr.Value = 28
+        '
+        'Temp02hrLabel
+        '
+        Me.Temp02hrLabel.AutoSize = True
+        Me.Temp02hrLabel.Location = New System.Drawing.Point(85, 233)
+        Me.Temp02hrLabel.Name = "Temp02hrLabel"
+        Me.Temp02hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp02hrLabel.TabIndex = 34
+        Me.Temp02hrLabel.Text = "2 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp02hr
+        '
+        Me.Temp02hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp02hr.Location = New System.Drawing.Point(85, 10)
+        Me.Temp02hr.Maximum = 32
+        Me.Temp02hr.Minimum = 22
+        Me.Temp02hr.Name = "Temp02hr"
+        Me.Temp02hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp02hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp02hr.TabIndex = 33
+        Me.Temp02hr.Value = 28
+        '
+        'Temp01hrLabel
+        '
+        Me.Temp01hrLabel.AutoSize = True
+        Me.Temp01hrLabel.Location = New System.Drawing.Point(45, 233)
+        Me.Temp01hrLabel.Name = "Temp01hrLabel"
+        Me.Temp01hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp01hrLabel.TabIndex = 32
+        Me.Temp01hrLabel.Text = "1 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp01hr
+        '
+        Me.Temp01hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp01hr.Location = New System.Drawing.Point(45, 10)
+        Me.Temp01hr.Maximum = 32
+        Me.Temp01hr.Minimum = 22
+        Me.Temp01hr.Name = "Temp01hr"
+        Me.Temp01hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp01hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp01hr.TabIndex = 31
+        Me.Temp01hr.Value = 28
+        '
+        'Temp00hrLabel
+        '
+        Me.Temp00hrLabel.AutoSize = True
+        Me.Temp00hrLabel.Location = New System.Drawing.Point(5, 233)
+        Me.Temp00hrLabel.Name = "Temp00hrLabel"
+        Me.Temp00hrLabel.Size = New System.Drawing.Size(36, 26)
+        Me.Temp00hrLabel.TabIndex = 30
+        Me.Temp00hrLabel.Text = "0 am :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "28 ^C"
+        '
+        'Temp00hr
+        '
+        Me.Temp00hr.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Temp00hr.Location = New System.Drawing.Point(5, 10)
+        Me.Temp00hr.Maximum = 32
+        Me.Temp00hr.Minimum = 22
+        Me.Temp00hr.Name = "Temp00hr"
+        Me.Temp00hr.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.Temp00hr.Size = New System.Drawing.Size(45, 207)
+        Me.Temp00hr.TabIndex = 24
+        Me.Temp00hr.Value = 28
+        '
+        'ACAdjustment
+        '
+        Me.ACAdjustment.AutoSize = True
+        Me.ACAdjustment.Location = New System.Drawing.Point(781, 217)
+        Me.ACAdjustment.Name = "ACAdjustment"
+        Me.ACAdjustment.Size = New System.Drawing.Size(191, 17)
+        Me.ACAdjustment.TabIndex = 71
+        Me.ACAdjustment.Text = "Disable AC temperature adjustment"
+        Me.ACAdjustment.UseVisualStyleBackColor = True
+        '
+        'ACSwing
+        '
+        Me.ACSwing.AutoSize = True
+        Me.ACSwing.Location = New System.Drawing.Point(533, 85)
+        Me.ACSwing.Name = "ACSwing"
+        Me.ACSwing.Size = New System.Drawing.Size(55, 17)
+        Me.ACSwing.TabIndex = 29
+        Me.ACSwing.Text = "Swing"
+        Me.ACSwing.UseVisualStyleBackColor = True
+        '
+        'ACFanSpeedLabel
+        '
+        Me.ACFanSpeedLabel.AutoSize = True
+        Me.ACFanSpeedLabel.Location = New System.Drawing.Point(367, 69)
+        Me.ACFanSpeedLabel.Name = "ACFanSpeedLabel"
+        Me.ACFanSpeedLabel.Size = New System.Drawing.Size(74, 13)
+        Me.ACFanSpeedLabel.TabIndex = 27
+        Me.ACFanSpeedLabel.Text = "AC Fan speed"
+        '
+        'ACFanSpeed
+        '
+        Me.ACFanSpeed.Enabled = False
+        Me.ACFanSpeed.Location = New System.Drawing.Point(370, 88)
+        Me.ACFanSpeed.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.ACFanSpeed.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ACFanSpeed.Name = "ACFanSpeed"
+        Me.ACFanSpeed.Size = New System.Drawing.Size(39, 20)
+        Me.ACFanSpeed.TabIndex = 26
+        Me.ACFanSpeed.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'ACOnOff
+        '
+        Me.ACOnOff.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.ACOnOff.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ACOnOff.ForeColor = System.Drawing.Color.Black
+        Me.ACOnOff.Location = New System.Drawing.Point(933, 19)
+        Me.ACOnOff.Name = "ACOnOff"
+        Me.ACOnOff.Size = New System.Drawing.Size(50, 38)
+        Me.ACOnOff.TabIndex = 25
+        Me.ACOnOff.Text = "Power"
+        Me.ACOnOff.UseVisualStyleBackColor = False
+        '
+        'ACTempLabel
+        '
+        Me.ACTempLabel.AutoSize = True
+        Me.ACTempLabel.Location = New System.Drawing.Point(194, 69)
+        Me.ACTempLabel.Name = "ACTempLabel"
+        Me.ACTempLabel.Size = New System.Drawing.Size(74, 13)
+        Me.ACTempLabel.TabIndex = 24
+        Me.ACTempLabel.Text = "AC temerature"
+        '
+        'ACTemp
+        '
+        Me.ACTemp.Enabled = False
+        Me.ACTemp.Location = New System.Drawing.Point(197, 85)
+        Me.ACTemp.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.ACTemp.Minimum = New Decimal(New Integer() {16, 0, 0, 0})
+        Me.ACTemp.Name = "ACTemp"
+        Me.ACTemp.Size = New System.Drawing.Size(50, 20)
+        Me.ACTemp.TabIndex = 1
+        Me.ACTemp.Value = New Decimal(New Integer() {25, 0, 0, 0})
+        '
+        'ACModes
+        '
+        Me.ACModes.Controls.Add(Me.ACFanMode)
+        Me.ACModes.Controls.Add(Me.ACDryMode)
+        Me.ACModes.Controls.Add(Me.ACCoolMode)
+        Me.ACModes.Location = New System.Drawing.Point(28, 28)
+        Me.ACModes.Name = "ACModes"
+        Me.ACModes.Size = New System.Drawing.Size(102, 129)
+        Me.ACModes.TabIndex = 0
+        Me.ACModes.TabStop = False
+        Me.ACModes.Text = "Cooling modes"
+        '
+        'ACFanMode
+        '
+        Me.ACFanMode.AutoSize = True
+        Me.ACFanMode.Location = New System.Drawing.Point(14, 94)
+        Me.ACFanMode.Name = "ACFanMode"
+        Me.ACFanMode.Size = New System.Drawing.Size(43, 17)
+        Me.ACFanMode.TabIndex = 2
+        Me.ACFanMode.Text = "Fan"
+        Me.ACFanMode.UseVisualStyleBackColor = True
+        '
+        'ACDryMode
+        '
+        Me.ACDryMode.AutoSize = True
+        Me.ACDryMode.Location = New System.Drawing.Point(14, 61)
+        Me.ACDryMode.Name = "ACDryMode"
+        Me.ACDryMode.Size = New System.Drawing.Size(41, 17)
+        Me.ACDryMode.TabIndex = 1
+        Me.ACDryMode.Text = "Dry"
+        Me.ACDryMode.UseVisualStyleBackColor = True
+        '
+        'ACCoolMode
+        '
+        Me.ACCoolMode.AutoSize = True
+        Me.ACCoolMode.Location = New System.Drawing.Point(14, 28)
+        Me.ACCoolMode.Name = "ACCoolMode"
+        Me.ACCoolMode.Size = New System.Drawing.Size(46, 17)
+        Me.ACCoolMode.TabIndex = 0
+        Me.ACCoolMode.Text = "Cool"
+        Me.ACCoolMode.UseVisualStyleBackColor = True
         '
         'MotionDetectTimer
         '
@@ -2310,27 +2971,27 @@ Partial Class homeCtrl
         Me.ConnectCheck.Text = "All"
         Me.ConnectCheck.UseVisualStyleBackColor = True
         '
-        'Alcohol
+        'AlcoholDisplay
         '
-        Me.Alcohol.AutoSize = True
-        Me.Alcohol.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Alcohol.Location = New System.Drawing.Point(587, 9)
-        Me.Alcohol.Name = "Alcohol"
-        Me.Alcohol.Padding = New System.Windows.Forms.Padding(10)
-        Me.Alcohol.Size = New System.Drawing.Size(68, 33)
-        Me.Alcohol.TabIndex = 34
-        Me.Alcohol.Text = "Alcohol :"
+        Me.AlcoholDisplay.AutoSize = True
+        Me.AlcoholDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.AlcoholDisplay.Location = New System.Drawing.Point(587, 9)
+        Me.AlcoholDisplay.Name = "AlcoholDisplay"
+        Me.AlcoholDisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.AlcoholDisplay.Size = New System.Drawing.Size(68, 33)
+        Me.AlcoholDisplay.TabIndex = 34
+        Me.AlcoholDisplay.Text = "Alcohol :"
         '
-        'CO
+        'CODisplay
         '
-        Me.CO.AutoSize = True
-        Me.CO.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.CO.Location = New System.Drawing.Point(729, 9)
-        Me.CO.Name = "CO"
-        Me.CO.Padding = New System.Windows.Forms.Padding(10)
-        Me.CO.Size = New System.Drawing.Size(48, 33)
-        Me.CO.TabIndex = 35
-        Me.CO.Text = "CO :"
+        Me.CODisplay.AutoSize = True
+        Me.CODisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.CODisplay.Location = New System.Drawing.Point(729, 9)
+        Me.CODisplay.Name = "CODisplay"
+        Me.CODisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.CODisplay.Size = New System.Drawing.Size(48, 33)
+        Me.CODisplay.TabIndex = 35
+        Me.CODisplay.Text = "CO :"
         '
         'RealTime
         '
@@ -2357,16 +3018,16 @@ Partial Class homeCtrl
         '
         Me.MusicFileBrowse.FileName = "OpenFileDialog1"
         '
-        'Smoke
+        'SmokeDisplay
         '
-        Me.Smoke.AutoSize = True
-        Me.Smoke.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Smoke.Location = New System.Drawing.Point(846, 9)
-        Me.Smoke.Name = "Smoke"
-        Me.Smoke.Padding = New System.Windows.Forms.Padding(10)
-        Me.Smoke.Size = New System.Drawing.Size(66, 33)
-        Me.Smoke.TabIndex = 40
-        Me.Smoke.Text = "Smoke :"
+        Me.SmokeDisplay.AutoSize = True
+        Me.SmokeDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.SmokeDisplay.Location = New System.Drawing.Point(846, 9)
+        Me.SmokeDisplay.Name = "SmokeDisplay"
+        Me.SmokeDisplay.Padding = New System.Windows.Forms.Padding(10)
+        Me.SmokeDisplay.Size = New System.Drawing.Size(66, 33)
+        Me.SmokeDisplay.TabIndex = 40
+        Me.SmokeDisplay.Text = "Smoke :"
         '
         'ControlRefreshTimer
         '
@@ -2388,6 +3049,16 @@ Partial Class homeCtrl
         Me.Label1.TabIndex = 44
         Me.Label1.Text = "RPI2" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "RPI3" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "RPI32"
         '
+        'Timer1secDelay
+        '
+        Me.Timer1secDelay.Enabled = True
+        Me.Timer1secDelay.Interval = 1000
+        '
+        'TimerACAdjust
+        '
+        Me.TimerACAdjust.Enabled = True
+        Me.TimerACAdjust.Interval = 30000
+        '
         'homeCtrl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2398,20 +3069,20 @@ Partial Class homeCtrl
         Me.Controls.Add(Me.Connection2)
         Me.Controls.Add(Me.Connection1)
         Me.Controls.Add(Me.Connection0)
-        Me.Controls.Add(Me.Smoke)
+        Me.Controls.Add(Me.SmokeDisplay)
         Me.Controls.Add(Me.RealTime)
-        Me.Controls.Add(Me.CO)
-        Me.Controls.Add(Me.Alcohol)
+        Me.Controls.Add(Me.CODisplay)
+        Me.Controls.Add(Me.AlcoholDisplay)
         Me.Controls.Add(Me.ConnectCheck)
         Me.Controls.Add(Me.StreamIdx)
         Me.Controls.Add(Me.StreamDebugIdx)
         Me.Controls.Add(Me.SpeechCheck)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.Toggleled)
-        Me.Controls.Add(Me.Pressure)
-        Me.Controls.Add(Me.Humidity)
+        Me.Controls.Add(Me.PressureDisplay)
+        Me.Controls.Add(Me.HumidityDisplay)
         Me.Controls.Add(Me.Fetch)
-        Me.Controls.Add(Me.Temperature)
+        Me.Controls.Add(Me.TemperatureDisplay)
         Me.Controls.Add(Me.Packet)
         Me.Controls.Add(Me.debugButton)
         Me.Controls.Add(Me.Connect)
@@ -2439,12 +3110,6 @@ Partial Class homeCtrl
         CType(Me.hr0, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.min0, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ir.ResumeLayout(False)
-        Me.ACButtons.ResumeLayout(False)
-        Me.ACButtons.PerformLayout()
-        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ACModes.ResumeLayout(False)
-        Me.ACModes.PerformLayout()
         Me.SpeakerButtons.ResumeLayout(False)
         Me.SpeakerButtons.PerformLayout()
         Me.SpeakerFolderButtons.ResumeLayout(False)
@@ -2460,10 +3125,43 @@ Partial Class homeCtrl
         CType(Me.MinAlarm, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        Me.TabPage1.ResumeLayout(False)
+        Me.Climate.ResumeLayout(False)
         CType(Me.PressureData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.HumidityData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TemperatureData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ACTempTrackBars.ResumeLayout(False)
+        Me.ACButtons.ResumeLayout(False)
+        Me.ACButtons.PerformLayout()
+        Me.ACTemperatureGrp.ResumeLayout(False)
+        Me.ACTemperatureGrp.PerformLayout()
+        CType(Me.Temp23hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp20hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp22hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp19hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp21hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp18hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp17hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp16hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp15hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp14hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp13hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp12hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp11hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp10hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp09hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp08hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp07hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp06hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp05hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp04hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp03hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp02hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp01hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Temp00hr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ACFanSpeed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ACTemp, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ACModes.ResumeLayout(False)
+        Me.ACModes.PerformLayout()
         CType(Me.StreamDebugIdx, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StreamIdx, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -2471,13 +3169,13 @@ Partial Class homeCtrl
 
     End Sub
     Friend WithEvents Fetch As Button
-    Friend WithEvents Temperature As Label
+    Friend WithEvents TemperatureDisplay As Label
     Friend WithEvents Packet As TextBox
     Friend WithEvents debugButton As Button
     Friend WithEvents Connect As Button
     Friend WithEvents TimerData As Timer
-    Friend WithEvents Pressure As Label
-    Friend WithEvents Humidity As Label
+    Friend WithEvents PressureDisplay As Label
+    Friend WithEvents HumidityDisplay As Label
     Friend WithEvents Toggleled As Button
     Friend WithEvents Tabs As TabControl
     Friend WithEvents settingsPage As TabPage
@@ -2528,8 +3226,8 @@ Partial Class homeCtrl
     Friend WithEvents ir As TabPage
     Friend WithEvents StreamIdx As NumericUpDown
     Friend WithEvents ConnectCheck As CheckBox
-    Friend WithEvents Alcohol As Label
-    Friend WithEvents CO As Label
+    Friend WithEvents AlcoholDisplay As Label
+    Friend WithEvents CODisplay As Label
     Friend WithEvents Alarm As TabPage
     Friend WithEvents MusicAlarmLabel As Label
     Friend WithEvents AlarmList As ListBox
@@ -2551,7 +3249,7 @@ Partial Class homeCtrl
     Friend WithEvents Timer500ms As Timer
     Friend WithEvents TimerAlarm As Timer
     Friend WithEvents MusicFileBrowse As OpenFileDialog
-    Friend WithEvents Smoke As Label
+    Friend WithEvents SmokeDisplay As Label
     Friend WithEvents DisableLED As Button
     Friend WithEvents LEDButtons As GroupBox
     Friend WithEvents LEDButton24 As Button
@@ -2595,7 +3293,7 @@ Partial Class homeCtrl
     Friend WithEvents SnoozeLabel As Label
     Friend WithEvents DisableLightSchedule As CheckBox
     Friend WithEvents ControlRefreshTimer As Timer
-    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents Climate As TabPage
     Friend WithEvents TemperatureData As DataVisualization.Charting.Chart
     Friend WithEvents ClimateTimer As Timer
     Friend WithEvents PressureData As DataVisualization.Charting.Chart
@@ -2659,4 +3357,57 @@ Partial Class homeCtrl
     Friend WithEvents SpeakerButton15 As RadioButton
     Friend WithEvents LoadApplianceData As Button
     Friend WithEvents ApplianceDateTime As DateTimePicker
+    Friend WithEvents Temp00hr As TrackBar
+    Friend WithEvents Temp00hrLabel As Label
+    Friend WithEvents Temp11hrLabel As Label
+    Friend WithEvents Temp10hrLabel As Label
+    Friend WithEvents Temp09hrLabel As Label
+    Friend WithEvents Temp09hr As TrackBar
+    Friend WithEvents Temp08hrLabel As Label
+    Friend WithEvents Temp08hr As TrackBar
+    Friend WithEvents Temp07hrLabel As Label
+    Friend WithEvents Temp07hr As TrackBar
+    Friend WithEvents Temp06hrLabel As Label
+    Friend WithEvents Temp06hr As TrackBar
+    Friend WithEvents Temp05hrLabel As Label
+    Friend WithEvents Temp05hr As TrackBar
+    Friend WithEvents Temp04hrLabel As Label
+    Friend WithEvents Temp04hr As TrackBar
+    Friend WithEvents Temp03hrLabel As Label
+    Friend WithEvents Temp03hr As TrackBar
+    Friend WithEvents Temp02hrLabel As Label
+    Friend WithEvents Temp02hr As TrackBar
+    Friend WithEvents Temp01hrLabel As Label
+    Friend WithEvents Temp01hr As TrackBar
+    Friend WithEvents Temp11hr As TrackBar
+    Friend WithEvents Temp10hr As TrackBar
+    Friend WithEvents ACTempTrackBars As TabPage
+    Friend WithEvents Temp23hr As TrackBar
+    Friend WithEvents Temp20hr As TrackBar
+    Friend WithEvents Temp22hr As TrackBar
+    Friend WithEvents Temp19hr As TrackBar
+    Friend WithEvents Temp23hrLabel As Label
+    Friend WithEvents Temp20hrLabel As Label
+    Friend WithEvents Temp22hrLabel As Label
+    Friend WithEvents Temp19hrLabel As Label
+    Friend WithEvents Temp21hrLabel As Label
+    Friend WithEvents Temp18hrLabel As Label
+    Friend WithEvents Temp21hr As TrackBar
+    Friend WithEvents Temp18hr As TrackBar
+    Friend WithEvents Temp17hr As TrackBar
+    Friend WithEvents Temp16hr As TrackBar
+    Friend WithEvents Temp17hrLabel As Label
+    Friend WithEvents Temp16hrLabel As Label
+    Friend WithEvents Temp15hrLabel As Label
+    Friend WithEvents Temp15hr As TrackBar
+    Friend WithEvents Temp14hr As TrackBar
+    Friend WithEvents Temp13hr As TrackBar
+    Friend WithEvents Temp14hrLabel As Label
+    Friend WithEvents Temp13hrLabel As Label
+    Friend WithEvents Temp12hrLabel As Label
+    Friend WithEvents Temp12hr As TrackBar
+    Friend WithEvents Timer1secDelay As Timer
+    Friend WithEvents TimerACAdjust As Timer
+    Friend WithEvents ACAdjustment As CheckBox
+    Friend WithEvents ACTemperatureGrp As GroupBox
 End Class

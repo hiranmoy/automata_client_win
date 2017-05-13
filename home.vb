@@ -616,6 +616,35 @@ Public Class homeCtrl
         MotionActDelayLabel.Text = "Motion Activation Delay : " + gMotionActDelay.ToString + " sec."
     End Sub
 
+    'ac temperature trackbars
+    Private Sub TrackBars_Scroll(sender As Object, e As EventArgs) Handles Temp00hr.Scroll, Temp01hr.Scroll, Temp02hr.Scroll, Temp03hr.Scroll, Temp04hr.Scroll, Temp05hr.Scroll, Temp06hr.Scroll, Temp07hr.Scroll,
+                                                                           Temp08hr.Scroll, Temp09hr.Scroll, Temp10hr.Scroll, Temp11hr.Scroll, Temp12hr.Scroll, Temp13hr.Scroll, Temp14hr.Scroll, Temp15hr.Scroll,
+                                                                           Temp16hr.Scroll, Temp17hr.Scroll, Temp18hr.Scroll, Temp19hr.Scroll, Temp20hr.Scroll, Temp21hr.Scroll, Temp22hr.Scroll, Temp23hr.Scroll
+        Dim acTempBar As TrackBar = DirectCast(sender, TrackBar)
+
+        'extract temperature
+        Dim trackBarIdx As String = acTempBar.Name
+        trackBarIdx = trackBarIdx.Substring(4, 2)
+
+        'get label from its name
+        Dim acTempLableText As String = "Temp" + trackBarIdx + "hrLabel"
+        Dim obj As Object = Me.Controls.Find(acTempLableText, True).FirstOrDefault()
+        Dim acLabel As Label = DirectCast(obj, Label)
+
+        Dim labelText = (CInt(trackBarIdx) Mod 12).ToString
+        If CInt(trackBarIdx) < 12 Then
+            labelText = labelText + " am"
+        Else
+            labelText = labelText + " pm"
+        End If
+        labelText = labelText + " : " + Environment.NewLine + acTempBar.Value.ToString + " ^C"
+
+        acLabel.Text = labelText
+
+        'update ac data
+        gTcpMgr.mAC.SaveTemperatures(acTempBar.Value, CInt(trackBarIdx))
+    End Sub
+
 
 
     'Checkboxes
@@ -708,6 +737,11 @@ Public Class homeCtrl
     'speaker num pad enable/disable
     Private Sub SpeakerNumPadCheck_CheckedChanged(sender As Object, e As EventArgs) Handles SpeakerNumPadCheck.CheckedChanged
         SpeakerNumPad.Enabled = SpeakerNumPadCheck.Checked
+    End Sub
+
+    'disable ac temperature adjustment
+    Private Sub ACAdjustment_CheckedChanged(sender As Object, e As EventArgs) Handles ACAdjustment.CheckedChanged
+        ACTemperatureGrp.Enabled = Not ACAdjustment.Checked
     End Sub
 
 
@@ -1027,8 +1061,8 @@ Public Class homeCtrl
         Dim curTemperature As Double = gTcpMgr.GetTemperature()
         If curTemperature > 0 Then
             Dim newText As String = "Temperature : " + curTemperature.ToString + " ^C"
-            If Temperature.Text <> newText Then
-                Temperature.Text = newText
+            If TemperatureDisplay.Text <> newText Then
+                TemperatureDisplay.Text = newText
                 UpdateTemperatureColor(curTemperature)
             End If
         End If
@@ -1036,8 +1070,8 @@ Public Class homeCtrl
         Dim curHumidity As Double = gTcpMgr.GetHumidity()
         If curHumidity > 0 Then
             Dim newText As String = "Humidity : " + curHumidity.ToString
-            If Humidity.Text <> newText Then
-                Humidity.Text = newText
+            If HumidityDisplay.Text <> newText Then
+                HumidityDisplay.Text = newText
                 UpdateHumidityColor(curHumidity)
             End If
         End If
@@ -1045,8 +1079,8 @@ Public Class homeCtrl
         Dim curPressure As Double = gTcpMgr.GetPressure()
         If curPressure > 0 Then
             Dim newText As String = "Atmospheric Pressure : " + curPressure.ToString + " Pa"
-            If Pressure.Text <> newText Then
-                Pressure.Text = newText
+            If PressureDisplay.Text <> newText Then
+                PressureDisplay.Text = newText
                 UpdatePressureColor(curPressure)
             End If
         End If
@@ -1056,8 +1090,8 @@ Public Class homeCtrl
         Dim curAlcoholReading As Integer = gTcpMgr.GetAlcoholReading()
         If curAlcoholReading > 0 Then
             Dim newText As String = "Alcohol : " + curAlcoholReading.ToString
-            If Alcohol.Text <> newText Then
-                Alcohol.Text = newText
+            If AlcoholDisplay.Text <> newText Then
+                AlcoholDisplay.Text = newText
                 UpdateAlcoholColor(curAlcoholReading)
             End If
         End If
@@ -1065,8 +1099,8 @@ Public Class homeCtrl
         Dim curCOReading As Integer = gTcpMgr.GetCOReading()
         If curCOReading > 0 Then
             Dim newText As String = "CO : " + curCOReading.ToString
-            If CO.Text <> newText Then
-                CO.Text = newText
+            If CODisplay.Text <> newText Then
+                CODisplay.Text = newText
                 UpdateCOColor(curCOReading)
             End If
         End If
@@ -1074,8 +1108,8 @@ Public Class homeCtrl
         Dim curSmokeReading As Integer = gTcpMgr.GetSmokeReading()
         If curSmokeReading > 0 Then
             Dim newText As String = "Smoke : " + curSmokeReading.ToString
-            If Smoke.Text <> newText Then
-                Smoke.Text = newText
+            If SmokeDisplay.Text <> newText Then
+                SmokeDisplay.Text = newText
                 UpdateSmokeColor(curSmokeReading)
             End If
         End If
@@ -1158,6 +1192,17 @@ Public Class homeCtrl
         gTcpMgr.ClimateData()
         LoadSensorData.Enabled = True
         SensorDateTime.Enabled = True
+    End Sub
+
+    'execute functions which cannot be done during form loading
+    Private Sub Timer1secDelay_Tick(sender As Object, e As EventArgs) Handles Timer1secDelay.Tick
+        Timer1secDelay.Enabled = False
+        gTcpMgr.mAC.RestoreTemperatures()
+    End Sub
+
+    'adjust ac temperature at regular interval
+    Private Sub TimerACAdjust_Tick(sender As Object, e As EventArgs) Handles TimerACAdjust.Tick
+        gTcpMgr.mAC.AdjustTemperatures()
     End Sub
 
 
@@ -1377,6 +1422,7 @@ Public Class homeCtrl
         Tabs.TabPages(2).Enabled = gTcpMgr.IsConnected(gLircModuleId)
         Tabs.TabPages(3).Enabled = True
         Tabs.TabPages(4).Enabled = gTcpMgr.IsConnected(gWeatherModuleId)
+        Tabs.TabPages(5).Enabled = gTcpMgr.IsConnected(gLircModuleId)
     End Sub
 
     'enable all radio buttons

@@ -117,6 +117,11 @@ Public Class Appliance
         Next
     End Sub
 
+    'return name
+    Public Function GetName() As String
+        Return mButton.Name
+    End Function
+
     'updates background color of the button depending on the on/off status
     Public Sub UpdateColor()
         If mPowerOn = True Then
@@ -128,7 +133,7 @@ Public Class Appliance
 
     'restore scheduler data
     Private Sub RestoreSchedule()
-        Dim file As String = My.Application.Info.DirectoryPath + "\" + mButton.Name + "\settings.ini"
+        Dim file As String = My.Application.Info.DirectoryPath + "\" + GetName() + "\settings.ini"
         If My.Computer.FileSystem.FileExists(file) = False Then
             Return
         End If
@@ -235,11 +240,24 @@ Public Class Appliance
             powerDate = " " + params(1) + "/" + params(0)
         End If
 
+        Dim energyConsumption As Double = 0
+        For idx = 0 To mPowerConsumpton.Length - 1
+            If applianceData = " " Then
+                If idx > DateAndTime.Now.Hour * 60 + DateAndTime.Now.Minute Then
+                    Exit For
+                End If
+            End If
+
+            energyConsumption += mPowerConsumpton(idx)
+        Next
+        energyConsumption = Math.Round((energyConsumption / (60 * 1000)) * (1440 / mNumPointsInGraph), 2)
+
         Dim col As String = "Power consumption" + Environment.NewLine +
                             "in (kWh)" + Environment.NewLine +
                             "of" + Environment.NewLine +
                             mButton.Text + Environment.NewLine +
-                            "on" + powerDate
+                            "on" + powerDate + Environment.NewLine +
+                            "Energy usage : " + energyConsumption.ToString + " units"
         homeCtrl.pwHist.Series.Add(col)
 
         'set chart type
@@ -341,7 +359,7 @@ Public Class Appliance
         mDisableScheduler = disabled
 
         'create the folder if doesn't exist
-        Dim folder As String = My.Application.Info.DirectoryPath + "\" + mButton.Name
+        Dim folder As String = My.Application.Info.DirectoryPath + "\" + GetName()
         If My.Computer.FileSystem.DirectoryExists(folder) = False Then
             My.Computer.FileSystem.CreateDirectory(folder)
         End If
@@ -361,7 +379,7 @@ Public Class Appliance
     'clear scheduler
     Public Sub ResetSchedule()
         If homeCtrl.EnableLightSchedule.Checked = True Then
-            Dim file As String = My.Application.Info.DirectoryPath + "\" + mButton.Name + "\settings.ini"
+            Dim file As String = My.Application.Info.DirectoryPath + "\" + GetName() + "\settings.ini"
             If My.Computer.FileSystem.FileExists(file) = True Then
                 My.Computer.FileSystem.DeleteFile(file)
             End If

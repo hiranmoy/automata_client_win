@@ -29,38 +29,38 @@ Module colorFormat
 
     'updates temperature text and background label
     Public Sub UpdateTemperatureColor(val As Double)
-        homeCtrl.Temperature.BackColor = GetBackcolor(val, 10, 25, 40)
-        homeCtrl.Temperature.ForeColor = GetForecolor(val, 10, 40)
+        homeCtrl.TemperatureDisplay.BackColor = GetBackcolor(val, 10, 25, 40)
+        homeCtrl.TemperatureDisplay.ForeColor = GetForecolor(val, 10, 40)
     End Sub
 
     'updates humidity text and background label
     Public Sub UpdateHumidityColor(val As Double)
-        homeCtrl.Humidity.BackColor = GetBackcolor(val, 40, 60, 90)
-        homeCtrl.Humidity.ForeColor = GetForecolor(val, 40, 90)
+        homeCtrl.HumidityDisplay.BackColor = GetBackcolor(val, 40, 60, 90)
+        homeCtrl.HumidityDisplay.ForeColor = GetForecolor(val, 40, 90)
     End Sub
 
     'updates pressure text and background label
     Public Sub UpdatePressureColor(val As Double)
-        homeCtrl.Pressure.BackColor = GetBackcolor(val, 970, 1015, 1030)
-        homeCtrl.Pressure.ForeColor = GetForecolor(val, 970, 1030)
+        homeCtrl.PressureDisplay.BackColor = GetBackcolor(val, 970, 1015, 1030)
+        homeCtrl.PressureDisplay.ForeColor = GetForecolor(val, 970, 1030)
     End Sub
 
     'updates alcohol label
     Public Sub UpdateAlcoholColor(val As Double)
-        homeCtrl.Alcohol.BackColor = GetBackcolor(val, 150, 180, 200)
-        homeCtrl.Alcohol.ForeColor = GetForecolor(val, 150, 200)
+        homeCtrl.AlcoholDisplay.BackColor = GetBackcolor(val, 150, 180, 200)
+        homeCtrl.AlcoholDisplay.ForeColor = GetForecolor(val, 150, 200)
     End Sub
 
     'updates CO label
     Public Sub UpdateCOColor(val As Double)
-        homeCtrl.CO.BackColor = GetBackcolor(val, 130, 160, 200)
-        homeCtrl.CO.ForeColor = GetForecolor(val, 130, 200)
+        homeCtrl.CODisplay.BackColor = GetBackcolor(val, 130, 160, 200)
+        homeCtrl.CODisplay.ForeColor = GetForecolor(val, 130, 200)
     End Sub
 
     'updates Smoke label
     Public Sub UpdateSmokeColor(val As Double)
-        homeCtrl.Smoke.BackColor = GetBackcolor(val, 30, 100, 200)
-        homeCtrl.Smoke.ForeColor = GetForecolor(val, 30, 200)
+        homeCtrl.SmokeDisplay.BackColor = GetBackcolor(val, 30, 100, 200)
+        homeCtrl.SmokeDisplay.ForeColor = GetForecolor(val, 30, 200)
     End Sub
 
     'returns back color

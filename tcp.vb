@@ -272,6 +272,9 @@ Public Class Tcp
 
             Dim connectedRatio As Double = Math.Round((100 * mTcpConnectedTime(idx)) / (mTcpConnectedTime(idx) + mTcpDisconnectedTime(idx)), 2)
             Debug.Assert(connectedRatio <= 100)
+            If connectedRatio = 100 Then
+                connectedRatio = 99.99
+            End If
 
             Select Case idx
                 Case 0

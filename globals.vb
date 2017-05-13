@@ -60,9 +60,6 @@ Module globals
     'data loading phase
     Public gLoading As Boolean = True
 
-    'closing the program
-    'Public gExit As Boolean = False
-
     'light settings mode
     Public gLightSettingsMode As Boolean = False
 
