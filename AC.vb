@@ -354,17 +354,23 @@ Public Class AC
         Dim curTemp As Double = gTcpMgr.GetTemperature()
         Dim targetTemp As Integer = mTemperatures(DateAndTime.Now.Hour)
         Dim tempDiff As Integer = CInt(curTemp) - targetTemp
-        Dim acTempTobeSet As Integer = targetTemp
+        Dim acTempTobeSet As Integer = mCurTemperature
 
         If tempDiff > 0 Then
-            'temperature offset of -3
-            acTempTobeSet -= 3
+            'temperature offset of -4
+            acTempTobeSet = targetTemp - 4
         ElseIf tempDiff < 0 Then
-            'temperature offset of 3
-            acTempTobeSet += 3
+            'temperature offset of 4
+            acTempTobeSet = targetTemp + 4
         Else
+            ' target temp - 0.5 < current temp < target temp + 0.5
+
             'temperature offset of -1
-            acTempTobeSet -= 1
+            If (curTemp < targetTemp) And (mCurTemperature < (targetTemp - 1)) Then
+                acTempTobeSet = targetTemp - 1
+            ElseIf (curTemp > targetTemp) And (mCurTemperature > (targetTemp - 1)) Then
+                acTempTobeSet = targetTemp - 1
+            End If
         End If
 
         If acTempTobeSet < 16 Then

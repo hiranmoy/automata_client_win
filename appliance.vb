@@ -247,7 +247,7 @@ Public Class Appliance
         Dim energyConsumption As Double = 0
         For idx = 0 To mPowerConsumpton.Length - 1
             If applianceData = " " Then
-                If idx > DateAndTime.Now.Hour * 60 + DateAndTime.Now.Minute Then
+                If idx > (DateAndTime.Now.Hour * 60 + DateAndTime.Now.Minute) / (1440 / mNumPointsInGraph) Then
                     Exit For
                 End If
             End If
@@ -267,7 +267,7 @@ Public Class Appliance
         'set chart type
         homeCtrl.pwHist.Series(0).ChartType = DataVisualization.Charting.SeriesChartType.Column
 
-        gTcpMgr.DisplayGraph(homeCtrl.pwHist, Color.DarkBlue, Color.Green, 3, mPowerConsumpton)
+        gTcpMgr.DisplayGraph(homeCtrl.pwHist, Color.IndianRed, Color.Green, 3, mPowerConsumpton)
     End Sub
 
     'on/off appliance

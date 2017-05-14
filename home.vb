@@ -101,9 +101,9 @@ Public Class homeCtrl
         pwHist.ChartAreas.Min.AxisX.Interval = 2
 
         'set chart type
-        TemperatureData.Series("Temperature (^C)").ChartType = DataVisualization.Charting.SeriesChartType.Line
-        HumidityData.Series("Humidity").ChartType = DataVisualization.Charting.SeriesChartType.Line
-        PressureData.Series("Air Pressure (Pa)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+        TemperatureData.Series("Temperature (^C)").ChartType = DataVisualization.Charting.SeriesChartType.Spline
+        HumidityData.Series("Humidity").ChartType = DataVisualization.Charting.SeriesChartType.Spline
+        PressureData.Series("Air Pressure (Pa)").ChartType = DataVisualization.Charting.SeriesChartType.Spline
 
 
         'clear and create debug directory
