@@ -35,6 +35,7 @@ Module Scheduling
         gTcpMgr.mBalconyLight.SetTimerVal(timerVal)
         gTcpMgr.mLightBulb.SetTimerVal(timerVal)
         gTcpMgr.mPlug1.SetTimerVal(timerVal)
+        gTcpMgr.mAC.SetTimerVal(timerVal)
     End Sub
 
     'toggle appliances
@@ -45,6 +46,7 @@ Module Scheduling
         gTcpMgr.mBalconyLight.TimerToggle()
         gTcpMgr.mLightBulb.TimerToggle()
         gTcpMgr.mPlug1.TimerToggle()
+        gTcpMgr.mAC.TimerToggle()
     End Sub
 
     'set appliance scheduler depending on the checked radio button
@@ -55,6 +57,7 @@ Module Scheduling
         gTcpMgr.mBalconyLight.SaveSchedule(startTime, endTime, disabled)
         gTcpMgr.mLightBulb.SaveSchedule(startTime, endTime, disabled)
         gTcpMgr.mPlug1.SaveSchedule(startTime, endTime, disabled)
+        gTcpMgr.mAC.SaveSchedule(startTime, endTime, disabled)
     End Sub
 
     'check scheduler of the appliances
@@ -65,6 +68,7 @@ Module Scheduling
         gTcpMgr.mBalconyLight.CheckSchedule()
         gTcpMgr.mLightBulb.CheckSchedule()
         gTcpMgr.mPlug1.CheckSchedule()
+        gTcpMgr.mAC.CheckSchedule()
     End Sub
 
     'reset scheduler of the appliances depending on the checked radio button
@@ -75,11 +79,34 @@ Module Scheduling
         gTcpMgr.mBalconyLight.ResetSchedule()
         gTcpMgr.mLightBulb.ResetSchedule()
         gTcpMgr.mPlug1.ResetSchedule()
+        gTcpMgr.mAC.ResetSchedule()
 
         'uncheck scheduler and timer checkbox
         homeCtrl.EnableLightSchedule.Checked = False
         homeCtrl.ToggleLightings.Checked = False
         homeCtrl.DisableLightSchedule.Enabled = False
+    End Sub
+
+    'load appliance schedule
+    Public Sub LoadApplianceSchedule()
+        gTcpMgr.mPlug0.GetSchedule()
+        gTcpMgr.mFluLight.GetSchedule()
+        gTcpMgr.mBalconyLight.GetSchedule()
+        gTcpMgr.mFan.GetSchedule()
+        gTcpMgr.mLightBulb.GetSchedule()
+        gTcpMgr.mPlug1.GetSchedule()
+        gTcpMgr.mAC.GetSchedule()
+    End Sub
+
+    'load power histogram
+    Public Sub GetAppliancePowerHistogram()
+        gTcpMgr.mPlug0.GetPowerHistogram()
+        gTcpMgr.mFluLight.GetPowerHistogram()
+        gTcpMgr.mBalconyLight.GetPowerHistogram()
+        gTcpMgr.mFan.GetPowerHistogram()
+        gTcpMgr.mLightBulb.GetPowerHistogram()
+        gTcpMgr.mPlug1.GetPowerHistogram()
+        gTcpMgr.mAC.GetPowerHistogram()
     End Sub
 
 End Module

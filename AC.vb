@@ -54,9 +54,10 @@ Public Class AC
                    aRadioButton As RadioButton,
                    onColor As Color,
                    offColor As Color,
+                   tcpProfileCommand As String,
                    moduleId As Integer,
                    power As Integer)
-        MyBase.New(aButton, aRadioButton, onColor, offColor, "", "", "", moduleId, power)
+        MyBase.New(aButton, aRadioButton, onColor, offColor, "", "", tcpProfileCommand, moduleId, power)
 
         mMode = ACMode.cACCool
         mCurTemperature = 25
@@ -353,30 +354,30 @@ Public Class AC
         Dim curTemp As Double = gTcpMgr.GetTemperature()
         Dim targetTemp As Integer = mTemperatures(DateAndTime.Now.Hour)
         Dim tempDiff As Integer = CInt(curTemp) - targetTemp
+        Dim acTempTobeSet As Integer = targetTemp
 
         If tempDiff > 0 Then
-            'temperature offset of 5
-            Dim acTempTobeSet As Integer = targetTemp - 5
-            If acTempTobeSet < 16 Then
-                acTempTobeSet = 16
-            End If
-            If acTempTobeSet = mCurTemperature Then
-                Exit Sub
-            End If
-
-            homeCtrl.ACTemp.Value = acTempTobeSet
+            'temperature offset of -3
+            acTempTobeSet -= 3
         ElseIf tempDiff < 0 Then
-            'temperature offset of 5
-            Dim acTempTobeSet As Integer = targetTemp + 5
-            If acTempTobeSet > 30 Then
-                acTempTobeSet = 30
-            End If
-            If acTempTobeSet = mCurTemperature Then
-                Exit Sub
-            End If
-
-            homeCtrl.ACTemp.Value = acTempTobeSet
+            'temperature offset of 3
+            acTempTobeSet += 3
+        Else
+            'temperature offset of -1
+            acTempTobeSet -= 1
         End If
+
+        If acTempTobeSet < 16 Then
+            acTempTobeSet = 16
+        ElseIf acTempTobeSet > 30 Then
+            acTempTobeSet = 30
+        End If
+
+        If acTempTobeSet = mCurTemperature Then
+            Exit Sub
+        End If
+
+        homeCtrl.ACTemp.Value = acTempTobeSet
     End Sub
 
 End Class

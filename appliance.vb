@@ -207,6 +207,10 @@ Public Class Appliance
             Exit Sub
         End If
 
+        If mSelect.Checked = False Then
+            Exit Sub
+        End If
+
         Dim tcpParam As TcpParameter = New TcpParameter(mTcpProfileCommand + applianceData, mModuleId, 0, 480)
         Dim profile As String = gTcpMgr.GetResponse(tcpParam)
         If (profile = "Disconnected") Or (profile = "") Then
@@ -395,31 +399,36 @@ Public Class Appliance
     End Sub
 
     'updates scheduler values and returns true if scheduler is enabled
-    Public Function GetSchedule() As Boolean
-        'enable scheduling and timer checks
-        homeCtrl.EnableLightSchedule.Enabled = True
-        homeCtrl.ToggleLightings.Enabled = True
-
-        If (mStartTime < 0) Or (mStartTime >= 1440) Then
-            Return False
-        End If
-        If (mStopTime < 0) Or (mStopTime >= 1440) Then
-            Return False
+    Public Sub GetSchedule()
+        If mSelect.Checked = False Then
+            Exit Sub
         End If
 
-        'convert hh:mm:ss to sec
-        homeCtrl.hr0.Value = Int(mStartTime / 60)
-        homeCtrl.min0.Value = Int(mStartTime Mod 60)
+        If ((mStartTime >= 0) And (mStartTime < 1440) And (mStopTime >= 0) And (mStopTime < 1440)) Then
+            'convert hh:mm to min
+            homeCtrl.hr0.Value = Int(mStartTime / 60)
+            homeCtrl.min0.Value = Int(mStartTime Mod 60)
 
-        'convert hh:mm:ss to sec
-        homeCtrl.hr1.Value = Int(mStopTime / 60)
-        homeCtrl.min1.Value = Int(mStopTime Mod 60)
+            'convert hh:mm to min
+            homeCtrl.hr1.Value = Int(mStopTime / 60)
+            homeCtrl.min1.Value = Int(mStopTime Mod 60)
 
-        'disabled check
-        homeCtrl.DisableLightSchedule.Checked = mDisableScheduler
+            'disabled check
+            homeCtrl.DisableLightSchedule.Checked = mDisableScheduler
 
-        Return True
-    End Function
+            'check schedular
+            homeCtrl.EnableLightSchedule.Checked = True
+        End If
+
+        If mTimerVal > 0 Then
+            'convert hh:mm to min
+            homeCtrl.hr2.Value = Int(mTimerVal / 60)
+            homeCtrl.min2.Value = Int(mTimerVal Mod 60)
+
+            'check timer
+            homeCtrl.ToggleLightings.Checked = True
+        End If
+    End Sub
 
     'toggle appliance
     Public Sub Toggle()

@@ -251,12 +251,12 @@ Public Class Tcp
                                gLightings1ModuleId,
                                100)
 
-        Dim rd As RadioButton
         'AC
         mAC = New AC(homeCtrl.ACOnOff,
-                     rd,
+                     homeCtrl.SelectAC,
                      Color.FromArgb(128, 255, 128),
                      Color.FromArgb(255, 128, 128),
+                     "GetACProfile",
                      gLircModuleId,
                      750)
     End Sub

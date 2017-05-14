@@ -574,35 +574,13 @@ Public Class homeCtrl
     Private Sub LoadApplianceData_Click(sender As Object, e As EventArgs) Handles LoadApplianceData.Click
         Dim applianceDate As String = " " + ApplianceDateTime.Value.Month.ToString + "-" + ApplianceDateTime.Value.Day.ToString
 
-        'plug0 select
-        If SelectPlug0.Checked = True Then
-            gTcpMgr.mPlug0.GetPowerHistogram(applianceDate)
-        End If
-
-        'fluorescent light select
-        If SelectFluLight.Checked = True Then
-            gTcpMgr.mFluLight.GetPowerHistogram(applianceDate)
-        End If
-
-        'balcony light select
-        If SelectBalconyLight.Checked = True Then
-            gTcpMgr.mBalconyLight.GetPowerHistogram(applianceDate)
-        End If
-
-        'fan select
-        If SelectFan.Checked = True Then
-            gTcpMgr.mFan.GetPowerHistogram(applianceDate)
-        End If
-
-        'light bulb select
-        If SelectLightBulb.Checked = True Then
-            gTcpMgr.mLightBulb.GetPowerHistogram(applianceDate)
-        End If
-
-        'plug1 select
-        If SelectPlug1.Checked = True Then
-            gTcpMgr.mPlug1.GetPowerHistogram(applianceDate)
-        End If
+        gTcpMgr.mPlug0.GetPowerHistogram(applianceDate)
+        gTcpMgr.mFluLight.GetPowerHistogram(applianceDate)
+        gTcpMgr.mBalconyLight.GetPowerHistogram(applianceDate)
+        gTcpMgr.mFan.GetPowerHistogram(applianceDate)
+        gTcpMgr.mLightBulb.GetPowerHistogram(applianceDate)
+        gTcpMgr.mPlug1.GetPowerHistogram(applianceDate)
+        gTcpMgr.mAC.GetPowerHistogram(applianceDate)
     End Sub
 
 
@@ -749,93 +727,42 @@ Public Class homeCtrl
     'Radio buttons
     '------------------------------------------------------------------------------------------------------------------------------------------------
 
-    'plug0 select
-    Private Sub SelectPlug0_CheckedChanged(sender As Object, e As EventArgs) Handles SelectPlug0.CheckedChanged
-        If SelectPlug0.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mPlug0.GetSchedule()
-            End If
+    'appliance select buttons
+    Private Sub Selects_CheckedChanged(sender As Object, e As EventArgs) Handles SelectPlug0.CheckedChanged, SelectFluLight.CheckedChanged, SelectBalconyLight.CheckedChanged, SelectFan.CheckedChanged,
+                                                                                 SelectLightBulb.CheckedChanged, SelectPlug1.CheckedChanged, SelectAC.CheckedChanged
+        'reset profile date time
+        ApplianceDateTime.ResetText()
 
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mPlug0.GetPowerHistogram()
-            End If
+        Dim applianceSelect As RadioButton = DirectCast(sender, RadioButton)
+        If applianceSelect.Checked = False Then
+            Exit Sub
         End If
-    End Sub
 
-    'fluorescent light select
-    Private Sub SelectFluLight_CheckedChanged(sender As Object, e As EventArgs) Handles SelectFluLight.CheckedChanged
-        If SelectFluLight.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mFluLight.GetSchedule()
-            End If
+        If gLightSettingsMode = True Then
+            Debug.Assert(gPowerHistSelectMode = False)
 
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mFluLight.GetPowerHistogram()
-            End If
+            'enable scheduling and timer checks
+            EnableLightSchedule.Enabled = True
+            ToggleLightings.Enabled = True
+            EnableLightSchedule.Checked = False
+            ToggleLightings.Checked = False
+            DisableLightSchedule.Checked = False
+
+            'initialize
+            hr0.Value = 0
+            min0.Value = 0
+            hr1.Value = 0
+            min1.Value = 0
+
+            'populate schedule
+            LoadApplianceSchedule()
         End If
-    End Sub
 
-    'balcony light select
-    Private Sub SelectBalconyLight_CheckedChanged(sender As Object, e As EventArgs) Handles SelectBalconyLight.CheckedChanged
-        If SelectBalconyLight.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mBalconyLight.GetSchedule()
-            End If
+        If gPowerHistSelectMode Then
+            Debug.Assert(gLightSettingsMode = False)
 
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mBalconyLight.GetPowerHistogram()
-            End If
-        End If
-    End Sub
-
-    'fan select
-    Private Sub SelectFan_CheckedChanged(sender As Object, e As EventArgs) Handles SelectFan.CheckedChanged
-        If SelectFan.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mFan.GetSchedule()
-            End If
-
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mFan.GetPowerHistogram()
-            End If
-        End If
-    End Sub
-
-    'light bulb select
-    Private Sub SelectLightBulb_CheckedChanged(sender As Object, e As EventArgs) Handles SelectLightBulb.CheckedChanged
-        If SelectLightBulb.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mLightBulb.GetSchedule()
-            End If
-
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mLightBulb.GetPowerHistogram()
-            End If
-        End If
-    End Sub
-
-    'plug1 select
-    Private Sub SelectPlug1_CheckedChanged(sender As Object, e As EventArgs) Handles SelectPlug1.CheckedChanged
-        If SelectPlug1.Checked = True Then
-            If gLightSettingsMode = True Then
-                'populate schedule
-                EnableLightSchedule.Checked = gTcpMgr.mPlug1.GetSchedule()
-            End If
-
-            If gPowerHistSelectMode Then
-                'populate power on histogram
-                gTcpMgr.mPlug1.GetPowerHistogram()
-            End If
+            'populate power on histogram
+            GetAppliancePowerHistogram()
         End If
     End Sub
 
@@ -1433,6 +1360,7 @@ Public Class homeCtrl
         SelectFluLight.Visible = True
         SelectPlug0.Visible = True
         'SelectBalconyLight.Visible = True
+        SelectAC.Visible = True
     End Sub
 
     'disable and de-select all radio buttons
@@ -1443,6 +1371,7 @@ Public Class homeCtrl
         SelectFluLight.Visible = False
         SelectPlug0.Visible = False
         SelectBalconyLight.Visible = False
+        SelectAC.Visible = False
 
         SelectPlug1.Checked = False
         SelectLightBulb.Checked = False
@@ -1450,6 +1379,7 @@ Public Class homeCtrl
         SelectFluLight.Checked = False
         SelectPlug0.Checked = False
         SelectBalconyLight.Checked = False
+        SelectAC.Checked = False
     End Sub
 
     'populate all yr list
